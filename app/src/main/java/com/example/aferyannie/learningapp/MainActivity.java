@@ -1,6 +1,5 @@
 package com.example.aferyannie.learningapp;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
     }
@@ -38,18 +37,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            // Navbar Login.
+            // NavigationBar LoginLogout.
             case R.id.nav_login_logout:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                        new LoginActivity()).commit();
-                Intent intent1 = new Intent(this, LoginActivity.class);
-                startActivity(intent1);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new LoginActivity()).commit();
                 break;
-            // Navbar Scoreboard.
+            // NavigationBar Scoreboard.
             case R.id.nav_scoreboard:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                        new ScoreboardActivity()).commit();
-              showFragment(new ScoreboardActivity(),R.id.fragment_container);
+                showFragment(new ScoreboardActivity(),R.id.fragment_container);
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -74,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.attach(fragment);
             fragmentTransaction.commit();
         }
-
     }
 
 }

@@ -1,11 +1,8 @@
 package com.example.aferyannie.learningapp;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,18 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScoreboardActivity extends Fragment {
-//public class ScoreboardActivity extends Fragment {
-//
-//    @Nullable
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-////        return super.onCreateView(inflater, container, savedInstanceState);
-//        return inflater.inflate(R.layout.activity_scoreboard, container, false);
-//    }
-
     DatabaseReference databaseNames;
 
-    // Define listViewScores.
+    // Define listView scoreboard.
     ListView listViewScores;
     List<Name> nameList;
 
@@ -42,9 +30,7 @@ public class ScoreboardActivity extends Fragment {
         View view = inflater.inflate(R.layout.activity_scoreboard,null,false);
 
         databaseNames = FirebaseDatabase.getInstance().getReference("scoreboard");
-
         listViewScores = (ListView) view.findViewById(R.id.listViewScores);
-
         nameList = new ArrayList<>();
 
         return view;
@@ -72,19 +58,5 @@ public class ScoreboardActivity extends Fragment {
             }
         });
     }
-
-    //    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_scoreboard);
-//
-//
-//    }
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//
-//    }
 
 }
