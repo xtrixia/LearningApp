@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScoreboardActivity extends AppCompatActivity {
+public class ScoreboardActivity extends Fragment {
 //public class ScoreboardActivity extends Fragment {
 //
 //    @Nullable
@@ -36,21 +36,24 @@ public class ScoreboardActivity extends AppCompatActivity {
     ListView listViewScores;
     List<Name> nameList;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scoreboard);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_scoreboard,null,false);
 
         databaseNames = FirebaseDatabase.getInstance().getReference("scoreboard");
 
-        listViewScores = (ListView) findViewById(R.id.listViewScores);
+        listViewScores = (ListView) view.findViewById(R.id.listViewScores);
 
         nameList = new ArrayList<>();
+
+        return view;
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         databaseNames.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -59,7 +62,7 @@ public class ScoreboardActivity extends AppCompatActivity {
                     Name name = scoreSnapshot.getValue(Name.class);
                     nameList.add(name);
                 }
-                NameList adapter = new NameList(ScoreboardActivity.this, nameList);
+                NameList adapter = new NameList(getActivity(), nameList);
                 listViewScores.setAdapter(adapter);
             }
 
@@ -69,5 +72,19 @@ public class ScoreboardActivity extends AppCompatActivity {
             }
         });
     }
+
+    //    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_scoreboard);
+//
+//
+//    }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//
+//    }
 
 }

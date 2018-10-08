@@ -3,6 +3,9 @@ package com.example.aferyannie.learningapp;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -46,8 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_scoreboard:
 //                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
 //                        new ScoreboardActivity()).commit();
-                Intent intent2 = new Intent(this, ScoreboardActivity.class);
-                startActivity(intent2);
+              showFragment(new ScoreboardActivity(),R.id.fragment_container);
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -61,6 +63,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void showFragment(Fragment fragment, int fragmentResourceID) {
+        if (fragment != null) {
+            FragmentManager fragmentManager = this.getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(fragmentResourceID, fragment);
+            fragmentTransaction.detach(fragment);
+            fragmentTransaction.attach(fragment);
+            fragmentTransaction.commit();
+        }
+
     }
 
 }
