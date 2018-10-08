@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Learning App</string>
+    <string name="nickname">Nickname</string>
+    <string name="save">Save</string>
+    <string name="email">mail@email.com</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+</resources>
