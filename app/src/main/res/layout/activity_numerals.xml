@@ -7,14 +7,14 @@
     tools:context="com.example.aferyannie.learningapp.NumeralsActivity">
 
     <TextView
+        android:id="@+id/txtTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/timer"
-        android:textColor="@android:color/black"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:id="@+id/timer"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="32dp"/>
+        android:layout_marginBottom="32dp"
+        android:text="@string/timer"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textColor="@android:color/black" />
 
 </RelativeLayout>

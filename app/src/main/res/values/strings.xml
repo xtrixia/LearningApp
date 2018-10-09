@@ -4,8 +4,8 @@
     <string name="start">Start</string>
     <string name="save">Save</string>
     <string name="category">Choose Category</string>
-    <!--<string name="alphabets_low">Alphabets in Lowercase</string>-->
-    <!--<string name="alphabets_upper">Alphabets in Uppercase</string>-->
+    <string name="alphabets_lower">Alphabets in Lowercase</string>
+    <string name="alphabets_upper">Alphabets in Uppercase</string>
     <string name="email">mail@email.com</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

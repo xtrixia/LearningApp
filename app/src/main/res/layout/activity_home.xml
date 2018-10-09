@@ -8,14 +8,51 @@
     tools:context="com.example.aferyannie.learningapp.HomeActivity">
 
     <TextView
+        android:id="@+id/category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:text="@string/category"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textColor="@android:color/black"
-        android:id="@+id/textView" />
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/alphabets_upper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:text="@string/alphabets_upper" />
+
+    <Button
+        android:id="@+id/btnStart1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/alphabets_upper"
+        android:layout_marginEnd="13dp"
+        android:layout_toStartOf="@+id/btnStart"
+        android:text="@string/start" />
+
+    <TextView
+        android:id="@+id/alphabets_lower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/alphabets_upper"
+        android:layout_alignBottom="@+id/alphabets_upper"
+        android:layout_alignParentEnd="true"
+        android:text="@string/alphabets_lower" />
+
+    <Button
+        android:id="@+id/btnStart2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignBaseline="@+id/btnStart1"
+        android:layout_alignBottom="@+id/btnStart1"
+        android:layout_marginStart="14dp"
+        android:layout_toEndOf="@+id/btnStart"
+        android:text="@string/start" />
 
     <TextView
         android:id="@+id/numerals"
@@ -23,14 +60,15 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnStart"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
         android:text="@string/numerals" />
 
     <Button
         android:id="@+id/btnStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/start" />
+        android:layout_above="@+id/alphabets_upper"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="42dp"
+        android:text="@string/start"/>
 
 </RelativeLayout>
