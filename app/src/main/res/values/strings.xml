@@ -14,4 +14,9 @@
     <string name="facebook_app_id">347533075791149</string>
     <string name="fb_login_protocol_scheme">fb347533075791149</string>
     <string name="skip">Skip</string>
+    <string name="account_info">You are already logged in.</string>
+    <string name="facebook_login">Login with Facebook</string>
+    <string name="click_login">By clicking login, you are accepting our terms and conditions.</string>
+    <string name="account">Account</string>
+    <string name="scoreboard">Scoreboard</string>
 </resources>

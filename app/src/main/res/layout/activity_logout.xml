@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.aferyannie.learningapp.LogoutActivity">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:layout_centerInParent="true"
+        android:textAppearance="@style/com_facebook_button"
+        android:background="@drawable/facebook_logout_button"
+        android:textColor="@color/white"
+        android:id="@+id/btnLogout"
+        android:layout_marginTop="16dp"
+        android:text="Logout of Facebook"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtAccountInfo"
+        android:text="@string/account_info"
+        android:layout_centerInParent="true"
+        android:layout_above="@id/btnLogout"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:textAppearance="@style/com_facebook_auth_dialog_instructions_textview"/>
+
+</RelativeLayout>
