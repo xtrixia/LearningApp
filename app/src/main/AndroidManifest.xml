@@ -45,7 +45,8 @@
         <activity android:name=".ScoreboardActivity" />
         <activity android:name=".NumeralsActivity" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".NicknameActivity"></activity>
+        <activity android:name=".NicknameActivity" />
+        <activity android:name=".LogoutActivity"></activity>
     </application>
 
 </manifest>
