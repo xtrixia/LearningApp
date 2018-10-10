@@ -57,7 +57,7 @@ public class NumeralsActivity extends Fragment {
                 timeLeftInMillis = 0;
                 updateCountdown();
                 countDownTimer.cancel();
-                showFragment(new LoginActivity(),R.id.fragment_container);
+                showFragment(new NicknameActivity(),R.id.fragment_container);
             }
         }.start();
     }
