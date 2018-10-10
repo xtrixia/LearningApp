@@ -36,6 +36,7 @@ public class LoginActivity extends Fragment {
     private FirebaseAuth mAuth;
 
     Button loginButton;
+    LoginButton fbLoginButton;
 
     @Nullable
     @Override
@@ -48,53 +49,54 @@ public class LoginActivity extends Fragment {
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
         loginButton = (Button) view.findViewById(R.id.btnLogin);
+        fbLoginButton = (LoginButton) view.findViewById(R.id.fbbtnLogin);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginButton.setEnabled(false);
+                fbLoginButton.performClick();
 
-                LoginManager.getInstance().logInWithReadPermissions(getActivity(), Arrays.asList("email", "public_profile"));
-                LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        Log.d(TAG, "TEST2");
-                        Log.d(TAG, "facebook:onSuccess:" + loginResult);
-                        handleFacebookAccessToken(loginResult.getAccessToken());
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        Log.d(TAG, "facebook:onCancel");
-                    }
-
-                    @Override
-                    public void onError(FacebookException error) {
-                        Log.d(TAG, "facebook:onError" + error);
-                    }
-                });
+//                LoginManager.getInstance().logInWithReadPermissions(getActivity(), Arrays.asList("email", "public_profile"));
+//                LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+//                    @Override
+//                    public void onSuccess(LoginResult loginResult) {
+//                        Log.d(TAG, "TEST2");
+//                        Log.d(TAG, "facebook:onSuccess:" + loginResult);
+//                        handleFacebookAccessToken(loginResult.getAccessToken());
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//                        Log.d(TAG, "facebook:onCancel");
+//                    }
+//
+//                    @Override
+//                    public void onError(FacebookException error) {
+//                        Log.d(TAG, "facebook:onError" + error);
+//                    }
+//                });
             }
         });
 //        LoginButton loginButton = view.findViewById(R.id.btnLogin);
-//        loginButton.setReadPermissions("email", "public_profile");
-//        loginButton.setFragment(this);
-//        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-//            @Override
-//            public void onSuccess(LoginResult loginResult) {
-//                Log.d(TAG, "facebook:onSuccess:" + loginResult);
-//                handleFacebookAccessToken(loginResult.getAccessToken());
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//                Log.d(TAG, "facebook:onCancel");
-//            }
-//
-//            @Override
-//            public void onError(FacebookException error) {
-//                Log.d(TAG, "facebook:onError", error);
-//            }
-//        });
+        fbLoginButton.setReadPermissions("email", "public_profile");
+        fbLoginButton.setFragment(this);
+        fbLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                handleFacebookAccessToken(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d(TAG, "facebook:onCancel");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.d(TAG, "facebook:onError", error);
+            }
+        });
         return view;
     }
 
