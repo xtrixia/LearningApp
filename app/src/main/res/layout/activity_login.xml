@@ -7,19 +7,19 @@
     tools:context="com.example.aferyannie.learningapp.LoginActivity">
 
     <com.facebook.login.widget.LoginButton
-    android:id="@+id/fbbtnLogin"
-    android:layout_width="287dp"
-    android:layout_height="33dp"
-    android:layout_centerHorizontal="true"
-    android:layout_gravity="center_horizontal"
-    android:layout_marginBottom="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginStart="28dp"
+        android:id="@+id/btnFacebook"
+        android:layout_width="287dp"
+        android:layout_height="33dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="28dp"
         android:visibility="gone"
-    android:layout_marginTop="40dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnLogin"

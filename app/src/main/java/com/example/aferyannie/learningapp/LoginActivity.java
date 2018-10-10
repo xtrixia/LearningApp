@@ -5,18 +5,19 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,8 +28,6 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.Arrays;
-
 public class LoginActivity extends Fragment {
     private static final String TAG = "FACEBOOK_LOG";
 
@@ -36,7 +35,7 @@ public class LoginActivity extends Fragment {
     private FirebaseAuth mAuth;
 
     Button loginButton;
-    LoginButton fbLoginButton;
+    LoginButton btnFacebook;
 
     @Nullable
     @Override
@@ -46,41 +45,21 @@ public class LoginActivity extends Fragment {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Initialize Facebook Login button
+        // Initialize Facebook Login Button
         mCallbackManager = CallbackManager.Factory.create();
-        loginButton = (Button) view.findViewById(R.id.btnLogin);
-        fbLoginButton = (LoginButton) view.findViewById(R.id.fbbtnLogin);
 
+        loginButton = (Button) view.findViewById(R.id.btnLogin);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fbLoginButton.performClick();
-
-//                LoginManager.getInstance().logInWithReadPermissions(getActivity(), Arrays.asList("email", "public_profile"));
-//                LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-//                    @Override
-//                    public void onSuccess(LoginResult loginResult) {
-//                        Log.d(TAG, "TEST2");
-//                        Log.d(TAG, "facebook:onSuccess:" + loginResult);
-//                        handleFacebookAccessToken(loginResult.getAccessToken());
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//                        Log.d(TAG, "facebook:onCancel");
-//                    }
-//
-//                    @Override
-//                    public void onError(FacebookException error) {
-//                        Log.d(TAG, "facebook:onError" + error);
-//                    }
-//                });
+                btnFacebook.performClick();
             }
         });
-//        LoginButton loginButton = view.findViewById(R.id.btnLogin);
-        fbLoginButton.setReadPermissions("email", "public_profile");
-        fbLoginButton.setFragment(this);
-        fbLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+
+        btnFacebook = (LoginButton) view.findViewById(R.id.btnFacebook);
+        btnFacebook.setReadPermissions("email", "public_profile");
+        btnFacebook.setFragment(this);
+        btnFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
@@ -103,20 +82,17 @@ public class LoginActivity extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
+        // Check if user is signed-in (non-null) and
+        // Update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
             updateUI(currentUser);
-
-            Log.d(TAG, "TEST1");
         }
     }
 
     private void updateUI(FirebaseUser currentUser){
         getFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new LogoutActivity()).commit();
-
-        Log.d(TAG, "TEST3");
     }
 
     @Override
@@ -125,8 +101,6 @@ public class LoginActivity extends Fragment {
 
         // Pass the activity result back to the Facebook SDK
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
-
-        Log.d(TAG, "TEST4");
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
@@ -134,21 +108,20 @@ public class LoginActivity extends Fragment {
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
-//                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
             .addOnCompleteListener(LoginActivity.this.getActivity(), new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "signInWithCredential:success");
-
                         loginButton.setEnabled(true);
+
                         FirebaseUser user = mAuth.getCurrentUser();
 
-                        Toast.makeText(getContext(), "Logged in successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Logged in successfully",
+                                Toast.LENGTH_SHORT).show();
                         updateUI(user);
                     } else {
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
-
                         loginButton.setEnabled(true);
 
                         Toast.makeText(getContext(), "Authentication failed.",
