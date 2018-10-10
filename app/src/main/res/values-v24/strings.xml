@@ -4,4 +4,5 @@
     <string name="timer">00:00:00</string>
     <string name="alphabets_lower">Alphabets in Lowercase</string>
     <string name="alphabets_upper">Alphabets in Uppercase</string>
+    <string name="skip">Skip</string>
 </resources>

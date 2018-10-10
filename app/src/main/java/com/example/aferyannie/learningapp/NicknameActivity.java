@@ -22,6 +22,7 @@ public class NicknameActivity extends Fragment {
     // Define nickname input field.
     EditText inputNames;
     Button btnNames;
+    Button btnSkip;
 
     @Nullable
     @Override
@@ -31,12 +32,18 @@ public class NicknameActivity extends Fragment {
         databaseNames = FirebaseDatabase.getInstance().getReference("scoreboard");
         inputNames = (EditText) view.findViewById(R.id.inputNames);
         btnNames = (Button) view.findViewById(R.id.btnNames);
+        btnSkip = (Button) view.findViewById(R.id.btnSkip);
 
         btnNames.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveNames();
-                showFragment(new HomeActivity(),R.id.fragment_container);
+            }
+        });
+        btnSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                skipNames();
             }
         });
         return view;
@@ -53,9 +60,14 @@ public class NicknameActivity extends Fragment {
             Name nickname = new Name(name, score, now);
             databaseNames.child(id).setValue(nickname);
             Toast.makeText(getContext(), "Check Scoreboard", Toast.LENGTH_SHORT).show();
+            showFragment(new HomeActivity(),R.id.fragment_container);
         } else {
-            Toast.makeText(getContext(), "Please", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Press Skip Button", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void skipNames() {
+        showFragment(new HomeActivity(),R.id.fragment_container);
     }
 
     public void showFragment(Fragment fragment, int fragmentResourceID) {
