@@ -19,4 +19,5 @@
     <string name="click_login">By clicking login, you are accepting our terms and conditions.</string>
     <string name="account">Account</string>
     <string name="scoreboard">Scoreboard</string>
+    <string name="home">Home</string>
 </resources>

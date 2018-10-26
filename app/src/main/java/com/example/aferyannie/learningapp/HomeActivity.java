@@ -10,13 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-/*
-* Do not forget to check!
-* case btnStart -> NumeralsActivity
-* case btnStart1 -> UppercaseActivity (belum ada)
-* case btnStart2 -> LowercaseActivity (belum ada).
-* */
-
 public class HomeActivity extends Fragment implements View.OnClickListener {
 
     @Nullable
@@ -40,15 +33,15 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             // ButtonStart for numerals.
             case R.id.btnStart:
-                showFragment(new NumeralsActivity(),R.id.fragment_container);
+                showFragment(new CategoryActivity(),R.id.fragment_container);
                 break;
             // ButtonStart for alphabets_upper.
             case R.id.btnStart1:
-                showFragment(new Fragment(),R.id.fragment_container);
+                showFragment(new CategoryActivity(),R.id.fragment_container);
                 break;
             // ButtonStart for alphabets_lower.
             case R.id.btnStart2:
-                showFragment(new Fragment(),R.id.fragment_container);
+                showFragment(new CategoryActivity(),R.id.fragment_container);
                 break;
         }
     }

@@ -74,6 +74,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
+            // NavigationBar HomeScreen.
+            case R.id.nav_home:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new HomeActivity()).commit();
+                break;
             // NavigationBar LoginLogout.
             case R.id.nav_login_logout:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

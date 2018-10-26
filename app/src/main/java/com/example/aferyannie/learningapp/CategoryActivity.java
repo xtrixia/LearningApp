@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,9 +23,10 @@ import java.util.Locale;
 * (90 seconds).
 * */
 
-public class NumeralsActivity extends Fragment {
-    private static final long COUNTDOWN_IN_MILLIS = 20000; // Set to 20 seconds. (trial)
+public class CategoryActivity extends Fragment {
+    private static final long COUNTDOWN_IN_MILLIS = 31000; // Set to 30 seconds. (trial)
     private TextView txtTimer;
+    private TextView txtCategory;
 
     private ColorStateList colorDefaultCountdown;
 
@@ -34,7 +36,9 @@ public class NumeralsActivity extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_numerals, null, false);
+        View view = inflater.inflate(R.layout.activity_category, null, false);
+
+        txtCategory = (TextView) view.findViewById(R.id.txtCategory);
 
         txtTimer = (TextView) view.findViewById(R.id.txtTimer);
         colorDefaultCountdown = txtTimer.getTextColors();
@@ -81,7 +85,7 @@ public class NumeralsActivity extends Fragment {
         String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
         txtTimer.setText(timeFormatted);
 
-        if(timeLeftInMillis < 10000){
+        if(timeLeftInMillis < 11000){
             txtTimer.setTextColor(Color.RED);
         } else {
             txtTimer.setTextColor(colorDefaultCountdown);
