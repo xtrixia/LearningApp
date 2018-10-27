@@ -45,7 +45,15 @@ public class CategoryActivity extends Fragment {
 
         txtCategory = (TextView) view.findViewById(R.id.txtCategory);
         txtPronounce = (TextView) view.findViewById(R.id.txtPronounce);
+
         btnSound = (Button) view.findViewById(R.id.btnSound);
+        btnSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FancyToast.makeText(getContext(), "Not yet functional.",
+                        FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+            }
+        });
 
         txtTimer = (TextView) view.findViewById(R.id.txtTimer);
         colorDefaultCountdown = txtTimer.getTextColors();

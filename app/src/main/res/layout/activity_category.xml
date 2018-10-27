@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/digitalwater_background"
     tools:context="com.example.aferyannie.learningapp.CategoryActivity">
 
     <TextView
@@ -28,14 +29,12 @@
 
     <Button
         android:id="@+id/btnSound"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
         android:layout_below="@+id/txtPronounce"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="11dp"
-        android:fontFamily="casual"
-        android:textStyle="bold"
-        android:text="SOUND" />
+        android:background="@android:drawable/ic_lock_silent_mode_off" />
 
     <TextView
         android:id="@+id/txtPronounce"
