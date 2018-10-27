@@ -27,6 +27,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 public class LoginActivity extends Fragment {
     private static final String TAG = "FACEBOOK_LOG";
@@ -117,15 +118,19 @@ public class LoginActivity extends Fragment {
 
                         FirebaseUser user = mAuth.getCurrentUser();
 
-                        Toast.makeText(getContext(), "Logged in successfully",
-                                Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "Logged in successfully",
+//                                Toast.LENGTH_SHORT).show();
+                        FancyToast.makeText(getContext(), "Logged in successfully.",
+                               FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
                         updateUI(user);
                     } else {
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
                         loginButton.setEnabled(true);
 
-                        Toast.makeText(getContext(), "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "Authentication failed.",
+//                                Toast.LENGTH_SHORT).show();
+                        FancyToast.makeText(getContext(), "Authentication failed.",
+                               FancyToast.LENGTH_SHORT, FancyToast.CONFUSING, false).show();
                     }
                 }
             });

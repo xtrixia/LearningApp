@@ -46,7 +46,8 @@
         <activity android:name=".HomeActivity" />
         <activity android:name=".NicknameActivity" />
         <activity android:name=".LogoutActivity" />
-        <activity android:name=".CategoryActivity"></activity>
+        <activity android:name=".CategoryActivity" />
+        <activity android:name=".ResultActivity"></activity>
     </application>
 
 </manifest>

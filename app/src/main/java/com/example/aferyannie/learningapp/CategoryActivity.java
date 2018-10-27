@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.shashank.sony.fancytoastlib.FancyToast;
+
 import java.util.Locale;
 
 /*
@@ -24,9 +26,12 @@ import java.util.Locale;
 * */
 
 public class CategoryActivity extends Fragment {
-    private static final long COUNTDOWN_IN_MILLIS = 31000; // Set to 30 seconds. (trial)
+    private static final long COUNTDOWN_IN_MILLIS = 16000; // lebihin satu detik (trial)
     private TextView txtTimer;
+
     private TextView txtCategory;
+    private TextView txtPronounce;
+    private Button btnSound;
 
     private ColorStateList colorDefaultCountdown;
 
@@ -39,6 +44,8 @@ public class CategoryActivity extends Fragment {
         View view = inflater.inflate(R.layout.activity_category, null, false);
 
         txtCategory = (TextView) view.findViewById(R.id.txtCategory);
+        txtPronounce = (TextView) view.findViewById(R.id.txtPronounce);
+        btnSound = (Button) view.findViewById(R.id.btnSound);
 
         txtTimer = (TextView) view.findViewById(R.id.txtTimer);
         colorDefaultCountdown = txtTimer.getTextColors();
@@ -57,11 +64,12 @@ public class CategoryActivity extends Fragment {
             }
             @Override
             public void onFinish() {
-                Toast.makeText(getContext(), "Time's Up", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Time's Up", Toast.LENGTH_SHORT).show();
+                FancyToast.makeText(getContext(), "Time's Up", FancyToast.LENGTH_LONG, FancyToast.WARNING, false).show();
                 timeLeftInMillis = 0;
                 updateCountdown();
                 countDownTimer.cancel();
-                showFragment(new NicknameActivity(),R.id.fragment_container);
+                showFragment(new ResultActivity(),R.id.fragment_container);
             }
         }.start();
     }

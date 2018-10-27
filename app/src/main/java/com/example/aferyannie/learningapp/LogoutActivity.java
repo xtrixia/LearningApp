@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 public class LogoutActivity extends Fragment {
     private FirebaseAuth mAuth;
@@ -34,7 +35,10 @@ public class LogoutActivity extends Fragment {
                 if(mAuth != null){
                     LoginManager.getInstance().logOut();
                     mAuth.signOut();
-                    Toast.makeText(getContext(), "Logged out successfully", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Logged out successfully", Toast.LENGTH_SHORT).show();
+
+                    FancyToast.makeText(getContext(), "Logged out successfully.",
+                            FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
                     updateUI();
                 }
             }

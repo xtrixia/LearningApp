@@ -23,7 +23,27 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="75dp"
         android:text="CATEGORY" />
+
+    <Button
+        android:id="@+id/btnSound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtPronounce"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp"
+        android:fontFamily="casual"
+        android:textStyle="bold"
+        android:text="SOUND" />
+
+    <TextView
+        android:id="@+id/txtPronounce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtCategory"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp"
+        android:text="PRONUNCIATION" />
 
 </RelativeLayout>

@@ -20,4 +20,6 @@
     <string name="account">Account</string>
     <string name="scoreboard">Scoreboard</string>
     <string name="home">Home</string>
+    <string name="accuracy_score">Accuracy Score</string>
+    <string name="next">Next</string>
 </resources>
