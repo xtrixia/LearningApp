@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
@@ -27,11 +29,11 @@ public class LogoutActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_logout, null, false);
 
-        // Initialize Firebase Auth
+        /** Initialize Firebase Auth. */
         mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
 
         logoutButton = (Button) view.findViewById(R.id.btnLogout);
-
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,11 +41,9 @@ public class LogoutActivity extends Fragment {
                     LoginManager.getInstance().logOut();
                     mAuth.signOut();
                     Log.d(TAG, "signOut:success");
-//                    Toast.makeText(getContext(), "Logged out successfully", Toast.LENGTH_SHORT).show();
-
                     FancyToast.makeText(getContext(), "Logged out successfully.",
                             FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
-                    updateUI();
+                    updateUI(currentUser);
                 }
             }
         });
@@ -53,14 +53,22 @@ public class LogoutActivity extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
+        /** Check if user is signed in (non-null) and update UI accordingly. */
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser == null) {
-            updateUI();
+            updateUI(currentUser);
         }
     }
 
-    private void updateUI() {
+    private void updateUI(FirebaseUser currentUser) {
+        TextView navbarNickname = getActivity().findViewById(R.id.nickname);
+        TextView navbarEmail = getActivity().findViewById(R.id.email);
+        ImageView navbarImageView = getActivity().findViewById(R.id.displaypicture);
+
+        navbarEmail.setText(R.string.email);
+        navbarNickname.setText(R.string.nickname);
+        navbarImageView.setImageResource(R.drawable.emoji_blank);
+
         getFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new LoginActivity()).commit();
     }

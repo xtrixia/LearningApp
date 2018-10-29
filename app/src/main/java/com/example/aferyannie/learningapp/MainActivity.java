@@ -31,23 +31,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        // Initialize Firebase Auth
-//        mAuth = FirebaseAuth.getInstance();
-//        FirebaseUser user = mAuth.getCurrentUser();
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
 
-        final ImageView imageView = headerView.findViewById(R.id.displaypicture);
-        final TextView nickname = headerView.findViewById(R.id.nickname);
-        final TextView email = headerView.findViewById(R.id.email);
+//        final ImageView imageView = headerView.findViewById(R.id.displaypicture);
+//        final TextView nickname = headerView.findViewById(R.id.nickname);
+//        final TextView email = headerView.findViewById(R.id.email);
 
         drawer = findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-//            R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
@@ -56,23 +50,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if(user != null) {
-                    String displayName = user.getDisplayName();
-                    String emailFacebook = user.getEmail();
-
-                    imageView.setImageResource(R.drawable.emoji_smile);
-                    if(displayName != null) {
-                        nickname.setText(displayName);
-                    }
-                    if(emailFacebook != null) {
-                        email.setText(emailFacebook);
-                    }
-                } else {
-                    imageView.setImageResource(R.drawable.emoji_blank);
-                    email.setText(R.string.email);
-                    nickname.setText(R.string.nickname);
-                }
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,10 +44,10 @@ public class LoginActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_login, null, false);
 
-        // Initialize Firebase Auth
+        /** Initialize Firebase Auth. */
         mAuth = FirebaseAuth.getInstance();
 
-        // Initialize Facebook Login Button
+        /** Initialize Facebook Login Button. */
         mCallbackManager = CallbackManager.Factory.create();
 
         loginButton = (Button) view.findViewById(R.id.btnLogin);
@@ -83,8 +84,7 @@ public class LoginActivity extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed-in (non-null) and
-        // Update UI accordingly.
+        /** Check if user is signed in (non-null) and update UI accordingly. */
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
             updateUI(currentUser);
@@ -92,6 +92,14 @@ public class LoginActivity extends Fragment {
     }
 
     private void updateUI(FirebaseUser currentUser){
+        TextView navbarNickname = getActivity().findViewById(R.id.nickname);
+        TextView navbarEmail = getActivity().findViewById(R.id.email);
+        ImageView navbarImageView = getActivity().findViewById(R.id.displaypicture);
+
+        navbarNickname.setText(currentUser.getDisplayName());
+        navbarEmail.setText(currentUser.getEmail());
+        navbarImageView.setImageResource(R.drawable.emoji_smile);
+
         getFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new LogoutActivity()).commit();
     }
@@ -114,21 +122,19 @@ public class LoginActivity extends Fragment {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "signInWithCredential:success");
+
                         loginButton.setEnabled(true);
 
-                        FirebaseUser user = mAuth.getCurrentUser();
-
-//                        Toast.makeText(getContext(), "Logged in successfully",
-//                                Toast.LENGTH_SHORT).show();
                         FancyToast.makeText(getContext(), "Logged in successfully.",
                                FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+
+                        FirebaseUser user = mAuth.getCurrentUser();
                         updateUI(user);
                     } else {
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
+
                         loginButton.setEnabled(true);
 
-//                        Toast.makeText(getContext(), "Authentication failed.",
-//                                Toast.LENGTH_SHORT).show();
                         FancyToast.makeText(getContext(), "Authentication failed.",
                                FancyToast.LENGTH_SHORT, FancyToast.CONFUSING, false).show();
                     }

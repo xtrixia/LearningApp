@@ -1,13 +1,16 @@
 package com.example.aferyannie.learningapp;
 
+import android.content.res.AssetFileDescriptor;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +20,20 @@ import android.widget.Toast;
 
 import com.shashank.sony.fancytoastlib.FancyToast;
 
+import java.io.IOException;
 import java.util.Locale;
 
-/*
+/**
 * Do not forget to set!
 * COUNTDOWN_IN_MILLIS = 90000
 * (90 seconds).
 * */
 
 public class CategoryActivity extends Fragment {
-    private static final long COUNTDOWN_IN_MILLIS = 16000; // lebihin satu detik (trial)
+    private static final long COUNTDOWN_IN_MILLIS = 31000; // lebihin satu detik (trial)
+    private static final String TAG_AUDIO = "AUDIO_LOG";
+    private static final String TAG_TIMER = "TIMER_LOG";
+
     private TextView txtTimer;
 
     private TextView txtCategory;
@@ -38,6 +45,8 @@ public class CategoryActivity extends Fragment {
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis;
 
+    MediaPlayer pronounce1;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,15 +55,34 @@ public class CategoryActivity extends Fragment {
         txtCategory = (TextView) view.findViewById(R.id.txtCategory);
         txtPronounce = (TextView) view.findViewById(R.id.txtPronounce);
 
+        pronounce1 = MediaPlayer.create(getContext(), R.raw.pronunciation_numbers);
+
         btnSound = (Button) view.findViewById(R.id.btnSound);
         btnSound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FancyToast.makeText(getContext(), "Not yet functional.",
-                        FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+                try{
+                    if(pronounce1.isPlaying()){
+                        pronounce1.stop();
+                        pronounce1.release();
+                        Log.d(TAG_AUDIO, "pronounce1:onStop");
+                        pronounce1 = MediaPlayer.create(getContext(), R.raw.pronunciation_numbers);
+                    }
+                    pronounce1.start();
+                    Log.d(TAG_AUDIO, "pronounce1:onStart");
+                    pronounce1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        public void onCompletion(MediaPlayer mp) {
+                            pronounce1.reset();
+                            pronounce1.release();
+                            Log.d(TAG_AUDIO, "pronounce1:onComplete");
+                        }
+                    });
+                } catch (Exception e){
+                    e.printStackTrace();
+                    Log.d(TAG_AUDIO, "pronounce1:onError");
+                }
             }
         });
-
         txtTimer = (TextView) view.findViewById(R.id.txtTimer);
         colorDefaultCountdown = txtTimer.getTextColors();
 
@@ -64,6 +92,7 @@ public class CategoryActivity extends Fragment {
     }
 
     private void startCountdown(){
+        Log.d(TAG_TIMER, "countDownTimer:onStart");
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -72,11 +101,12 @@ public class CategoryActivity extends Fragment {
             }
             @Override
             public void onFinish() {
-//                Toast.makeText(getContext(), "Time's Up", Toast.LENGTH_SHORT).show();
                 FancyToast.makeText(getContext(), "Time's Up", FancyToast.LENGTH_LONG, FancyToast.WARNING, false).show();
                 timeLeftInMillis = 0;
                 updateCountdown();
                 countDownTimer.cancel();
+                Log.d(TAG_TIMER, "countDownTimer:onFinish");
+                pronounce1.stop();
                 showFragment(new ResultActivity(),R.id.fragment_container);
             }
         }.start();
