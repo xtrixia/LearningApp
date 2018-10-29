@@ -3,6 +3,7 @@ package com.example.aferyannie.learningapp;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 public class LogoutActivity extends Fragment {
+    private static final String TAG = "FACEBOOK_LOG";
+
     private FirebaseAuth mAuth;
 
     Button logoutButton;
@@ -35,6 +38,7 @@ public class LogoutActivity extends Fragment {
                 if(mAuth != null){
                     LoginManager.getInstance().logOut();
                     mAuth.signOut();
+                    Log.d(TAG, "signOut:success");
 //                    Toast.makeText(getContext(), "Logged out successfully", Toast.LENGTH_SHORT).show();
 
                     FancyToast.makeText(getContext(), "Logged out successfully.",

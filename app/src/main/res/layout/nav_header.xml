@@ -9,9 +9,10 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
+        android:id="@+id/displaypicture"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:src="@drawable/emoji_smile" />
+        android:src="@drawable/emoji_blank" />
 
     <TextView
         android:id="@+id/nickname"
