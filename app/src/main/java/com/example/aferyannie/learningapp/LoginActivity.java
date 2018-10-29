@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -29,6 +27,9 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.shashank.sony.fancytoastlib.FancyToast;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LoginActivity extends Fragment {
     private static final String TAG = "FACEBOOK_LOG";
@@ -94,11 +95,16 @@ public class LoginActivity extends Fragment {
     private void updateUI(FirebaseUser currentUser){
         TextView navbarNickname = getActivity().findViewById(R.id.nickname);
         TextView navbarEmail = getActivity().findViewById(R.id.email);
-        ImageView navbarImageView = getActivity().findViewById(R.id.displaypicture);
+        CircleImageView navbarImageView = getActivity().findViewById(R.id.displaypicture);
 
         navbarNickname.setText(currentUser.getDisplayName());
         navbarEmail.setText(currentUser.getEmail());
-        navbarImageView.setImageResource(R.drawable.emoji_smile);
+        /** Load facebook display picture using Picasso library. */
+        Picasso.get()
+                .load(currentUser.getPhotoUrl().toString())
+                .resize(65, 65)
+                .centerCrop()
+                .into(navbarImageView);
 
         getFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new LogoutActivity()).commit();

@@ -13,11 +13,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawer;
@@ -31,13 +33,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        /** Initialize Firebase Auth. */
+        mAuth = FirebaseAuth.getInstance();
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
-
-//        final ImageView imageView = headerView.findViewById(R.id.displaypicture);
-//        final TextView nickname = headerView.findViewById(R.id.nickname);
-//        final TextView email = headerView.findViewById(R.id.email);
 
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
@@ -45,12 +46,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu() -> redraw the menu.
             }
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                loadUserInformation();
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu() -> redraw the menu.
             }
         };
         drawer.addDrawerListener(toggle);
@@ -64,6 +66,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    public void loadUserInformation(){
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        CircleImageView imageView = this.findViewById(R.id.displaypicture);
+        TextView nickname = this.findViewById(R.id.nickname);
+        TextView email = this.findViewById(R.id.email);
+
+        if(currentUser != null) {
+            nickname.setText(currentUser.getDisplayName());
+            email.setText(currentUser.getEmail());
+            /** Load facebook display picture using Picasso library. */
+            Picasso.get()
+                .load(currentUser.getPhotoUrl().toString())
+                .resize(65, 65)
+                .centerCrop()
+                .into(imageView);
+        }
+    }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
