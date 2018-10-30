@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView email = this.findViewById(R.id.email);
 
         if(currentUser != null) {
+            email.setVisibility(View.VISIBLE);
+            
             nickname.setText(currentUser.getDisplayName());
             email.setText(currentUser.getEmail());
             /** Load facebook display picture using Picasso library. */

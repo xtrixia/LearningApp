@@ -65,8 +65,9 @@ public class LogoutActivity extends Fragment {
         TextView navbarEmail = getActivity().findViewById(R.id.email);
         ImageView navbarImageView = getActivity().findViewById(R.id.displaypicture);
 
-        navbarEmail.setText(R.string.email);
-        navbarNickname.setText(R.string.nickname);
+//        navbarEmail.setText(R.string.email);
+        navbarEmail.setVisibility(View.INVISIBLE);
+        navbarNickname.setText(R.string.guest);
         navbarImageView.setImageResource(R.drawable.emoji_blank);
 
         getFragmentManager().beginTransaction().replace(R.id.fragment_container,

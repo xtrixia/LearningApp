@@ -11,7 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class ResultActivity extends Fragment {
+    FirebaseAuth mAuth;
     TextView txtNyemangatin;
     Button btnNext;
 
@@ -20,15 +24,26 @@ public class ResultActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_result, null, false);
 
+        /** Initialize Firebase Auth. */
+        mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser user = mAuth.getCurrentUser();
+
         txtNyemangatin = (TextView) view.findViewById(R.id.txtNyemangatin); // nanti set tulisan sesuai hasil akurasi
         // x < 5 disuru latian lagi, 5 < x < 8 disuru ditingkatkan lagi, x > 8 disuru maintain dan rajin belajar
 
         btnNext = (Button) view.findViewById(R.id.btnNext);
+        if(user == null){
+            btnNext.setText("Thanks");
+        }
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showFragment(new NicknameActivity(),R.id.fragment_container);
+                if(user != null){
+                    showFragment(new NicknameActivity(),R.id.fragment_container);
+                } else {
+                    showFragment(new HomeActivity(), R.id.fragment_container);
+                }
             }
         });
         return view;

@@ -97,6 +97,8 @@ public class LoginActivity extends Fragment {
         TextView navbarEmail = getActivity().findViewById(R.id.email);
         CircleImageView navbarImageView = getActivity().findViewById(R.id.displaypicture);
 
+        navbarEmail.setVisibility(View.VISIBLE);
+
         navbarNickname.setText(currentUser.getDisplayName());
         navbarEmail.setText(currentUser.getEmail());
         /** Load facebook display picture using Picasso library. */

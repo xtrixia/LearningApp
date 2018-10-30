@@ -13,4 +13,5 @@
     <string name="home">Home</string>
     <string name="accuracy_score">Accuracy Score</string>
     <string name="next">Next</string>
+    <string name="guest">Guest</string>
 </resources>
