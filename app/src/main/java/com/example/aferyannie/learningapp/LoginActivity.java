@@ -133,7 +133,7 @@ public class LoginActivity extends Fragment {
 
                         loginButton.setEnabled(true);
 
-                        FancyToast.makeText(getContext(), "Logged in successfully.",
+                        FancyToast.makeText(getContext(), "Anda berhasil masuk menggunakan Facebook.",
                                FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
 
                         FirebaseUser user = mAuth.getCurrentUser();
@@ -143,7 +143,7 @@ public class LoginActivity extends Fragment {
 
                         loginButton.setEnabled(true);
 
-                        FancyToast.makeText(getContext(), "Authentication failed.",
+                        FancyToast.makeText(getContext(), "Anda gagal masuk menggunakan Facebook.",
                                FancyToast.LENGTH_SHORT, FancyToast.CONFUSING, false).show();
                     }
                 }

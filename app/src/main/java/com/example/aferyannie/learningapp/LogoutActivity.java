@@ -41,7 +41,7 @@ public class LogoutActivity extends Fragment {
                     LoginManager.getInstance().logOut();
                     mAuth.signOut();
                     Log.d(TAG, "signOut:success");
-                    FancyToast.makeText(getContext(), "Logged out successfully.",
+                    FancyToast.makeText(getContext(), "Anda berhasil keluar dari Facebook.",
                             FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
                     updateUI(currentUser);
                 }
@@ -65,7 +65,6 @@ public class LogoutActivity extends Fragment {
         TextView navbarEmail = getActivity().findViewById(R.id.email);
         ImageView navbarImageView = getActivity().findViewById(R.id.displaypicture);
 
-//        navbarEmail.setText(R.string.email);
         navbarEmail.setVisibility(View.INVISIBLE);
         navbarNickname.setText(R.string.guest);
         navbarImageView.setImageResource(R.drawable.emoji_blank);

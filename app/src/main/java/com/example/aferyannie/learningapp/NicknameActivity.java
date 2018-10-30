@@ -60,13 +60,11 @@ public class NicknameActivity extends Fragment {
             String id = databaseNames.push().getKey();
             Name nickname = new Name(name, score, now);
             databaseNames.child(id).setValue(nickname);
-//            Toast.makeText(getContext(), "Check Scoreboard", Toast.LENGTH_SHORT).show();
-            FancyToast.makeText(getContext(), "Recorded successfully. Don't forget to check scoreboard.",
+            FancyToast.makeText(getContext(), "Skor sukses disimpan! Jangan lupa cek papan skor ya.",
                    FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
             showFragment(new HomeActivity(),R.id.fragment_container);
         } else {
-//            Toast.makeText(getContext(), "Press Skip Button", Toast.LENGTH_LONG).show();
-            FancyToast.makeText(getContext(), "Please input nickname to record the score.",
+            FancyToast.makeText(getContext(), "Isi nama untuk simpan skor.",
                    FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
         }
     }

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="176dp"
-    android:background="@drawable/vicecity_background"
+    android:background="@color/lightpurple"
     android:gravity="bottom"
     android:orientation="vertical"
     android:padding="16dp"
@@ -20,13 +20,15 @@
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         android:text="@string/guest"
+        android:textColor="#2F4F4F"
+        android:fontFamily="casual"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/email"
+        android:textColor="#2F4F4F"
         android:visibility="invisible"/>
 
 </LinearLayout>

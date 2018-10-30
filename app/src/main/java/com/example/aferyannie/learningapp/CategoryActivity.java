@@ -37,7 +37,6 @@ public class CategoryActivity extends Fragment {
     private TextView txtTimer;
 
     private TextView txtCategory;
-    private TextView txtPronounce;
     private Button btnSound;
 
     private ColorStateList colorDefaultCountdown;
@@ -53,8 +52,6 @@ public class CategoryActivity extends Fragment {
         View view = inflater.inflate(R.layout.activity_category, null, false);
 
         txtCategory = (TextView) view.findViewById(R.id.txtCategory);
-        txtPronounce = (TextView) view.findViewById(R.id.txtPronounce);
-
         pronounce1 = MediaPlayer.create(getContext(), R.raw.pronunciation_numbers);
 
         btnSound = (Button) view.findViewById(R.id.btnSound);
@@ -101,7 +98,7 @@ public class CategoryActivity extends Fragment {
             }
             @Override
             public void onFinish() {
-                FancyToast.makeText(getContext(), "Time's Up", FancyToast.LENGTH_LONG, FancyToast.WARNING, false).show();
+                FancyToast.makeText(getContext(), "Waktu Habis", FancyToast.LENGTH_LONG, FancyToast.WARNING, false).show();
                 timeLeftInMillis = 0;
                 updateCountdown();
                 countDownTimer.cancel();

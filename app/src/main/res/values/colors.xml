@@ -5,10 +5,8 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="white">#ffffff</color>
-    <color name="cyan">#00bfbf</color>
     <color name="grey">#555959</color>
-    <color name="turquoise">#009e9e</color>
-    <color name="salmon">#ff6861</color>
+    <color name="lightpurple">#c0b5d0</color>
 
     <color name="bg_login">#26ae90</color>
     <color name="bg_register">#2e3237</color>

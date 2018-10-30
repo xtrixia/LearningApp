@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/digitalwater_background"
+    android:background="@color/lightpurple"
     tools:context="com.example.aferyannie.learningapp.CategoryActivity">
 
     <TextView
@@ -25,24 +25,20 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="75dp"
-        android:text="CATEGORY" />
+        android:text="CATEGORY"
+        android:fontFamily="casual"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="@color/com_facebook_button_background_color"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
 
     <Button
         android:id="@+id/btnSound"
         android:layout_width="45dp"
         android:layout_height="40dp"
-        android:layout_below="@+id/txtPronounce"
+        android:layout_below="@+id/txtCategory"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="11dp"
         android:background="@android:drawable/ic_lock_silent_mode_off" />
-
-    <TextView
-        android:id="@+id/txtPronounce"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtCategory"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="13dp"
-        android:text="PRONUNCIATION" />
 
 </RelativeLayout>

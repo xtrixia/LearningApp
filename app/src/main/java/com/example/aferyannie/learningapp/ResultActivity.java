@@ -33,7 +33,7 @@ public class ResultActivity extends Fragment {
 
         btnNext = (Button) view.findViewById(R.id.btnNext);
         if(user == null){
-            btnNext.setText("Thanks");
+            btnNext.setText("Ok");
         }
 
         btnNext.setOnClickListener(new View.OnClickListener() {

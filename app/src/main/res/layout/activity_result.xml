@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/digitalwater_background"
+    android:background="@color/lightpurple"
     tools:context="com.example.aferyannie.learningapp.ResultActivity">
 
     <TextView
@@ -14,8 +14,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp"
         android:text="@string/accuracy_score"
+        android:fontFamily="casual"
+        android:textStyle="bold"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textColor="@android:color/black" />
+        android:textColor="@color/com_facebook_messenger_blue"
+        android:clickable="false" />
 
     <Button
         android:id="@+id/btnNext"
@@ -27,6 +30,7 @@
         android:fontFamily="casual"
         android:textStyle="bold"
         android:background="@android:color/transparent"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:text="@string/next" />
 
     <TextView
