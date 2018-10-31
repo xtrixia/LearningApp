@@ -1,5 +1,6 @@
 package com.example.aferyannie.learningapp;
 
+import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -11,8 +12,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,19 +25,23 @@ import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+    private static final String TAG_AUDIO = "AUDIO_LOG";
     private DrawerLayout drawer;
-    private FirebaseAuth mAuth;
+
+    protected static MediaPlayer main_menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        main_menu = MediaPlayer.create(this, R.raw.main_menu);
+        main_menu.setLooping(true);
+        main_menu.start();
+        Log.d(TAG_AUDIO, "main_menu:onStart");
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        /** Initialize Firebase Auth. */
-        mAuth = FirebaseAuth.getInstance();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -86,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .into(imageView);
         }
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -128,4 +136,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(main_menu.isPlaying()){
+            main_menu.stop();
+            main_menu.release();
+            Log.d(TAG_AUDIO, "main_menu:onDestroy");
+        }
+    }
 }

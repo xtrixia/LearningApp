@@ -1,6 +1,5 @@
 package com.example.aferyannie.learningapp;
 
-import android.content.res.AssetFileDescriptor;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -16,11 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.shashank.sony.fancytoastlib.FancyToast;
 
-import java.io.IOException;
 import java.util.Locale;
 
 /**
@@ -30,7 +27,7 @@ import java.util.Locale;
 * */
 
 public class CategoryActivity extends Fragment {
-    private static final long COUNTDOWN_IN_MILLIS = 31000; // lebihin satu detik (trial)
+    private static final long COUNTDOWN_IN_MILLIS = 16000; // lebihin satu detik (trial)
     private static final String TAG_AUDIO = "AUDIO_LOG";
     private static final String TAG_TIMER = "TIMER_LOG";
 
@@ -50,6 +47,11 @@ public class CategoryActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_category, null, false);
+
+        if(MainActivity.main_menu.isPlaying()){
+            MainActivity.main_menu.pause();
+            Log.d(TAG_AUDIO, "main_menu:onPause");
+        }
 
         txtCategory = (TextView) view.findViewById(R.id.txtCategory);
         pronounce1 = MediaPlayer.create(getContext(), R.raw.pronunciation_numbers);
@@ -97,13 +99,12 @@ public class CategoryActivity extends Fragment {
                 updateCountdown();
             }
             @Override
-            public void onFinish() {
-                FancyToast.makeText(getContext(), "Waktu Habis", FancyToast.LENGTH_LONG, FancyToast.WARNING, false).show();
-                timeLeftInMillis = 0;
+            public void onFinish() {timeLeftInMillis = 0;
                 updateCountdown();
                 countDownTimer.cancel();
                 Log.d(TAG_TIMER, "countDownTimer:onFinish");
                 pronounce1.stop();
+                Log.d(TAG_AUDIO, "pronounce1:onStop");
                 showFragment(new ResultActivity(),R.id.fragment_container);
             }
         }.start();
@@ -130,9 +131,19 @@ public class CategoryActivity extends Fragment {
 
         if(timeLeftInMillis < 11000){
             txtTimer.setTextColor(Color.RED);
+            if(timeLeftInMillis < 3000){
+                FancyToast.makeText(getContext(), "Waktu Habis", FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
+            }
         } else {
             txtTimer.setTextColor(colorDefaultCountdown);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        MainActivity.main_menu.start();
+        Log.d(TAG_AUDIO, "main_menu:onResume");
     }
 
     @Override

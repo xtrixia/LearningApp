@@ -31,15 +31,15 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            // ButtonStart for numerals.
+            // Button start for numerals.
             case R.id.btnStart:
                 showFragment(new CategoryActivity(),R.id.fragment_container);
                 break;
-            // ButtonStart for alphabets_upper.
+            // Button start for alphabets_upper.
             case R.id.btnStart1:
                 showFragment(new CategoryActivity(),R.id.fragment_container);
                 break;
-            // ButtonStart for alphabets_lower.
+            // Button start for alphabets_lower.
             case R.id.btnStart2:
                 showFragment(new CategoryActivity(),R.id.fragment_container);
                 break;

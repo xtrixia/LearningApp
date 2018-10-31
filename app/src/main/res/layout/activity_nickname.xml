@@ -36,6 +36,10 @@
             android:layout_marginEnd="20dp"
             android:layout_marginTop="40dp"
             android:text="@string/save"
+            android:textColor="@color/white"
+            android:fontFamily="casual"
+            android:textStyle="bold"
+            android:background="@drawable/confusing_shape"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
