@@ -3,6 +3,7 @@ package com.example.aferyannie.learningapp;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -97,7 +98,8 @@ public class LoginActivity extends Fragment {
         TextView navbarEmail = getActivity().findViewById(R.id.email);
         CircleImageView navbarImageView = getActivity().findViewById(R.id.displaypicture);
 
-        MainActivity.scoreboard.setVisible(true);
+        NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(2).setVisible(true);
 
         navbarEmail.setVisibility(View.VISIBLE);
 
