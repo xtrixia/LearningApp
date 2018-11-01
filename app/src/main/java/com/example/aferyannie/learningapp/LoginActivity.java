@@ -3,10 +3,12 @@ package com.example.aferyannie.learningapp;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -96,6 +98,10 @@ public class LoginActivity extends Fragment {
         TextView navbarEmail = getActivity().findViewById(R.id.email);
         CircleImageView navbarImageView = getActivity().findViewById(R.id.displaypicture);
 
+        NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
+        // Set NavigationBar scoreboard visible.
+        navigationView.getMenu().getItem(2).setVisible(true);
+
         navbarEmail.setVisibility(View.VISIBLE);
 
         navbarNickname.setText(currentUser.getDisplayName());
@@ -124,28 +130,28 @@ public class LoginActivity extends Fragment {
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
-            .addOnCompleteListener(LoginActivity.this.getActivity(), new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        Log.d(TAG, "signInWithCredential:success");
+                .addOnCompleteListener(LoginActivity.this.getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "signInWithCredential:success");
 
-                        loginButton.setEnabled(true);
+                            loginButton.setEnabled(true);
 
-                        FancyToast.makeText(getContext(), "Anda berhasil masuk menggunakan Facebook.",
-                               FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                            FancyToast.makeText(getContext(), "Anda berhasil masuk menggunakan Facebook.",
+                                    FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
 
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        updateUI(user);
-                    } else {
-                        Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
 
-                        loginButton.setEnabled(true);
+                            loginButton.setEnabled(true);
 
-                        FancyToast.makeText(getContext(), "Anda gagal masuk menggunakan Facebook.",
-                               FancyToast.LENGTH_SHORT, FancyToast.CONFUSING, false).show();
+                            FancyToast.makeText(getContext(), "Anda gagal masuk menggunakan Facebook.",
+                                    FancyToast.LENGTH_SHORT, FancyToast.CONFUSING, false).show();
+                        }
                     }
-                }
-            });
+                });
     }
 }

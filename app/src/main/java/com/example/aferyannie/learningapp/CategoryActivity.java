@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.Locale;
+import java.util.Random;
 
 /**
 * Do not forget to set!
@@ -34,6 +35,7 @@ public class CategoryActivity extends Fragment {
     private TextView txtTimer;
 
     private TextView txtCategory;
+    private TextView txtPronounce;
     private Button btnSound;
 
     private ColorStateList colorDefaultCountdown;
@@ -54,6 +56,23 @@ public class CategoryActivity extends Fragment {
         }
 
         txtCategory = (TextView) view.findViewById(R.id.txtCategory);
+        txtPronounce = (TextView) view.findViewById(R.id.txtPronounce);
+
+//        // CASE FOR NUMERALS (R.id.btnStart):
+//        checkIntCategory();
+//        // CASE FOR ALPHABETS_UPPER (R.id.btnStart1):
+//        String[] charsUpper = {
+//                "A","B","C","D","E","F","G","H","I","J","K","L","M",
+//                "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+//        txtCategory.setText(charsUpper[(int) (Math.random() * 10)]);
+//        txtPronounce.setVisibility(View.GONE);
+//        // CASE FOR ALPHABETS_LOWER (R.id.btnStart2):
+//        String[] charsLower = {
+//                "a","b","c","d","e","f","g","h","i","j","k","l","m",
+//                "n","o","p","q","r","s","t","u","v","w","x","y","z"};
+//        txtCategory.setText(charsLower[(int) (Math.random() * 10)]);
+//        txtPronounce.setVisibility(View.GONE);
+
         pronounce1 = MediaPlayer.create(getContext(), R.raw.pronunciation_numbers);
 
         btnSound = (Button) view.findViewById(R.id.btnSound);
@@ -88,6 +107,53 @@ public class CategoryActivity extends Fragment {
         timeLeftInMillis = COUNTDOWN_IN_MILLIS;
         startCountdown();
         return view;
+    }
+
+    public void checkIntCategory(){
+        Random randInt = new Random();
+        int num = randInt.nextInt(10);
+        switch(num){
+            case 0:
+                txtCategory.setText("0");
+                txtPronounce.setText("Nol");
+                break;
+            case 1:
+                txtCategory.setText("1");
+                txtPronounce.setText("Satu");
+                break;
+            case 2:
+                txtCategory.setText("2");
+                txtPronounce.setText("Dua");
+                break;
+            case 3:
+                txtCategory.setText("3");
+                txtPronounce.setText("Tiga");
+                break;
+            case 4:
+                txtCategory.setText("4");
+                txtPronounce.setText("Empat");
+                break;
+            case 5:
+                txtCategory.setText("5");
+                txtPronounce.setText("Lima");
+                break;
+            case 6:
+                txtCategory.setText("6");
+                txtPronounce.setText("Enam");
+                break;
+            case 7:
+                txtCategory.setText("7");
+                txtPronounce.setText("Tujuh");
+                break;
+            case 8:
+                txtCategory.setText("8");
+                txtPronounce.setText("Delapan");
+                break;
+            case 9:
+                txtCategory.setText("9");
+                txtPronounce.setText("Sembilan");
+                break;
+        }
     }
 
     private void startCountdown(){

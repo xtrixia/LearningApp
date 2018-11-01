@@ -1,10 +1,12 @@
 package com.example.aferyannie.learningapp;
 
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -65,7 +67,12 @@ public class LogoutActivity extends Fragment {
         TextView navbarEmail = getActivity().findViewById(R.id.email);
         ImageView navbarImageView = getActivity().findViewById(R.id.displaypicture);
 
+        NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
+        // Set NavigationBar scoreboard invisible.
+        navigationView.getMenu().getItem(2).setVisible(false);
+
         navbarEmail.setVisibility(View.INVISIBLE);
+
         navbarNickname.setText(R.string.guest);
         navbarImageView.setImageResource(R.drawable.emoji_blank);
 
