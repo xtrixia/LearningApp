@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -95,6 +96,8 @@ public class LoginActivity extends Fragment {
         TextView navbarNickname = getActivity().findViewById(R.id.nickname);
         TextView navbarEmail = getActivity().findViewById(R.id.email);
         CircleImageView navbarImageView = getActivity().findViewById(R.id.displaypicture);
+
+        MainActivity.scoreboard.setVisible(true);
 
         navbarEmail.setVisibility(View.VISIBLE);
 

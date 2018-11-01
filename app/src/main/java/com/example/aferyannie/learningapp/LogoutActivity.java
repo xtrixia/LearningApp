@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -65,7 +66,10 @@ public class LogoutActivity extends Fragment {
         TextView navbarEmail = getActivity().findViewById(R.id.email);
         ImageView navbarImageView = getActivity().findViewById(R.id.displaypicture);
 
+        MainActivity.scoreboard.setVisible(false);
+
         navbarEmail.setVisibility(View.INVISIBLE);
+
         navbarNickname.setText(R.string.guest);
         navbarImageView.setImageResource(R.drawable.emoji_blank);
 
