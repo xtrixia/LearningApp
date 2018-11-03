@@ -23,7 +23,6 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 public class NicknameActivity extends Fragment {
     DatabaseReference databaseNames;
 
-    // Define nickname input field.
     EditText inputNames;
     Button btnNames;
     Button btnSkip;
@@ -63,19 +62,15 @@ public class NicknameActivity extends Fragment {
             String id = databaseNames.push().getKey();
             Name nickname = new Name(name, score, now);
             databaseNames.child(id).setValue(nickname);
-//            FancyToast.makeText(getContext(), "Skor sukses disimpan! Jangan lupa cek papan skor ya.",
-//                   FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
 
+            // Initialize AlertDialog.
             AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-
-            // Setting Dialog Title
-//            alertDialog.setTitle("Perhatian");
-
-            // Setting Dialog Message
-            alertDialog.setMessage("Skor sukses disimpan! Jangan lupa cek papan skor ya.");
-
-            // Setting OK Button
-            alertDialog.setButton(Dialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+            // Setting Dialog Title.
+            alertDialog.setTitle("Berhasil");
+            // Setting Dialog Message.
+            alertDialog.setMessage("Skor telah sukses disimpan. Jangan lupa cek papan skor ya!");
+            // Setting OK Button.
+            alertDialog.setButton(Dialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     inputNames.setSelection(0);
                 }
