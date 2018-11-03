@@ -1,10 +1,13 @@
 package com.example.aferyannie.learningapp;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,8 +63,25 @@ public class NicknameActivity extends Fragment {
             String id = databaseNames.push().getKey();
             Name nickname = new Name(name, score, now);
             databaseNames.child(id).setValue(nickname);
-            FancyToast.makeText(getContext(), "Skor sukses disimpan! Jangan lupa cek papan skor ya.",
-                   FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+//            FancyToast.makeText(getContext(), "Skor sukses disimpan! Jangan lupa cek papan skor ya.",
+//                   FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+
+            AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+
+            // Setting Dialog Title
+//            alertDialog.setTitle("Perhatian");
+
+            // Setting Dialog Message
+            alertDialog.setMessage("Skor sukses disimpan! Jangan lupa cek papan skor ya.");
+
+            // Setting OK Button
+            alertDialog.setButton(Dialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    inputNames.setSelection(0);
+                }
+            });
+            alertDialog.show();
+
             showFragment(new HomeActivity(),R.id.fragment_container);
         } else {
             FancyToast.makeText(getContext(), "Isi nama untuk simpan skor.",

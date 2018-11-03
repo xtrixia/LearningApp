@@ -32,18 +32,16 @@ public class CategoryActivity extends Fragment {
     private static final String TAG_AUDIO = "AUDIO_LOG";
     private static final String TAG_TIMER = "TIMER_LOG";
 
-    private TextView txtTimer;
-
     private TextView txtCategory;
     private TextView txtPronounce;
-    private Button btnSound;
+    public static Button btnSound;
+    private TextView txtTimer;
 
     private ColorStateList colorDefaultCountdown;
-
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis;
 
-    MediaPlayer pronounce1;
+    MediaPlayer pronounce;
 
     @Nullable
     @Override
@@ -58,47 +56,26 @@ public class CategoryActivity extends Fragment {
         txtCategory = (TextView) view.findViewById(R.id.txtCategory);
         txtPronounce = (TextView) view.findViewById(R.id.txtPronounce);
 
-//        // CASE FOR NUMERALS (R.id.btnStart):
-//        checkIntCategory();
-//        // CASE FOR ALPHABETS_UPPER (R.id.btnStart1):
-//        String[] charsUpper = {
-//                "A","B","C","D","E","F","G","H","I","J","K","L","M",
-//                "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
-//        txtCategory.setText(charsUpper[(int) (Math.random() * 10)]);
-//        txtPronounce.setVisibility(View.GONE);
-//        // CASE FOR ALPHABETS_LOWER (R.id.btnStart2):
-//        String[] charsLower = {
-//                "a","b","c","d","e","f","g","h","i","j","k","l","m",
-//                "n","o","p","q","r","s","t","u","v","w","x","y","z"};
-//        txtCategory.setText(charsLower[(int) (Math.random() * 10)]);
-//        txtPronounce.setVisibility(View.GONE);
-
-        pronounce1 = MediaPlayer.create(getContext(), R.raw.pronunciation_numbers);
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            if(bundle.containsKey("Angka")){
+                KategoriAngka();
+            } else if(bundle.containsKey("HurufKapital")){
+                KategoriHurufKapital();
+            } else{
+                KategoriHurufKecil();
+            }
+        }
 
         btnSound = (Button) view.findViewById(R.id.btnSound);
         btnSound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try{
-                    if(pronounce1.isPlaying()){
-                        pronounce1.stop();
-                        pronounce1.release();
-                        Log.d(TAG_AUDIO, "pronounce1:onStop");
-                        pronounce1 = MediaPlayer.create(getContext(), R.raw.pronunciation_numbers);
-                    }
-                    pronounce1.start();
-                    Log.d(TAG_AUDIO, "pronounce1:onStart");
-                    pronounce1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        public void onCompletion(MediaPlayer mp) {
-                            pronounce1.reset();
-                            pronounce1.release();
-                            Log.d(TAG_AUDIO, "pronounce1:onComplete");
-                        }
-                    });
-                } catch (Exception e){
-                    e.printStackTrace();
-                    Log.d(TAG_AUDIO, "pronounce1:onError");
+                Log.d(TAG_AUDIO, "pronounce:onEnable");
+                if (pronounce.isPlaying()) {
+                    pronounce.stop();
                 }
+                SoundClick();
             }
         });
         txtTimer = (TextView) view.findViewById(R.id.txtTimer);
@@ -109,51 +86,83 @@ public class CategoryActivity extends Fragment {
         return view;
     }
 
-    public void checkIntCategory(){
-        Random randInt = new Random();
-        int num = randInt.nextInt(10);
+    public void SoundClick() {
+                try {
+                    pronounce.start();
+                    Log.d(TAG_AUDIO, "pronounce:onStart");
+                    pronounce.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        public void onCompletion(MediaPlayer mp) {
+                            Log.d(TAG_AUDIO, "pronounce:onComplete");
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d(TAG_AUDIO, "pronounce:onError");
+                }
+            }
+
+    public void KategoriAngka(){
+        // get arguments from bundle in HomeActivity.
+        Bundle bundle = getArguments();
+        int num = bundle.getInt("Angka");
+        txtCategory.setText(Integer.toString(num));
         switch(num){
             case 0:
-                txtCategory.setText("0");
                 txtPronounce.setText("Nol");
+                // initialize audio resource.
+                pronounce = MediaPlayer.create(getContext(), R.raw.nol);
                 break;
             case 1:
-                txtCategory.setText("1");
                 txtPronounce.setText("Satu");
+                pronounce = MediaPlayer.create(getContext(), R.raw.satu);
                 break;
             case 2:
-                txtCategory.setText("2");
                 txtPronounce.setText("Dua");
+                pronounce = MediaPlayer.create(getContext(), R.raw.dua);
                 break;
             case 3:
-                txtCategory.setText("3");
                 txtPronounce.setText("Tiga");
+                pronounce = MediaPlayer.create(getContext(), R.raw.tiga);
                 break;
             case 4:
-                txtCategory.setText("4");
                 txtPronounce.setText("Empat");
+                pronounce = MediaPlayer.create(getContext(), R.raw.empat);
                 break;
             case 5:
-                txtCategory.setText("5");
                 txtPronounce.setText("Lima");
+                pronounce = MediaPlayer.create(getContext(), R.raw.lima);
                 break;
             case 6:
-                txtCategory.setText("6");
                 txtPronounce.setText("Enam");
+                pronounce = MediaPlayer.create(getContext(), R.raw.enam);
                 break;
             case 7:
-                txtCategory.setText("7");
                 txtPronounce.setText("Tujuh");
+                pronounce = MediaPlayer.create(getContext(), R.raw.tujuh);
                 break;
             case 8:
-                txtCategory.setText("8");
                 txtPronounce.setText("Delapan");
+                pronounce = MediaPlayer.create(getContext(), R.raw.delapan);
                 break;
             case 9:
-                txtCategory.setText("9");
                 txtPronounce.setText("Sembilan");
+                pronounce = MediaPlayer.create(getContext(), R.raw.sembilan);
                 break;
         }
+    }
+
+    public void KategoriHurufKecil(){
+        Bundle bundle = getArguments();
+        String[] charsLower = bundle.getStringArray("HurufKecil");
+        txtCategory.setText(charsLower[(int) (Math.random() * 10)]);
+        txtPronounce.setVisibility(View.GONE);
+    }
+
+    public void KategoriHurufKapital(){
+        Bundle bundle = getArguments();
+        String[] charsUpper = bundle.getStringArray("HurufKapital");
+        txtCategory.setText(charsUpper[(int) (Math.random() * 10)]);
+        txtPronounce.setVisibility(View.GONE);
     }
 
     private void startCountdown(){
@@ -169,8 +178,8 @@ public class CategoryActivity extends Fragment {
                 updateCountdown();
                 countDownTimer.cancel();
                 Log.d(TAG_TIMER, "countDownTimer:onFinish");
-                pronounce1.stop();
-                Log.d(TAG_AUDIO, "pronounce1:onStop");
+                pronounce.stop();
+                Log.d(TAG_AUDIO, "pronounce:onDisable");
                 showFragment(new ResultActivity(),R.id.fragment_container);
             }
         }.start();

@@ -10,7 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.Random;
+
 public class HomeActivity extends Fragment implements View.OnClickListener {
+    private Bundle bundle;
 
     @Nullable
     @Override
@@ -30,31 +33,44 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        bundle = new Bundle();
         switch (view.getId()) {
-            // Button start for numerals.
+            /** Button for numerals. */
             case R.id.btnStart:
-                showFragment(new CategoryActivity(),R.id.fragment_container);
+                Random randInt = new Random();
+                int num = randInt.nextInt(10);
+                bundle.putInt("Angka", num);
+                CategoryActivity categoryAngka = new CategoryActivity();
+                nextFragment(categoryAngka);
                 break;
-            // Button start for alphabets_upper.
+            /** Button for alphabets_upper. */
             case R.id.btnStart1:
-                showFragment(new CategoryActivity(),R.id.fragment_container);
+                String[] charsUpper = {
+                "A","B","C","D","E","F","G","H","I","J","K","L","M",
+                "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+                bundle.putStringArray("HurufKapital", charsUpper);
+                CategoryActivity categoryHurufKapital = new CategoryActivity();
+                nextFragment(categoryHurufKapital);
                 break;
-            // Button start for alphabets_lower.
+            /** Button for alphabets_lower. */
             case R.id.btnStart2:
-                showFragment(new CategoryActivity(),R.id.fragment_container);
+                String[] charsLower = {
+                "a","b","c","d","e","f","g","h","i","j","k","l","m",
+                "n","o","p","q","r","s","t","u","v","w","x","y","z"};
+                bundle.putStringArray("HurufKecil", charsLower);
+                CategoryActivity categoryHurufKecil = new CategoryActivity();
+                nextFragment(categoryHurufKecil);
                 break;
         }
     }
 
-    public void showFragment(Fragment fragment, int fragmentResourceID) {
-        if (fragment != null) {
-            FragmentManager fragmentManager = this.getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(fragmentResourceID, fragment);
-            fragmentTransaction.detach(fragment);
-            fragmentTransaction.attach(fragment);
-            fragmentTransaction.commit();
-        }
+    public void nextFragment(CategoryActivity category){
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        category = new CategoryActivity();
+        category.setArguments(bundle);
+        fragmentTransaction.replace(R.id.fragment_container, category);
+        fragmentTransaction.commit();
     }
 
 }

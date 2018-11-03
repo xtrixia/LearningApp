@@ -13,10 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -82,8 +80,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         CircleImageView imageView = this.findViewById(R.id.displaypicture);
         TextView nickname = this.findViewById(R.id.nickname);
         TextView email = this.findViewById(R.id.email);
+        NavigationView navigationView = this.findViewById(R.id.nav_view);
 
         if(currentUser != null) {
+            // Set NavigationBar scoreboard visible.
+            navigationView.getMenu().getItem(2).setVisible(true);
             email.setVisibility(View.VISIBLE);
 
             nickname.setText(currentUser.getDisplayName());
