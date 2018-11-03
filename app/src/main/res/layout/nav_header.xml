@@ -18,17 +18,17 @@
         android:id="@+id/nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="casual"
         android:paddingTop="8dp"
         android:text="@string/guest"
-        android:textColor="#2F4F4F"
-        android:fontFamily="casual"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#2F4F4F" />
 
     <TextView
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#2F4F4F"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
 </LinearLayout>

@@ -13,12 +13,12 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:text="@string/accuracy_score"
+        android:clickable="false"
         android:fontFamily="casual"
-        android:textStyle="bold"
+        android:text="@string/accuracy_score"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textColor="@color/com_facebook_messenger_blue"
-        android:clickable="false" />
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/btnNext"
@@ -28,11 +28,11 @@
         android:layout_marginBottom="25dp"
         android:layout_marginRight="20dp"
         android:layout_toEndOf="@+id/accuracy"
-        android:fontFamily="casual"
-        android:textStyle="bold"
         android:background="@android:color/transparent"
+        android:fontFamily="casual"
+        android:text="@string/next"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:text="@string/next" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/txtNyemangatin"
