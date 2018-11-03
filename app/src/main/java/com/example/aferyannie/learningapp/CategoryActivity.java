@@ -68,10 +68,10 @@ public class CategoryActivity extends Fragment {
         }
 
         btnSound = (Button) view.findViewById(R.id.btnSound);
+        Log.d(TAG_AUDIO, "pronounce:onEnable");
         btnSound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG_AUDIO, "pronounce:onEnable");
                 if (pronounce.isPlaying()) {
                     pronounce.stop();
                 }
@@ -87,24 +87,139 @@ public class CategoryActivity extends Fragment {
     }
 
     public void SoundClick() {
-                try {
-                    pronounce.start();
-                    Log.d(TAG_AUDIO, "pronounce:onStart");
-                    pronounce.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        public void onCompletion(MediaPlayer mp) {
-                            Log.d(TAG_AUDIO, "pronounce:onComplete");
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.d(TAG_AUDIO, "pronounce:onError");
+        try {
+            pronounce.start();
+            Log.d(TAG_AUDIO, "pronounce:onPlay");
+            pronounce.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                public void onCompletion(MediaPlayer mp) {
+                    Log.d(TAG_AUDIO, "pronounce:onComplete");
                 }
-            }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG_AUDIO, "pronounce:onError");
+        }
+    }
+
+    public void PronounceHurufHandler(String string){
+        // setText for category text view.
+        txtCategory.setText(string);
+        // make pronounce text view gone from layout.
+        txtPronounce.setVisibility(View.GONE);
+        switch(string){
+            case "a":
+            case "A":
+                pronounce = MediaPlayer.create(getContext(), R.raw.a);
+                break;
+            case "b":
+            case "B":
+                pronounce = MediaPlayer.create(getContext(), R.raw.b);
+                break;
+            case "c":
+            case "C":
+                pronounce = MediaPlayer.create(getContext(), R.raw.c);
+                break;
+            case "d":
+            case "D":
+                pronounce = MediaPlayer.create(getContext(), R.raw.d);
+                break;
+            case "e":
+            case "E":
+                pronounce = MediaPlayer.create(getContext(), R.raw.e);
+                break;
+            case "f":
+            case "F":
+                pronounce = MediaPlayer.create(getContext(), R.raw.f);
+                break;
+            case "g":
+            case "G":
+                pronounce = MediaPlayer.create(getContext(), R.raw.g);
+                break;
+            case "h":
+            case "H":
+                pronounce = MediaPlayer.create(getContext(), R.raw.h);
+                break;
+            case "i":
+            case "I":
+                pronounce = MediaPlayer.create(getContext(), R.raw.i);
+                break;
+            case "j":
+            case "J":
+                pronounce = MediaPlayer.create(getContext(), R.raw.j);
+                break;
+            case "k":
+            case "K":
+                pronounce = MediaPlayer.create(getContext(), R.raw.k);
+                break;
+            case "l":
+            case "L":
+                pronounce = MediaPlayer.create(getContext(), R.raw.l);
+                break;
+            case "m":
+            case "M":
+                pronounce = MediaPlayer.create(getContext(), R.raw.m);
+                break;
+            case "n":
+            case "N":
+                pronounce = MediaPlayer.create(getContext(), R.raw.n);
+                break;
+            case "o":
+            case "O":
+                pronounce = MediaPlayer.create(getContext(), R.raw.o);
+                break;
+            case "p":
+            case "P":
+                pronounce = MediaPlayer.create(getContext(), R.raw.p);
+                break;
+            case "q":
+            case "Q":
+                pronounce = MediaPlayer.create(getContext(), R.raw.q);
+                break;
+            case "r":
+            case "R":
+                pronounce = MediaPlayer.create(getContext(), R.raw.r);
+                break;
+            case "s":
+            case "S":
+                pronounce = MediaPlayer.create(getContext(), R.raw.s);
+                break;
+            case "t":
+            case "T":
+                pronounce = MediaPlayer.create(getContext(), R.raw.t);
+                break;
+            case "u":
+            case "U":
+                pronounce = MediaPlayer.create(getContext(), R.raw.u);
+                break;
+            case "v":
+            case "V":
+                pronounce = MediaPlayer.create(getContext(), R.raw.v);
+                break;
+            case "w":
+            case "W":
+                pronounce = MediaPlayer.create(getContext(), R.raw.w);
+                break;
+            case "x":
+            case "X":
+                pronounce = MediaPlayer.create(getContext(), R.raw.x);
+                break;
+            case "y":
+            case "Y":
+                pronounce = MediaPlayer.create(getContext(), R.raw.y);
+                break;
+            case "z":
+            case "Z":
+                pronounce = MediaPlayer.create(getContext(), R.raw.z);
+                break;
+        }
+    }
 
     public void KategoriAngka(){
         // get arguments from bundle in HomeActivity.
         Bundle bundle = getArguments();
+        // get bundle with key "Angka".
         int num = bundle.getInt("Angka");
+        // setText for category text view.
         txtCategory.setText(Integer.toString(num));
         switch(num){
             case 0:
@@ -154,15 +269,15 @@ public class CategoryActivity extends Fragment {
     public void KategoriHurufKecil(){
         Bundle bundle = getArguments();
         String[] charsLower = bundle.getStringArray("HurufKecil");
-        txtCategory.setText(charsLower[(int) (Math.random() * 10)]);
-        txtPronounce.setVisibility(View.GONE);
+        String charsDisplay = charsLower[(int) (Math.random() * 10)];
+        PronounceHurufHandler(charsDisplay);
     }
 
     public void KategoriHurufKapital(){
         Bundle bundle = getArguments();
         String[] charsUpper = bundle.getStringArray("HurufKapital");
-        txtCategory.setText(charsUpper[(int) (Math.random() * 10)]);
-        txtPronounce.setVisibility(View.GONE);
+        String charsDisplay = charsUpper[(int) (Math.random() * 10)];
+        PronounceHurufHandler(charsDisplay);
     }
 
     private void startCountdown(){
@@ -174,26 +289,18 @@ public class CategoryActivity extends Fragment {
                 updateCountdown();
             }
             @Override
-            public void onFinish() {timeLeftInMillis = 0;
+            public void onFinish() {
+                timeLeftInMillis = 0;
                 updateCountdown();
                 countDownTimer.cancel();
                 Log.d(TAG_TIMER, "countDownTimer:onFinish");
-                pronounce.stop();
-                Log.d(TAG_AUDIO, "pronounce:onDisable");
+                if(pronounce != null) {
+                    pronounce.stop();
+                    Log.d(TAG_AUDIO, "pronounce:onDisable");
+                }
                 showFragment(new ResultActivity(),R.id.fragment_container);
             }
         }.start();
-    }
-
-    public void showFragment(Fragment fragment, int fragmentResourceID) {
-        if (fragment != null) {
-            FragmentManager fragmentManager = this.getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(fragmentResourceID, fragment);
-            fragmentTransaction.detach(fragment);
-            fragmentTransaction.attach(fragment);
-            fragmentTransaction.commit();
-        }
     }
 
     private void updateCountdown(){
@@ -211,6 +318,17 @@ public class CategoryActivity extends Fragment {
             }
         } else {
             txtTimer.setTextColor(colorDefaultCountdown);
+        }
+    }
+
+    public void showFragment(Fragment fragment, int fragmentResourceID) {
+        if (fragment != null) {
+            FragmentManager fragmentManager = this.getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(fragmentResourceID, fragment);
+            fragmentTransaction.detach(fragment);
+            fragmentTransaction.attach(fragment);
+            fragmentTransaction.commit();
         }
     }
 
