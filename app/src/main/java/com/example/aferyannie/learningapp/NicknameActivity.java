@@ -46,7 +46,7 @@ public class NicknameActivity extends Fragment {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                skipNames();
+                showFragment(new HomeActivity(),R.id.fragment_container);
             }
         });
         return view;
@@ -54,13 +54,16 @@ public class NicknameActivity extends Fragment {
 
     private void saveNames() {
         String name = inputNames.getText().toString().trim();
-        Double score = 0.1;
+        // get arguments from bundle in ResultActivity.
+        Bundle bundle = getArguments();
+        // get bundle with key "Skor".
+        double c = bundle.getDouble("Skor");
         if (!TextUtils.isEmpty(name)) {
             // Define current time using epoch timestamp.
             Long now = System.currentTimeMillis();
 
             String id = databaseNames.push().getKey();
-            Name nickname = new Name(name, score, now);
+            Name nickname = new Name(name, c, now);
             databaseNames.child(id).setValue(nickname);
 
             // Initialize AlertDialog.
@@ -82,10 +85,6 @@ public class NicknameActivity extends Fragment {
             FancyToast.makeText(getContext(), "Isi nama untuk simpan skor.",
                    FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
         }
-    }
-
-    private void skipNames() {
-        showFragment(new HomeActivity(),R.id.fragment_container);
     }
 
     public void showFragment(Fragment fragment, int fragmentResourceID) {

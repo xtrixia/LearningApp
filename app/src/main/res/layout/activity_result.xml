@@ -21,34 +21,34 @@
         android:textColor="@color/com_facebook_messenger_blue"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/btnNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="29dp"
-        android:background="@android:color/transparent"
-        android:fontFamily="casual"
-        android:text="@string/next"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:textStyle="bold" />
-
     <TextView
         android:id="@+id/txtNyemangatin"
         android:layout_width="245dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnNext"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="18dp"
         android:layout_marginTop="18dp"
-        android:background="@drawable/textbox_black"
         android:fontFamily="cursive"
-        android:padding="12dp"
+        android:padding="10dp"
         android:text="Kerja bagus untuk mencapai skor segini. Ditingkatkan lagi ya!"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@android:color/black"
         android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/confusing_shape"
+        android:fontFamily="casual"
+        android:text="@string/next"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="@color/white"
         android:textStyle="bold" />
 
     <com.github.mikephil.charting.charts.PieChart

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -27,6 +28,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ResultActivity extends Fragment {
+    private Bundle bundle;
+
     FirebaseAuth mAuth;
     TextView txtNyemangatin;
     Button btnNext;
@@ -59,33 +62,31 @@ public class ResultActivity extends Fragment {
         PieChart chart = view.findViewById(R.id.chart);
         chart.setDescription(null);
         chart.setHoleColor(Color.TRANSPARENT);
+        chart.setTouchEnabled(false);
+        chart.setDrawEntryLabels(false);
 
         ArrayList<PieEntry> entries = new ArrayList<>();
-
-        double c = 7.6;
+        // Define score manually -> supposed to take from ML.
+        final double c = 7.6;
         double i = 10 - c;
-//        BigDecimal bigC = new BigDecimal(percentageCorrect);
-//        BigDecimal bigD = new BigDecimal(percentageIncorrect);
-//        bigC.floatValue();
-//        bigD.floatValue();
-
+        // Convert double into integer.
+        // MPAndroidCharts unable to use double value, must be float or int.
         int percentageCorrect = (int) Math.ceil(c * 10);
         int percentageIncorrect = (int) Math.floor(i * 10);
-
         entries.add(new PieEntry(percentageCorrect, "Poin yang didapat"));
         entries.add(new PieEntry(percentageIncorrect, "Sisa poin menuju sempurna"));
+
         PieDataSet pieDataSet = new PieDataSet(entries, null);
         pieDataSet.setSliceSpace(3);
         pieDataSet.setColors(ColorTemplate.PASTEL_COLORS);
         pieDataSet.setValueTextSize(12);
         pieDataSet.setValueTextColor(Color.WHITE);
+
         PieData pieData = new PieData(pieDataSet);
         pieData.setValueFormatter(new DecimalRemover(new DecimalFormat("###,###,###")));
         chart.setData(pieData);
-        chart.setTouchEnabled(false);
         chart.setCenterText(String.valueOf(percentageCorrect));
         chart.setCenterTextSize(32);
-        chart.setDrawEntryLabels(false);
 
         txtNyemangatin = (TextView) view.findViewById(R.id.txtNyemangatin); // nanti set tulisan sesuai hasil akurasi
         // x < 5 disuru latian lagi, 5 < x < 8 disuru ditingkatkan lagi, x > 8 disuru maintain dan rajin belajar
@@ -95,7 +96,10 @@ public class ResultActivity extends Fragment {
             @Override
             public void onClick(View view) {
                 if(user != null){
-                    showFragment(new NicknameActivity(),R.id.fragment_container);
+                    bundle = new Bundle();
+                    bundle.putDouble("Skor", c);
+                    NicknameActivity nicknameScore = new NicknameActivity();
+                    nextFragment(nicknameScore);
                 } else {
                     showFragment(new HomeActivity(), R.id.fragment_container);
                 }
@@ -113,5 +117,14 @@ public class ResultActivity extends Fragment {
             fragmentTransaction.attach(fragment);
             fragmentTransaction.commit();
         }
+    }
+
+    public void nextFragment(NicknameActivity nicknameScore){
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        nicknameScore = new NicknameActivity();
+        nicknameScore.setArguments(bundle);
+        fragmentTransaction.replace(R.id.fragment_container, nicknameScore);
+        fragmentTransaction.commit();
     }
 }
