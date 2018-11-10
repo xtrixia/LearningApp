@@ -31,8 +31,8 @@ public class NameList extends ArrayAdapter<Name>{
         LayoutInflater inflater = context.getLayoutInflater();
         View listViewItem = inflater.inflate(R.layout.list_layout,null, true);
 
-        TextView txtNames = (TextView) listViewItem.findViewById(R.id.txtNames);
-        TextView txtScores = (TextView) listViewItem.findViewById(R.id.txtScores);
+        TextView txtNames = listViewItem.findViewById(R.id.txtNames);
+        TextView txtScores = listViewItem.findViewById(R.id.txtScores);
 
         Name name = nameList.get(position);
         txtNames.setText(name.getName());

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightpurple"
-    tools:context="com.example.aferyannie.learningapp.LogoutActivity">
+    tools:context="com.example.aferyannie.learningapp.LogoutFragment">
 
     <Button
         android:id="@+id/btnLogout"

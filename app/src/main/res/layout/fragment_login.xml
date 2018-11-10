@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightpurple"
-    tools:context="com.example.aferyannie.learningapp.LoginActivity">
+    tools:context="com.example.aferyannie.learningapp.LoginFragment">
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/btnFacebook"

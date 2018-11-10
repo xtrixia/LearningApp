@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/lightpurple"
     android:padding="16dp"
-    tools:context="com.example.aferyannie.learningapp.HomeActivity">
+    tools:context="com.example.aferyannie.learningapp.HomeFragment">
 
     <TextView
         android:id="@+id/category"

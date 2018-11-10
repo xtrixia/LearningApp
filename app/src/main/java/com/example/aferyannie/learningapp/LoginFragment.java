@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -32,7 +31,7 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class LoginActivity extends Fragment {
+public class LoginFragment extends Fragment {
     private static final String TAG = "FACEBOOK_LOG";
 
     private CallbackManager mCallbackManager;
@@ -44,7 +43,7 @@ public class LoginActivity extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_login, null, false);
+        View view = inflater.inflate(R.layout.fragment_login, null, false);
 
         /** Initialize Firebase Auth. */
         mAuth = FirebaseAuth.getInstance();
@@ -52,7 +51,7 @@ public class LoginActivity extends Fragment {
         /** Initialize Facebook Login Button. */
         mCallbackManager = CallbackManager.Factory.create();
 
-        loginButton = (Button) view.findViewById(R.id.btnLogin);
+        loginButton = view.findViewById(R.id.btnLogin);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,7 +59,7 @@ public class LoginActivity extends Fragment {
             }
         });
 
-        btnFacebook = (LoginButton) view.findViewById(R.id.btnFacebook);
+        btnFacebook = view.findViewById(R.id.btnFacebook);
         btnFacebook.setReadPermissions("email", "public_profile");
         btnFacebook.setFragment(this);
         btnFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
@@ -114,7 +113,7 @@ public class LoginActivity extends Fragment {
                 .into(navbarImageView);
 
         getFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new LogoutActivity()).commit();
+                new LogoutFragment()).commit();
     }
 
     @Override
@@ -130,7 +129,7 @@ public class LoginActivity extends Fragment {
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(LoginActivity.this.getActivity(), new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(LoginFragment.this.getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {

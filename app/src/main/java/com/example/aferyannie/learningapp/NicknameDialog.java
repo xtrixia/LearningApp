@@ -1,31 +1,29 @@
 package com.example.aferyannie.learningapp;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
+import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
-public class NicknameActivity extends Fragment {
-    DatabaseReference databaseNames;
+public class NicknameActivity extends DialogFragment {
+    private static final String TAG = NicknameActivity.class.getSimpleName();
 
+    DatabaseReference databaseNames;
     EditText inputNames;
-    Button btnNames;
-    Button btnSkip;
+    TextView btnNames, btnSkip;
 
     @Nullable
     @Override
@@ -33,9 +31,9 @@ public class NicknameActivity extends Fragment {
         View view = inflater.inflate(R.layout.activity_nickname, null, false);
 
         databaseNames = FirebaseDatabase.getInstance().getReference("scoreboard");
-        inputNames = (EditText) view.findViewById(R.id.inputNames);
-        btnNames = (Button) view.findViewById(R.id.btnNames);
-        btnSkip = (Button) view.findViewById(R.id.btnSkip);
+        inputNames = view.findViewById(R.id.inputNames);
+        btnNames = view.findViewById(R.id.btnNames);
+        btnSkip = view.findViewById(R.id.btnSkip);
 
         btnNames.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +44,12 @@ public class NicknameActivity extends Fragment {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showFragment(new HomeActivity(),R.id.fragment_container);
+                Log.d(TAG, "NicknameDialog: onSkip inserted data");
+                FancyToast.makeText(getContext(), "Anda memilih untuk tidak menyimpan skor.",
+                        FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+
+                getDialog().dismiss();
+                showFragment(new HomeFragment(),R.id.fragment_container);
             }
         });
         return view;
@@ -59,29 +62,21 @@ public class NicknameActivity extends Fragment {
         // get bundle with key "Skor".
         double c = bundle.getDouble("Skor");
         if (!TextUtils.isEmpty(name)) {
-            // Define current time using epoch timestamp.
-            Long now = System.currentTimeMillis();
+                // Define current time using epoch timestamp.
+                Long now = System.currentTimeMillis();
 
-            String id = databaseNames.push().getKey();
-            Name nickname = new Name(name, c, now);
-            databaseNames.child(id).setValue(nickname);
+                String id = databaseNames.push().getKey();
+                Name nickname = new Name(name, c, now);
+                databaseNames.child(id).setValue(nickname);
 
-            // Initialize AlertDialog.
-            AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-            // Setting Dialog Title.
-            alertDialog.setTitle("Berhasil");
-            // Setting Dialog Message.
-            alertDialog.setMessage("Skor telah sukses disimpan. Jangan lupa cek papan skor ya!");
-            // Setting OK Button.
-            alertDialog.setButton(Dialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    inputNames.setSelection(0);
-                }
-            });
-            alertDialog.show();
+                Log.d(TAG, "NicknameDialog: onSuccess inserted data");
+                FancyToast.makeText(getContext(), "Skor telah sukses disimpan. Jangan lupa cek papan skor ya!",
+                        FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
 
-            showFragment(new HomeActivity(),R.id.fragment_container);
+                getDialog().dismiss();
+                showFragment(new HomeFragment(), R.id.fragment_container);
         } else {
+            Log.d(TAG, "NicknameDialog: onRetry fulfilled data");
             FancyToast.makeText(getContext(), "Isi nama untuk simpan skor.",
                    FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
         }

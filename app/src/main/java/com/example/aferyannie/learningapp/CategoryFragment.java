@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.Locale;
-import java.util.Random;
 
 /**
 * Do not forget to set!
@@ -27,7 +26,7 @@ import java.util.Random;
 * (90 seconds).
 * */
 
-public class CategoryActivity extends Fragment {
+public class CategoryFragment extends Fragment {
     private static final long COUNTDOWN_IN_MILLIS = 16000; // lebihin satu detik (trial)
     private static final String TAG_AUDIO = "AUDIO_LOG";
     private static final String TAG_TIMER = "TIMER_LOG";
@@ -46,15 +45,15 @@ public class CategoryActivity extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_category, null, false);
+        View view = inflater.inflate(R.layout.fragment_category, null, false);
 
         if(MainActivity.main_menu.isPlaying()){
             MainActivity.main_menu.pause();
             Log.d(TAG_AUDIO, "main_menu:onPause");
         }
 
-        txtCategory = (TextView) view.findViewById(R.id.txtCategory);
-        txtPronounce = (TextView) view.findViewById(R.id.txtPronounce);
+        txtCategory = view.findViewById(R.id.txtCategory);
+        txtPronounce = view.findViewById(R.id.txtPronounce);
 
         Bundle bundle = getArguments();
         if(bundle != null){
@@ -67,7 +66,7 @@ public class CategoryActivity extends Fragment {
             }
         }
 
-        btnSound = (Button) view.findViewById(R.id.btnSound);
+        btnSound = view.findViewById(R.id.btnSound);
         Log.d(TAG_AUDIO, "pronounce:onEnable");
         btnSound.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +77,7 @@ public class CategoryActivity extends Fragment {
                 SoundClick();
             }
         });
-        txtTimer = (TextView) view.findViewById(R.id.txtTimer);
+        txtTimer = view.findViewById(R.id.txtTimer);
         colorDefaultCountdown = txtTimer.getTextColors();
 
         timeLeftInMillis = COUNTDOWN_IN_MILLIS;
@@ -215,7 +214,7 @@ public class CategoryActivity extends Fragment {
     }
 
     public void KategoriAngka(){
-        // get arguments from bundle in HomeActivity.
+        // get arguments from bundle in HomeFragment.
         Bundle bundle = getArguments();
         // get bundle with key "Angka".
         int num = bundle.getInt("Angka");
@@ -298,7 +297,7 @@ public class CategoryActivity extends Fragment {
                     pronounce.stop();
                     Log.d(TAG_AUDIO, "pronounce:onDisable");
                 }
-                showFragment(new ResultActivity(),R.id.fragment_container);
+                showFragment(new ResultFragment(),R.id.fragment_container);
             }
         }.start();
     }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightpurple"
-    tools:context="com.example.aferyannie.learningapp.ScoreboardActivity">
+    tools:context="com.example.aferyannie.learningapp.ScoreboardFragment">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -27,7 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ResultActivity extends Fragment {
+public class ResultActivity extends Fragment{
     private Bundle bundle;
 
     FirebaseAuth mAuth;
@@ -66,7 +65,7 @@ public class ResultActivity extends Fragment {
         chart.setDrawEntryLabels(false);
 
         ArrayList<PieEntry> entries = new ArrayList<>();
-        // Define score manually -> supposed to take from ML.
+        // TODO: Define score manually -> supposed to take from ML.
         final double c = 7.6;
         double i = 10 - c;
         // Convert double into integer.
@@ -88,20 +87,23 @@ public class ResultActivity extends Fragment {
         chart.setCenterText(String.valueOf(percentageCorrect));
         chart.setCenterTextSize(32);
 
-        txtNyemangatin = (TextView) view.findViewById(R.id.txtNyemangatin); // nanti set tulisan sesuai hasil akurasi
+        txtNyemangatin = view.findViewById(R.id.txtNyemangatin);
+        // TODO: set tulisan sesuai hasil akurasi
         // x < 5 disuru latian lagi, 5 < x < 8 disuru ditingkatkan lagi, x > 8 disuru maintain dan rajin belajar
 
-        btnNext = (Button) view.findViewById(R.id.btnNext);
+        btnNext = view.findViewById(R.id.btnNext);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(user != null){
                     bundle = new Bundle();
                     bundle.putDouble("Skor", c);
-                    NicknameActivity nicknameScore = new NicknameActivity();
-                    nextFragment(nicknameScore);
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    NicknameDialog nicknameScore = new NicknameDialog();
+                    nicknameScore.setArguments(bundle);
+                    nicknameScore.show(fragmentManager, "NicknameDialog");
                 } else {
-                    showFragment(new HomeActivity(), R.id.fragment_container);
+                    showFragment(new HomeFragment(), R.id.fragment_container);
                 }
             }
         });
@@ -119,12 +121,4 @@ public class ResultActivity extends Fragment {
         }
     }
 
-    public void nextFragment(NicknameActivity nicknameScore){
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        nicknameScore = new NicknameActivity();
-        nicknameScore.setArguments(bundle);
-        fragmentTransaction.replace(R.id.fragment_container, nicknameScore);
-        fragmentTransaction.commit();
-    }
 }

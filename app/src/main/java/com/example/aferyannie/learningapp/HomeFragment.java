@@ -12,17 +12,17 @@ import android.widget.Button;
 
 import java.util.Random;
 
-public class HomeActivity extends Fragment implements View.OnClickListener {
+public class HomeFragment extends Fragment implements View.OnClickListener {
     private Bundle bundle;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_home, null, false);
+        View view = inflater.inflate(R.layout.fragment_home, null, false);
 
-        Button btnStart = (Button) view.findViewById(R.id.btnStart);
-        Button btnStart1 = (Button) view.findViewById(R.id.btnStart1);
-        Button btnStart2 = (Button) view.findViewById(R.id.btnStart2);
+        Button btnStart = view.findViewById(R.id.btnStart);
+        Button btnStart1 = view.findViewById(R.id.btnStart1);
+        Button btnStart2 = view.findViewById(R.id.btnStart2);
 
         btnStart.setOnClickListener(this);
         btnStart1.setOnClickListener(this);
@@ -40,7 +40,7 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
                 Random randInt = new Random();
                 int num = randInt.nextInt(10);
                 bundle.putInt("Angka", num);
-                CategoryActivity categoryAngka = new CategoryActivity();
+                CategoryFragment categoryAngka = new CategoryFragment();
                 nextFragment(categoryAngka);
                 break;
             /** Button for alphabets_upper. */
@@ -49,7 +49,7 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
                 "A","B","C","D","E","F","G","H","I","J","K","L","M",
                 "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
                 bundle.putStringArray("HurufKapital", charsUpper);
-                CategoryActivity categoryHurufKapital = new CategoryActivity();
+                CategoryFragment categoryHurufKapital = new CategoryFragment();
                 nextFragment(categoryHurufKapital);
                 break;
             /** Button for alphabets_lower. */
@@ -58,16 +58,16 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
                 "a","b","c","d","e","f","g","h","i","j","k","l","m",
                 "n","o","p","q","r","s","t","u","v","w","x","y","z"};
                 bundle.putStringArray("HurufKecil", charsLower);
-                CategoryActivity categoryHurufKecil = new CategoryActivity();
+                CategoryFragment categoryHurufKecil = new CategoryFragment();
                 nextFragment(categoryHurufKecil);
                 break;
         }
     }
 
-    public void nextFragment(CategoryActivity category){
+    public void nextFragment(CategoryFragment category){
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        category = new CategoryActivity();
+        category = new CategoryFragment();
         category.setArguments(bundle);
         fragmentTransaction.replace(R.id.fragment_container, category);
         fragmentTransaction.commit();

@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Set home screen.
         if(savedInstanceState == null){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new HomeActivity()).commit();
+                    new HomeFragment()).commit();
         }
 
     }
@@ -104,16 +104,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // NavigationBar HomeScreen.
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new HomeActivity()).commit();
+                        new HomeFragment()).commit();
                 break;
             // NavigationBar LoginLogout.
             case R.id.nav_login_logout:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new LoginActivity()).commit();
+                        new LoginFragment()).commit();
                 break;
             // NavigationBar Scoreboard.
             case R.id.nav_scoreboard:
-                showFragment(new ScoreboardActivity(),R.id.fragment_container);
+                showFragment(new ScoreboardFragment(),R.id.fragment_container);
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
