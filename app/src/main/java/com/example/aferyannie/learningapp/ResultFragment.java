@@ -26,7 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ResultActivity extends Fragment{
+public class ResultFragment extends Fragment{
     private Bundle bundle;
 
     FirebaseAuth mAuth;
@@ -50,7 +50,7 @@ public class ResultActivity extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_result, null, false);
+        View view = inflater.inflate(R.layout.fragment_result, null, false);
 
         /** Initialize Firebase Auth. */
         mAuth = FirebaseAuth.getInstance();

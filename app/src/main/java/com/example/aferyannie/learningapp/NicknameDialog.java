@@ -18,8 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
-public class NicknameActivity extends DialogFragment {
-    private static final String TAG = NicknameActivity.class.getSimpleName();
+public class NicknameDialog extends DialogFragment {
+    private static final String TAG = NicknameDialog.class.getSimpleName();
 
     DatabaseReference databaseNames;
     EditText inputNames;
@@ -28,7 +28,7 @@ public class NicknameActivity extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_nickname, null, false);
+        View view = inflater.inflate(R.layout.dialog_nickname, null, false);
 
         databaseNames = FirebaseDatabase.getInstance().getReference("scoreboard");
         inputNames = view.findViewById(R.id.inputNames);
@@ -57,7 +57,7 @@ public class NicknameActivity extends DialogFragment {
 
     private void saveNames() {
         String name = inputNames.getText().toString().trim();
-        // get arguments from bundle in ResultActivity.
+        // get arguments from bundle in ResultFragment.
         Bundle bundle = getArguments();
         // get bundle with key "Skor".
         double c = bundle.getDouble("Skor");
