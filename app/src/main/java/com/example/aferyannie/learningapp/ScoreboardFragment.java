@@ -3,27 +3,29 @@ package com.example.aferyannie.learningapp;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ScoreboardFragment extends Fragment {
+    private static final String TAG = ScoreboardFragment.class.getSimpleName();
     DatabaseReference databaseNames;
 
-    // Define listView scoreboard.
+    /** Define listView scoreboard. */
     ListView listViewScores;
     List<Name> nameList;
 
@@ -42,30 +44,41 @@ public class ScoreboardFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(currentUser == null){
-            FancyToast.makeText(getContext(), "Untuk melihat papan skor, anda harus masuk terlebih dahulu.",
-                    FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
-        } else {
-            databaseNames.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    nameList.clear();
-                    for (DataSnapshot scoreSnapshot : dataSnapshot.getChildren()) {
-                        Name name = scoreSnapshot.getValue(Name.class);
-                        nameList.add(name);
-                    }
-                    NameList adapter = new NameList(getActivity(), nameList);
-                    listViewScores.setAdapter(adapter);
+        Log.d(TAG, "listViewScores: onFetch");
+        databaseNames.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                nameList.clear();
+                for (DataSnapshot scoreSnapshot : dataSnapshot.getChildren()) {
+                    Name name = scoreSnapshot.getValue(Name.class);
+                    nameList.add(name);
                 }
+                NameList adapter = new NameList(getActivity(), nameList);
+                listViewScores.setAdapter(adapter);
+            }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
-        }
+            }
+        });
+        /** Create onClick listener for each item. */
+        listViewScores.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                showFragment(new DetailFragment(),R.id.fragment_container);
+            }
+        });
     }
 
+    public void showFragment(Fragment fragment, int fragmentResourceID) {
+        if (fragment != null) {
+            FragmentManager fragmentManager = this.getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(fragmentResourceID, fragment);
+            fragmentTransaction.detach(fragment);
+            fragmentTransaction.attach(fragment);
+            fragmentTransaction.commit();
+        }
+    }
 }
