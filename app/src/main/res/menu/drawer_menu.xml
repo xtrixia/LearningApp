@@ -6,9 +6,9 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
+            android:checked="true"
             android:icon="@drawable/ic_home"
-            android:title="@string/home"
-            android:checked="true"/>
+            android:title="@string/home" />
         <item
             android:id="@+id/nav_login_logout"
             android:icon="@drawable/ic_login_logout"
@@ -17,7 +17,7 @@
             android:id="@+id/nav_scoreboard"
             android:icon="@drawable/ic_scoreboard"
             android:title="@string/scoreboard"
-            android:visible="true"/>
+            android:visible="true" />
     </group>
 
 </menu>

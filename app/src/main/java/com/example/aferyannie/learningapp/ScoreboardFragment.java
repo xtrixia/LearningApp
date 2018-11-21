@@ -20,7 +20,7 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScoreboardActivity extends Fragment {
+public class ScoreboardFragment extends Fragment {
     DatabaseReference databaseNames;
 
     // Define listView scoreboard.
@@ -30,10 +30,10 @@ public class ScoreboardActivity extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_scoreboard,null,false);
+        View view = inflater.inflate(R.layout.fragment_scoreboard,null,false);
 
         databaseNames = FirebaseDatabase.getInstance().getReference("scoreboard");
-        listViewScores = (ListView) view.findViewById(R.id.listViewScores);
+        listViewScores = view.findViewById(R.id.listViewScores);
         nameList = new ArrayList<>();
 
         return view;

@@ -6,7 +6,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -41,13 +41,13 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".ScoreboardActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".NicknameActivity" />
-        <activity android:name=".LogoutActivity" />
-        <activity android:name=".CategoryActivity" />
-        <activity android:name=".ResultActivity"></activity>
+        <activity android:name=".LoginFragment" />
+        <activity android:name=".ScoreboardFragment" />
+        <activity android:name=".HomeFragment" />
+        <activity android:name=".NicknameDialog" />
+        <activity android:name=".LogoutFragment" />
+        <activity android:name=".CategoryFragment" />
+        <activity android:name=".ResultFragment"></activity>
     </application>
 
 </manifest>

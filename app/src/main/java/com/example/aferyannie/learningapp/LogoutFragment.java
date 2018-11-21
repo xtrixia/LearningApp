@@ -1,6 +1,7 @@
 package com.example.aferyannie.learningapp;
 
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,14 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
-public class LogoutActivity extends Fragment {
+public class LogoutFragment extends Fragment {
     private static final String TAG = "FACEBOOK_LOG";
 
     private FirebaseAuth mAuth;
@@ -28,13 +28,13 @@ public class LogoutActivity extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_logout, null, false);
+        View view = inflater.inflate(R.layout.fragment_logout, null, false);
 
         /** Initialize Firebase Auth. */
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        logoutButton = (Button) view.findViewById(R.id.btnLogout);
+        logoutButton = view.findViewById(R.id.btnLogout);
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,7 +66,9 @@ public class LogoutActivity extends Fragment {
         TextView navbarEmail = getActivity().findViewById(R.id.email);
         ImageView navbarImageView = getActivity().findViewById(R.id.displaypicture);
 
-        MainActivity.scoreboard.setVisible(false);
+        NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
+        // Set NavigationBar scoreboard invisible.
+        navigationView.getMenu().getItem(2).setVisible(false);
 
         navbarEmail.setVisibility(View.INVISIBLE);
 
@@ -74,6 +76,6 @@ public class LogoutActivity extends Fragment {
         navbarImageView.setImageResource(R.drawable.emoji_blank);
 
         getFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new LoginActivity()).commit();
+                new LoginFragment()).commit();
     }
 }

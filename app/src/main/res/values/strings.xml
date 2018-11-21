@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Belajar Menulis Anak</string>
+    <string name="app_name">Yuk! Menulis</string>
     <string name="nickname">Nama Panggilan</string>
     <string name="start">Mulai</string>
     <string name="save">Simpan</string>
@@ -20,7 +20,10 @@
     <string name="scoreboard">Papan Skor</string>
     <string name="home">Beranda</string>
     <string name="accuracy_score">Akurasi Skor</string>
-    <string name="next">Lanjut</string>
+    <string name="next">OK</string>
     <string name="guest">Pengguna</string>
     <string name="facebook_logout">Keluar dari Facebook</string>
+    <string name="ok">OK</string>
+    <string name="heading_dialog">Simpan Skor</string>
+    <string name="back">Kembali</string>
 </resources>

@@ -1,51 +1,44 @@
 package com.example.aferyannie.learningapp;
 
 import android.support.annotation.Nullable;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-public class ResultActivity extends Fragment {
-    FirebaseAuth mAuth;
-    TextView txtNyemangatin;
-    Button btnNext;
+public class DetailFragment extends Fragment {
+    Button btnBack;
+    ImageView img;
+    TextView txtNames, txtTimestamp, txtScores;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_result, null, false);
+        View view = inflater.inflate(R.layout.fragment_detail, null, false);
 
-        /** Initialize Firebase Auth. */
-        mAuth = FirebaseAuth.getInstance();
-        final FirebaseUser user = mAuth.getCurrentUser();
-
-        txtNyemangatin = (TextView) view.findViewById(R.id.txtNyemangatin); // nanti set tulisan sesuai hasil akurasi
-        // x < 5 disuru latian lagi, 5 < x < 8 disuru ditingkatkan lagi, x > 8 disuru maintain dan rajin belajar
-
-        btnNext = (Button) view.findViewById(R.id.btnNext);
-        if(user == null){
-            btnNext.setText("Ok");
-        }
-
-        btnNext.setOnClickListener(new View.OnClickListener() {
+        img = view.findViewById(R.id.img);
+        btnBack = view.findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(user != null){
-                    showFragment(new NicknameActivity(),R.id.fragment_container);
-                } else {
-                    showFragment(new HomeActivity(), R.id.fragment_container);
-                }
+                showFragment(new ScoreboardFragment(), R.id.fragment_container);
             }
         });
+
+        txtNames = view.findViewById(R.id.txtNames);
+        txtScores = view.findViewById(R.id.txtScores);
+        txtTimestamp = view.findViewById(R.id.txtTimestamp);
+
+        /** Set all value based on the clicked item. */
+
         return view;
     }
 

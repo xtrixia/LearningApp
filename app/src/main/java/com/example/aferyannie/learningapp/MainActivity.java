@@ -13,10 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,8 +26,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private static final String TAG_AUDIO = "AUDIO_LOG";
     private DrawerLayout drawer;
-    public static MenuItem scoreboard;
-
     protected static MediaPlayer main_menu;
 
     @Override
@@ -47,8 +43,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        // Set NavigationBar scoreboard invisible.
+        navigationView.getMenu().getItem(2).setVisible(false);
         View headerView = navigationView.getHeaderView(0);
         navigationView.getMenu().getItem(2).setVisible(false);
+
 
 
         drawer = findViewById(R.id.drawer_layout);
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Set home screen.
         if(savedInstanceState == null){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new HomeActivity()).commit();
+                    new HomeFragment()).commit();
         }
 
     }
@@ -83,18 +82,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         CircleImageView imageView = this.findViewById(R.id.displaypicture);
         TextView nickname = this.findViewById(R.id.nickname);
         TextView email = this.findViewById(R.id.email);
+        NavigationView navigationView = this.findViewById(R.id.nav_view);
 
         if(currentUser != null) {
+            // Set NavigationBar scoreboard visible.
+            navigationView.getMenu().getItem(2).setVisible(true);
             email.setVisibility(View.VISIBLE);
-            
+
             nickname.setText(currentUser.getDisplayName());
             email.setText(currentUser.getEmail());
             /** Load facebook display picture using Picasso library. */
             Picasso.get()
-                .load(currentUser.getPhotoUrl().toString())
-                .resize(65, 65)
-                .centerCrop()
-                .into(imageView);
+                    .load(currentUser.getPhotoUrl().toString())
+                    .resize(65, 65)
+                    .centerCrop()
+                    .into(imageView);
         }
     }
 
@@ -104,16 +106,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // NavigationBar HomeScreen.
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new HomeActivity()).commit();
+                        new HomeFragment()).commit();
                 break;
             // NavigationBar LoginLogout.
             case R.id.nav_login_logout:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new LoginActivity()).commit();
+                        new LoginFragment()).commit();
                 break;
             // NavigationBar Scoreboard.
             case R.id.nav_scoreboard:
-                showFragment(new ScoreboardActivity(),R.id.fragment_container);
+                showFragment(new ScoreboardFragment(),R.id.fragment_container);
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

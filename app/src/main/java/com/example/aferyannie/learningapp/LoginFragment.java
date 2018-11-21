@@ -32,7 +32,7 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class LoginActivity extends Fragment {
+public class LoginFragment extends Fragment {
     private static final String TAG = "FACEBOOK_LOG";
 
     private CallbackManager mCallbackManager;
@@ -44,7 +44,7 @@ public class LoginActivity extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_login, null, false);
+        View view = inflater.inflate(R.layout.fragment_login, null, false);
 
         /** Initialize Firebase Auth. */
         mAuth = FirebaseAuth.getInstance();
@@ -52,7 +52,7 @@ public class LoginActivity extends Fragment {
         /** Initialize Facebook Login Button. */
         mCallbackManager = CallbackManager.Factory.create();
 
-        loginButton = (Button) view.findViewById(R.id.btnLogin);
+        loginButton = view.findViewById(R.id.btnLogin);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,7 +60,7 @@ public class LoginActivity extends Fragment {
             }
         });
 
-        btnFacebook = (LoginButton) view.findViewById(R.id.btnFacebook);
+        btnFacebook = view.findViewById(R.id.btnFacebook);
         btnFacebook.setReadPermissions("email", "public_profile");
         btnFacebook.setFragment(this);
         btnFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
@@ -99,6 +99,7 @@ public class LoginActivity extends Fragment {
         CircleImageView navbarImageView = getActivity().findViewById(R.id.displaypicture);
 
         NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
+        // Set NavigationBar scoreboard visible.
         navigationView.getMenu().getItem(2).setVisible(true);
 
         navbarEmail.setVisibility(View.VISIBLE);
@@ -113,7 +114,7 @@ public class LoginActivity extends Fragment {
                 .into(navbarImageView);
 
         getFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new LogoutActivity()).commit();
+                new LogoutFragment()).commit();
     }
 
     @Override
@@ -129,28 +130,28 @@ public class LoginActivity extends Fragment {
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
-            .addOnCompleteListener(LoginActivity.this.getActivity(), new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        Log.d(TAG, "signInWithCredential:success");
+                .addOnCompleteListener(LoginFragment.this.getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "signInWithCredential:success");
 
-                        loginButton.setEnabled(true);
+                            loginButton.setEnabled(true);
 
-                        FancyToast.makeText(getContext(), "Anda berhasil masuk menggunakan Facebook.",
-                               FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                            FancyToast.makeText(getContext(), "Anda berhasil masuk menggunakan Facebook.",
+                                    FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
 
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        updateUI(user);
-                    } else {
-                        Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
 
-                        loginButton.setEnabled(true);
+                            loginButton.setEnabled(true);
 
-                        FancyToast.makeText(getContext(), "Anda gagal masuk menggunakan Facebook.",
-                               FancyToast.LENGTH_SHORT, FancyToast.CONFUSING, false).show();
+                            FancyToast.makeText(getContext(), "Anda gagal masuk menggunakan Facebook.",
+                                    FancyToast.LENGTH_SHORT, FancyToast.CONFUSING, false).show();
+                        }
                     }
-                }
-            });
+                });
     }
 }

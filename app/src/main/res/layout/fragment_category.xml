@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightpurple"
-    tools:context="com.example.aferyannie.learningapp.CategoryActivity">
+    tools:context="com.example.aferyannie.learningapp.CategoryFragment">
 
     <TextView
         android:id="@+id/txtTimer"
@@ -15,6 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="32dp"
         android:text="@string/timer"
+        android:textAlignment="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textColor="@android:color/black" />
 
@@ -24,21 +25,34 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="75dp"
-        android:text="KATEGORI"
+        android:layout_marginTop="50dp"
         android:fontFamily="casual"
-        android:textStyle="bold"
+        android:text="KATEGORI"
         android:textAlignment="center"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textColor="@color/com_facebook_button_background_color"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtPronounce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtCategory"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:fontFamily="casual"
+        android:text="Ejaan"
+        android:textAlignment="center"
+        android:textColor="#fafafa"
+        android:textSize="16dp" />
 
     <Button
         android:id="@+id/btnSound"
         android:layout_width="45dp"
         android:layout_height="40dp"
-        android:layout_below="@+id/txtCategory"
+        android:layout_below="@+id/txtPronounce"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="4dp"
         android:background="@android:drawable/ic_lock_silent_mode_off" />
 
 </RelativeLayout>
