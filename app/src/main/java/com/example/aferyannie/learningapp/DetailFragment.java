@@ -36,10 +36,14 @@ public class DetailFragment extends Fragment {
             }
         });
 
+        Name data = (Name) getArguments().getSerializable("data");
+
         txtNames = view.findViewById(R.id.txtNames);
         txtScores = view.findViewById(R.id.txtScores);
         txtTimestamp = view.findViewById(R.id.txtTimestamp);
 
+        txtNames.setText(data.getName());
+        txtScores.setText(data.getScore().toString());
         /** Set all value based on the clicked item. */
 
         return view;

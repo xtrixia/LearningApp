@@ -1,10 +1,12 @@
 package com.example.aferyannie.learningapp;
 
+import java.io.Serializable;
+
 /**
  * Created by aferyannie on 04/10/18.
  */
 
-public class Name {
+public class Name implements Serializable {
 //    private String nameId;
     private String name;
     private Double score;
