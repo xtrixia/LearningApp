@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class DetailFragment extends Fragment {
     private static final String TAG = DetailFragment.class.getSimpleName();
 
@@ -25,7 +28,7 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, null, false);
 
-        Log.d(TAG, "FirebaseDatabase: onRetrieve");
+        Log.d(TAG, "FirebaseDatabase: onRetrieve detail data");
 
         img = view.findViewById(R.id.img);
         btnBack = view.findViewById(R.id.btnBack);
@@ -36,15 +39,23 @@ public class DetailFragment extends Fragment {
             }
         });
 
-        Name data = (Name) getArguments().getSerializable("data");
+//        Name data = (Name) getArguments().getSerializable("data");
+        Name data = (Name) getArguments().getParcelable("Detail");
 
         txtNames = view.findViewById(R.id.txtNames);
         txtScores = view.findViewById(R.id.txtScores);
         txtTimestamp = view.findViewById(R.id.txtTimestamp);
 
-        txtNames.setText(data.getName());
-        txtScores.setText(data.getScore().toString());
         /** Set all value based on the clicked item. */
+        txtNames.setText(data.getName());
+//        txtScores.setText(data.getScore().toString());
+        txtScores.setText(String.format(data.getScore().toString(), "%d"));
+
+        Long epoch = data.getCreated_at(); // Get created_at from Firebase.
+        Date date = new Date(epoch); // Implement epoch to Date.
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); // Set format date.
+        String formattedDate = sdf.format(date);
+        txtTimestamp.setText(formattedDate);
 
         return view;
     }

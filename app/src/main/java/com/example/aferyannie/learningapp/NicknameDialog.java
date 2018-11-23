@@ -46,7 +46,7 @@ public class NicknameDialog extends DialogFragment {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "inputName: onSkip");
+                Log.d(TAG, "inputName: onSkip save data");
                 FancyToast.makeText(getContext(), "Anda memilih untuk tidak menyimpan skor.",
                         FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
 
@@ -81,11 +81,11 @@ public class NicknameDialog extends DialogFragment {
                 showFragment(new HomeFragment(), R.id.fragment_container);
         } else if(name.length() > 10){
             inputName.setError("Nama mu terlalu panjang");
-            Log.d(TAG, "inputName: onPending inserted data");
+            Log.d(TAG, "inputName: onPending insert data");
             return;
         } else {
             inputName.setError("Isi nama untuk simpan skor");
-            Log.d(TAG, "inputName: onPending inserted data");
+            Log.d(TAG, "inputName: onPending insert data");
         }
     }
 

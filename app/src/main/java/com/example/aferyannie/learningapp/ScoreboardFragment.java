@@ -67,15 +67,17 @@ public class ScoreboardFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 showFragment(new DetailFragment(),R.id.fragment_container,nameList.get(i));
+                Log.d(TAG, "listViewScores: onItemClick index " + i);
             }
         });
     }
 
-    public void showFragment(Fragment fragment, int fragmentResourceID,Name data) {
+    public void showFragment(Fragment fragment, int fragmentResourceID, Name data) {
         if (fragment != null) {
             FragmentManager fragmentManager = this.getFragmentManager();
             Bundle bundle = new Bundle();
-            bundle.putSerializable("data",data);
+//            bundle.putSerializable("data",data);
+            bundle.putParcelable("Detail", data);
             fragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentResourceID, fragment);
