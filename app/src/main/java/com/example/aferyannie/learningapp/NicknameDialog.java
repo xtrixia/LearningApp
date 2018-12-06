@@ -59,10 +59,8 @@ public class NicknameDialog extends DialogFragment {
 
     private void saveNames() {
         String name = inputName.getEditText().getText().toString().trim();
-        // get arguments from bundle in ResultFragment.
-        Bundle bundle = getArguments();
-        // get bundle with key "Skor".
-        double c = bundle.getDouble("Skor");
+        Bundle bundle = getArguments(); // Get arguments from bundle in ResultFragment.
+        double c = bundle.getDouble("Skor"); // Get bundle with key "Skor".
         if (!TextUtils.isEmpty(name) && name.length() <= 10) {
                 inputName.setError(null);
 
@@ -72,6 +70,10 @@ public class NicknameDialog extends DialogFragment {
                 String id = databaseNames.push().getKey();
                 Name nickname = new Name(name, c, now);
                 databaseNames.child(id).setValue(nickname);
+
+                // Logging value to be passed.
+                Log.d(TAG, name);
+                Log.d(TAG, now.toString());
 
                 Log.d(TAG, "inputName: onSuccess");
                 FancyToast.makeText(getContext(), "Skor telah sukses disimpan. Jangan lupa cek papan skor ya!",

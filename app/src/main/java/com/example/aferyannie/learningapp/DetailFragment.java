@@ -39,8 +39,7 @@ public class DetailFragment extends Fragment {
             }
         });
 
-//        Name data = (Name) getArguments().getSerializable("data");
-        Name data = (Name) getArguments().getParcelable("Detail");
+        Name data = (Name) getArguments().getSerializable("data");
 
         txtNames = view.findViewById(R.id.txtNames);
         txtScores = view.findViewById(R.id.txtScores);
@@ -48,7 +47,6 @@ public class DetailFragment extends Fragment {
 
         /** Set all value based on the clicked item. */
         txtNames.setText(data.getName());
-//        txtScores.setText(data.getScore().toString());
         txtScores.setText(String.format(data.getScore().toString(), "%d"));
 
         Long epoch = data.getCreated_at(); // Get created_at from Firebase.

@@ -76,8 +76,7 @@ public class ScoreboardFragment extends Fragment {
         if (fragment != null) {
             FragmentManager fragmentManager = this.getFragmentManager();
             Bundle bundle = new Bundle();
-//            bundle.putSerializable("data",data);
-            bundle.putParcelable("Detail", data);
+            bundle.putSerializable("data",data);
             fragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentResourceID, fragment);
