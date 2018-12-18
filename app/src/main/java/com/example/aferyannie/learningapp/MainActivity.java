@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.getMenu().getItem(2).setVisible(false);
         View headerView = navigationView.getHeaderView(0);
 
-
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
@@ -71,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
         }
-
     }
 
     public void loadUserInformation(){
@@ -149,4 +147,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.d(TAG_AUDIO, "main_menu:onDestroy");
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        main_menu.start();
+        Log.d(TAG_AUDIO, "main_menu:onResume via Home Screen");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(main_menu.isPlaying()){
+            main_menu.pause();
+            Log.d(TAG_AUDIO, "main_menu:onPause via Home Screen");
+        }
+    }
+
+
 }

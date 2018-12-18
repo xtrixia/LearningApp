@@ -41,13 +41,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginFragment" />
-        <activity android:name=".ScoreboardFragment" />
-        <activity android:name=".HomeFragment" />
-        <activity android:name=".NicknameDialog" />
-        <activity android:name=".LogoutFragment" />
-        <activity android:name=".CategoryFragment" />
-        <activity android:name=".ResultFragment"></activity>
+        <activity android:name=".DetailFragment"></activity>
     </application>
 
 </manifest>
