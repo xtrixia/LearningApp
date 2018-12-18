@@ -31,6 +31,8 @@ public class NicknameDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_nickname, null, false);
 
         databaseNames = FirebaseDatabase.getInstance().getReference("scoreboard");
+        Log.d(TAG, "inputName: onDisplay");
+
         inputName = view.findViewById(R.id.inputName);
         btnName = view.findViewById(R.id.btnName);
         btnSkip = view.findViewById(R.id.btnSkip);
@@ -44,7 +46,7 @@ public class NicknameDialog extends DialogFragment {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "btnSkip: onSkip inserted data");
+                Log.d(TAG, "inputName: onSkip save data");
                 FancyToast.makeText(getContext(), "Anda memilih untuk tidak menyimpan skor.",
                         FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
 
@@ -57,10 +59,8 @@ public class NicknameDialog extends DialogFragment {
 
     private void saveNames() {
         String name = inputName.getEditText().getText().toString().trim();
-        // get arguments from bundle in ResultFragment.
-        Bundle bundle = getArguments();
-        // get bundle with key "Skor".
-        double c = bundle.getDouble("Skor");
+        Bundle bundle = getArguments(); // Get arguments from bundle in ResultFragment.
+        double c = bundle.getDouble("Skor"); // Get bundle with key "Skor".
         if (!TextUtils.isEmpty(name) && name.length() <= 10) {
                 inputName.setError(null);
 
@@ -71,7 +71,7 @@ public class NicknameDialog extends DialogFragment {
                 Name nickname = new Name(name, c, now);
                 databaseNames.child(id).setValue(nickname);
 
-                Log.d(TAG, "btnName: onSuccess inserted data");
+                Log.d(TAG, "inputName: onSuccess");
                 FancyToast.makeText(getContext(), "Skor telah sukses disimpan. Jangan lupa cek papan skor ya!",
                         FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
 
@@ -79,11 +79,11 @@ public class NicknameDialog extends DialogFragment {
                 showFragment(new HomeFragment(), R.id.fragment_container);
         } else if(name.length() > 10){
             inputName.setError("Nama mu terlalu panjang");
-            Log.d(TAG, "btnName: onPending inserted data");
+            Log.d(TAG, "inputName: onPending insert data");
             return;
         } else {
             inputName.setError("Isi nama untuk simpan skor");
-            Log.d(TAG, "btnName: onPending inserted data");
+            Log.d(TAG, "inputName: onPending insert data");
         }
     }
 

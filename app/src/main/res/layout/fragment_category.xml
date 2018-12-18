@@ -29,8 +29,8 @@
         android:fontFamily="casual"
         android:text="KATEGORI"
         android:textAlignment="center"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textColor="@color/com_facebook_button_background_color"
+        android:textSize="28dp"
         android:textStyle="bold" />
 
     <TextView

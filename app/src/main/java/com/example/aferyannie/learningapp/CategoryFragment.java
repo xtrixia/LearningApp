@@ -49,7 +49,7 @@ public class CategoryFragment extends Fragment {
 
         if(MainActivity.main_menu.isPlaying()){
             MainActivity.main_menu.pause();
-            Log.d(TAG_AUDIO, "main_menu:onPause");
+            Log.d(TAG_AUDIO, "main_menu:onPause via Category Screen");
         }
 
         txtCategory = view.findViewById(R.id.txtCategory);
@@ -335,7 +335,7 @@ public class CategoryFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         MainActivity.main_menu.start();
-        Log.d(TAG_AUDIO, "main_menu:onResume");
+        Log.d(TAG_AUDIO, "main_menu:onResume via Category Screen");
     }
 
     @Override

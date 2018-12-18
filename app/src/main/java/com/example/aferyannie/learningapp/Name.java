@@ -1,11 +1,12 @@
 package com.example.aferyannie.learningapp;
 
+import java.io.Serializable;
+
 /**
  * Created by aferyannie on 04/10/18.
  */
 
-public class Name {
-//    private String nameId;
+public class Name implements Serializable { // Serializable is used for passing object between running processes.
     private String name;
     private Double score;
     private Long created_at;
@@ -14,16 +15,11 @@ public class Name {
 
     }
 
-    public Name(String name, Double score, Long created_at) { // String nameId belum di-input.
-//        this.nameId = nameId;
+    public Name(String name, Double score, Long created_at) {
         this.name = name;
         this.score = score;
         this.created_at = created_at;
     }
-
-//    public String getNameId() {
-//        return nameId;
-//    }
 
     public String getName() {
         return name;
@@ -36,4 +32,5 @@ public class Name {
     public Long getCreated_at() {
         return created_at;
     }
+
 }
