@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,23 +23,27 @@ import java.util.Locale;
 
 /**
 * Do not forget to set!
-* COUNTDOWN_IN_MILLIS = 90000
-* (90 seconds).
+* COUNTDOWN_IN_MILLIS = 10000
+* (10 seconds).
 * */
 
 public class CategoryFragment extends Fragment {
-    private static final long COUNTDOWN_IN_MILLIS = 16000; // lebihin satu detik (trial)
+    private static final long COUNTDOWN_IN_MILLIS = 10000;
     private static final String TAG_AUDIO = "AUDIO_LOG";
     private static final String TAG_TIMER = "TIMER_LOG";
 
     private TextView txtCategory;
     private TextView txtPronounce;
     public static Button btnSound;
+    public Button btnClear;
     private TextView txtTimer;
+    private int RandomNumber;
+//    private TensorFlowInferenceInterface tf;
 
     private ColorStateList colorDefaultCountdown;
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis;
+    private PaintView paintView;
 
     MediaPlayer pronounce;
 
@@ -46,6 +51,11 @@ public class CategoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category, null, false);
+
+        paintView = view.findViewById(R.id.PaintView);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        paintView.init(metrics);
 
         if(MainActivity.main_menu.isPlaying()){
             MainActivity.main_menu.pause();
@@ -65,6 +75,14 @@ public class CategoryFragment extends Fragment {
                 KategoriHurufKecil();
             }
         }
+
+        btnClear = view.findViewById(R.id.btnClear);
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                paintView.clear();
+            }
+        });
 
         btnSound = view.findViewById(R.id.btnSound);
         Log.d(TAG_AUDIO, "pronounce:onEnable");
@@ -101,10 +119,8 @@ public class CategoryFragment extends Fragment {
     }
 
     public void PronounceHurufHandler(String string){
-        // setText for category text view.
-        txtCategory.setText(string);
-        // make pronounce text view gone from layout.
-        txtPronounce.setVisibility(View.GONE);
+        txtCategory.setText(string); // setText for category text view.
+        txtPronounce.setVisibility(View.GONE); // make pronounce text view gone from layout.
         switch(string){
             case "a":
             case "A":
@@ -214,12 +230,9 @@ public class CategoryFragment extends Fragment {
     }
 
     public void KategoriAngka(){
-        // get arguments from bundle in HomeFragment.
-        Bundle bundle = getArguments();
-        // get bundle with key "Angka".
-        int num = bundle.getInt("Angka");
-        // setText for category text view.
-        txtCategory.setText(Integer.toString(num));
+        Bundle bundle = getArguments(); // get arguments from bundle in HomeFragment.
+        int num = bundle.getInt("Angka"); // get bundle with key "Angka".
+        txtCategory.setText(Integer.toString(num)); // setText for category text view.
         switch(num){
             case 0:
                 txtPronounce.setText("Nol");

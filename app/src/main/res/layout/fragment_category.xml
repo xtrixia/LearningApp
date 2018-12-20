@@ -12,8 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_below="@+id/PaintView"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="8dp"
         android:text="@string/timer"
         android:textAlignment="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
@@ -37,22 +38,42 @@
         android:id="@+id/txtPronounce"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtCategory"
+        android:layout_alignBaseline="@+id/btnSound"
+        android:layout_alignBottom="@+id/btnSound"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp"
         android:fontFamily="casual"
         android:text="Ejaan"
         android:textAlignment="center"
         android:textColor="#fafafa"
-        android:textSize="16dp" />
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btnClear"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="18dp"
+        android:layout_marginStart="272dp"
+        android:fontFamily="casual"
+        android:text="@string/clear"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/btnSound"
         android:layout_width="45dp"
-        android:layout_height="40dp"
-        android:layout_below="@+id/txtPronounce"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtCategory"
+        android:layout_marginLeft="8dp"
+        android:layout_toEndOf="@+id/txtPronounce"
         android:background="@android:drawable/ic_lock_silent_mode_off" />
+
+    <com.example.aferyannie.learningapp.PaintView
+        android:id="@+id/PaintView"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_below="@id/btnSound"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        app:layout_constraintDimensionRatio="1:1" />
 
 </RelativeLayout>

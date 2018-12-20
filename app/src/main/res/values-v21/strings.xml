@@ -18,4 +18,5 @@
     <string name="ok">OK</string>
     <string name="heading_dialog">Simpan Skor</string>
     <string name="back">Kembali</string>
+    <string name="clear">Hapus Kanvas</string>
 </resources>
