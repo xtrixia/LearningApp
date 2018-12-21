@@ -1,7 +1,13 @@
 package com.example.aferyannie.learningapp;
 
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
@@ -17,9 +23,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
+
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.Locale;
+import java.util.Random;
 
 /**
 * Do not forget to set!
@@ -38,7 +47,7 @@ public class CategoryFragment extends Fragment {
     public Button btnClear;
     private TextView txtTimer;
     private int RandomNumber;
-//    private TensorFlowInferenceInterface tf;
+    private TensorFlowInferenceInterface tf;
 
     private ColorStateList colorDefaultCountdown;
     private CountDownTimer countDownTimer;
@@ -46,6 +55,7 @@ public class CategoryFragment extends Fragment {
     private PaintView paintView;
 
     MediaPlayer pronounce;
+    Bundle bundle;
 
     @Nullable
     @Override
@@ -230,8 +240,12 @@ public class CategoryFragment extends Fragment {
     }
 
     public void KategoriAngka(){
-        Bundle bundle = getArguments(); // get arguments from bundle in HomeFragment.
-        int num = bundle.getInt("Angka"); // get bundle with key "Angka".
+        bundle = getArguments(); // get arguments from bundle in HomeFragment.
+//        int num = bundle.getInt("Angka"); // get bundle with key "Angka".
+        Random random = new Random();
+        int num = random.nextInt(9);
+        RandomNumber = num;
+        tf = new TensorFlowInferenceInterface(getActivity().getAssets(), "DigitMNIST.pb"); // TODO: ini apa?
         txtCategory.setText(Integer.toString(num)); // setText for category text view.
         switch(num){
             case 0:
@@ -279,16 +293,25 @@ public class CategoryFragment extends Fragment {
     }
 
     public void KategoriHurufKecil(){
-        Bundle bundle = getArguments();
+        bundle = getArguments();
         String[] charsLower = bundle.getStringArray("HurufKecil");
-        String charsDisplay = charsLower[(int) (Math.random() * 10)];
+//        String charsDisplay = charsLower[(int) (Math.random() * 10)];
+        Random random = new Random();
+        RandomNumber = random.nextInt(25);
+        Log.d("CEK", String.valueOf(RandomNumber));
+        tf = new TensorFlowInferenceInterface(getActivity().getAssets(), "LowercaseModel.pb");
+        String charsDisplay = charsLower[RandomNumber];
         PronounceHurufHandler(charsDisplay);
     }
 
     public void KategoriHurufKapital(){
         Bundle bundle = getArguments();
         String[] charsUpper = bundle.getStringArray("HurufKapital");
-        String charsDisplay = charsUpper[(int) (Math.random() * 10)];
+//        String charsDisplay = charsUpper[(int) (Math.random() * 10)];
+        Random random = new Random();
+        RandomNumber = random.nextInt(25);
+        tf = new TensorFlowInferenceInterface(getActivity().getAssets(), "UpperCaseModel.pb");
+        String charsDisplay = charsUpper[RandomNumber];
         PronounceHurufHandler(charsDisplay);
     }
 
@@ -302,6 +325,11 @@ public class CategoryFragment extends Fragment {
             }
             @Override
             public void onFinish() {
+                Bundle bundle = getArguments();
+                int JumlahSekarang = bundle.getInt("jumlahTest");
+                int[] intValues = new int[784];
+                float[] floatValues = new float[784];
+
                 timeLeftInMillis = 0;
                 updateCountdown();
                 countDownTimer.cancel();
@@ -310,7 +338,87 @@ public class CategoryFragment extends Fragment {
                     pronounce.stop();
                     Log.d(TAG_AUDIO, "pronounce:onDisable");
                 }
-                showFragment(new ResultFragment(),R.id.fragment_container);
+//                showFragment(new ResultFragment(),R.id.fragment_container);
+                paintView.setDrawingCacheEnabled(true);
+                Bitmap result = Bitmap.createBitmap(paintView.getDrawingCache());
+                paintView.setDrawingCacheEnabled(false);
+                Bitmap resizedbmp = Bitmap.createScaledBitmap(result, 28, 28, true);
+                result.recycle();
+                result = null;
+                Bitmap bm = Bitmap.createBitmap(resizedbmp.getWidth(), resizedbmp.getHeight(), Bitmap.Config.RGB_565);
+                Canvas c = new Canvas(bm);
+                Paint paint = new Paint();
+                ColorMatrix cm = new ColorMatrix();
+                cm.setSaturation(0);
+                ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
+                paint.setColorFilter(f);
+                c.drawBitmap(resizedbmp, 0, 0, paint);
+                resizedbmp.recycle();
+                resizedbmp = null;
+                Bitmap inverted = createInvertedBitmap(bm);
+                bm.recycle();
+                bm = null;
+                inverted.getPixels(intValues, 0, inverted.getWidth(), 0, 0, inverted.getWidth(), inverted.getHeight());
+                for (int i = 0; i < intValues.length; ++i) {
+                    final int val = intValues[i];
+                    floatValues[i] = (val & 0xFF) / 255.0f;
+                }
+                tf.feed("conv2d_1_input", floatValues, 1, 28, 28, 1);
+                String[] s = new String[1];
+                s[0] = "dense_2/Softmax";
+                tf.run(s);
+                float[] rslt = new float[62];
+                tf.fetch("dense_2/Softmax", rslt);
+                double highest = 0.1;
+                int penanda = 0;
+                for (int i = 0; i < rslt.length; i++) {
+                    Log.d("Check Log", String.valueOf(rslt[i]));
+                    if (rslt[i] > highest) {
+                        highest = rslt[i];
+                        penanda = i;
+                    }
+                }
+//
+                Log.d("Check Log", "-----------------------");
+                Log.d("Check Log", "V : " + String.valueOf(rslt[21] * 100) + "%");
+                Log.d("Check Log", String.valueOf(highest));
+                Log.d("Check Log", String.valueOf(penanda));
+                if (penanda == RandomNumber) {
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putInt("jumlahTest", JumlahSekarang);
+                    bundle2.putDouble("result", highest);
+                    if (bundle.containsKey("Angka")) {
+                        bundle2.putInt("Angka",RandomNumber);
+                    } else if (bundle.containsKey("HurufKapital")) {
+                        String[] charsUpper = {
+                                "A","B","C","D","E","F","G","H","I","J","K","L","M",
+                                "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+                        bundle2.putStringArray("HurufKapital", charsUpper);
+                    } else {
+                        String[] charsLower = {
+                                "a","b","c","d","e","f","g","h","i","j","k","l","m",
+                                "n","o","p","q","r","s","t","u","v","w","x","y","z"};
+                        bundle2.putStringArray("HurufKecil", charsLower);
+                    }
+                    ResultFragment RsltFragment = new ResultFragment();
+                    RsltFragment.setArguments(bundle2);
+                    showFragment(RsltFragment, R.id.fragment_container);
+                } else {
+                    bundle = getArguments();
+                    if (bundle != null) {
+                        if (bundle.containsKey("Angka")) {
+                            KategoriAngka();
+                        } else if (bundle.containsKey("HurufKapital")) {
+                            KategoriHurufKapital();
+                        } else {
+                            KategoriHurufKecil();
+                        }
+                        paintView.clear();
+                        timeLeftInMillis = COUNTDOWN_IN_MILLIS;
+                        startCountdown();
+                    }
+                }
+//
             }
         }.start();
     }
@@ -325,12 +433,28 @@ public class CategoryFragment extends Fragment {
 
         if(timeLeftInMillis < 11000){
             txtTimer.setTextColor(Color.RED);
-            if(timeLeftInMillis < 3000){
+            if(timeLeftInMillis < 2000){
                 FancyToast.makeText(getContext(), "Waktu Habis", FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
             }
         } else {
             txtTimer.setTextColor(colorDefaultCountdown);
         }
+    }
+
+    private Bitmap createInvertedBitmap(Bitmap src) {
+        ColorMatrix colorMatrix_Inverted = new ColorMatrix(new float[]{-1, 0, 0, 0, 255, 0, -1, 0, 0, 255, 0, 0, -1, 0, 255, 0, 0, 0, 1, 0});
+
+        ColorFilter ColorFilter_Sepia = new ColorMatrixColorFilter(colorMatrix_Inverted);
+
+        Bitmap bitmap = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
+        Paint paint = new Paint();
+
+        paint.setColorFilter(ColorFilter_Sepia);
+        canvas.drawBitmap(src, 0, 0, paint);
+
+        return bitmap;
     }
 
     public void showFragment(Fragment fragment, int fragmentResourceID) {
