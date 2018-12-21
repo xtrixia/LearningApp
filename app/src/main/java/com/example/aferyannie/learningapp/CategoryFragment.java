@@ -31,10 +31,10 @@ import java.util.Locale;
 import java.util.Random;
 
 /**
-* Do not forget to set!
-* COUNTDOWN_IN_MILLIS = 10000
-* (10 seconds).
-* */
+ * Do not forget to set!
+ * COUNTDOWN_IN_MILLIS = 10000
+ * (10 seconds).
+ */
 
 public class CategoryFragment extends Fragment {
     private static final long COUNTDOWN_IN_MILLIS = 10000;
@@ -42,7 +42,7 @@ public class CategoryFragment extends Fragment {
     private static final String TAG_TIMER = "TIMER_LOG";
 
     private TextView txtCategory;
-    private TextView txtPronounce;
+//    private TextView txtPronounce;
     public static Button btnSound;
     public Button btnClear;
     private TextView txtTimer;
@@ -67,21 +67,21 @@ public class CategoryFragment extends Fragment {
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         paintView.init(metrics);
 
-        if(MainActivity.main_menu.isPlaying()){
+        if (MainActivity.main_menu.isPlaying()) {
             MainActivity.main_menu.pause();
             Log.d(TAG_AUDIO, "main_menu:onPause via Category Screen");
         }
 
         txtCategory = view.findViewById(R.id.txtCategory);
-        txtPronounce = view.findViewById(R.id.txtPronounce);
+//        txtPronounce = view.findViewById(R.id.txtPronounce);
 
         Bundle bundle = getArguments();
-        if(bundle != null){
-            if(bundle.containsKey("Angka")){
+        if (bundle != null) {
+            if (bundle.containsKey("Angka")) {
                 KategoriAngka();
-            } else if(bundle.containsKey("HurufKapital")){
+            } else if (bundle.containsKey("HurufKapital")) {
                 KategoriHurufKapital();
-            } else{
+            } else {
                 KategoriHurufKecil();
             }
         }
@@ -128,10 +128,10 @@ public class CategoryFragment extends Fragment {
         }
     }
 
-    public void PronounceHurufHandler(String string){
+    public void PronounceHurufHandler(String string) {
         txtCategory.setText(string); // setText for category text view.
-        txtPronounce.setVisibility(View.GONE); // make pronounce text view gone from layout.
-        switch(string){
+//        txtPronounce.setVisibility(View.GONE); // make pronounce text view gone from layout.
+        switch (string) {
             case "a":
             case "A":
                 pronounce = MediaPlayer.create(getContext(), R.raw.a);
@@ -239,7 +239,7 @@ public class CategoryFragment extends Fragment {
         }
     }
 
-    public void KategoriAngka(){
+    public void KategoriAngka() {
         bundle = getArguments(); // get arguments from bundle in HomeFragment.
 //        int num = bundle.getInt("Angka"); // get bundle with key "Angka".
         Random random = new Random();
@@ -247,52 +247,52 @@ public class CategoryFragment extends Fragment {
         RandomNumber = num;
         tf = new TensorFlowInferenceInterface(getActivity().getAssets(), "DigitMNIST.pb"); // TODO: ini apa?
         txtCategory.setText(Integer.toString(num)); // setText for category text view.
-        switch(num){
+        switch (num) {
             case 0:
-                txtPronounce.setText("Nol");
+//                txtPronounce.setText("Nol");
                 // initialize audio resource.
                 pronounce = MediaPlayer.create(getContext(), R.raw.nol);
                 break;
             case 1:
-                txtPronounce.setText("Satu");
+//                txtPronounce.setText("Satu");
                 pronounce = MediaPlayer.create(getContext(), R.raw.satu);
                 break;
             case 2:
-                txtPronounce.setText("Dua");
+//                txtPronounce.setText("Dua");
                 pronounce = MediaPlayer.create(getContext(), R.raw.dua);
                 break;
             case 3:
-                txtPronounce.setText("Tiga");
+//                txtPronounce.setText("Tiga");
                 pronounce = MediaPlayer.create(getContext(), R.raw.tiga);
                 break;
             case 4:
-                txtPronounce.setText("Empat");
+//                txtPronounce.setText("Empat");
                 pronounce = MediaPlayer.create(getContext(), R.raw.empat);
                 break;
             case 5:
-                txtPronounce.setText("Lima");
+//                txtPronounce.setText("Lima");
                 pronounce = MediaPlayer.create(getContext(), R.raw.lima);
                 break;
             case 6:
-                txtPronounce.setText("Enam");
+//                txtPronounce.setText("Enam");
                 pronounce = MediaPlayer.create(getContext(), R.raw.enam);
                 break;
             case 7:
-                txtPronounce.setText("Tujuh");
+//                txtPronounce.setText("Tujuh");
                 pronounce = MediaPlayer.create(getContext(), R.raw.tujuh);
                 break;
             case 8:
-                txtPronounce.setText("Delapan");
+//                txtPronounce.setText("Delapan");
                 pronounce = MediaPlayer.create(getContext(), R.raw.delapan);
                 break;
             case 9:
-                txtPronounce.setText("Sembilan");
+//                txtPronounce.setText("Sembilan");
                 pronounce = MediaPlayer.create(getContext(), R.raw.sembilan);
                 break;
         }
     }
 
-    public void KategoriHurufKecil(){
+    public void KategoriHurufKecil() {
         bundle = getArguments();
         String[] charsLower = bundle.getStringArray("HurufKecil");
 //        String charsDisplay = charsLower[(int) (Math.random() * 10)];
@@ -304,7 +304,7 @@ public class CategoryFragment extends Fragment {
         PronounceHurufHandler(charsDisplay);
     }
 
-    public void KategoriHurufKapital(){
+    public void KategoriHurufKapital() {
         Bundle bundle = getArguments();
         String[] charsUpper = bundle.getStringArray("HurufKapital");
 //        String charsDisplay = charsUpper[(int) (Math.random() * 10)];
@@ -315,7 +315,7 @@ public class CategoryFragment extends Fragment {
         PronounceHurufHandler(charsDisplay);
     }
 
-    private void startCountdown(){
+    private void startCountdown() {
         Log.d(TAG_TIMER, "countDownTimer:onStart");
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
@@ -323,6 +323,7 @@ public class CategoryFragment extends Fragment {
                 timeLeftInMillis = millisUntilFinished;
                 updateCountdown();
             }
+
             @Override
             public void onFinish() {
                 Bundle bundle = getArguments();
@@ -334,7 +335,7 @@ public class CategoryFragment extends Fragment {
                 updateCountdown();
                 countDownTimer.cancel();
                 Log.d(TAG_TIMER, "countDownTimer:onFinish");
-                if(pronounce != null) {
+                if (pronounce != null) {
                     pronounce.stop();
                     Log.d(TAG_AUDIO, "pronounce:onDisable");
                 }
@@ -388,16 +389,16 @@ public class CategoryFragment extends Fragment {
                     bundle2.putInt("jumlahTest", JumlahSekarang);
                     bundle2.putDouble("result", highest);
                     if (bundle.containsKey("Angka")) {
-                        bundle2.putInt("Angka",RandomNumber);
+                        bundle2.putInt("Angka", RandomNumber);
                     } else if (bundle.containsKey("HurufKapital")) {
                         String[] charsUpper = {
-                                "A","B","C","D","E","F","G","H","I","J","K","L","M",
-                                "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+                                "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+                                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
                         bundle2.putStringArray("HurufKapital", charsUpper);
                     } else {
                         String[] charsLower = {
-                                "a","b","c","d","e","f","g","h","i","j","k","l","m",
-                                "n","o","p","q","r","s","t","u","v","w","x","y","z"};
+                                "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+                                "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
                         bundle2.putStringArray("HurufKecil", charsLower);
                     }
                     ResultFragment RsltFragment = new ResultFragment();
@@ -423,7 +424,7 @@ public class CategoryFragment extends Fragment {
         }.start();
     }
 
-    private void updateCountdown(){
+    private void updateCountdown() {
         int hours = (int) (timeLeftInMillis / 1000) / 3600;
         int minutes = (int) (timeLeftInMillis / 1000) / 60;
         int seconds = (int) (timeLeftInMillis / 1000) % 60;
@@ -431,9 +432,9 @@ public class CategoryFragment extends Fragment {
         String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
         txtTimer.setText(timeFormatted);
 
-        if(timeLeftInMillis < 11000){
+        if (timeLeftInMillis < 6000) {
             txtTimer.setTextColor(Color.RED);
-            if(timeLeftInMillis < 2000){
+            if (timeLeftInMillis < 2000) {
                 FancyToast.makeText(getContext(), "Waktu Habis", FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
             }
         } else {
@@ -478,7 +479,7 @@ public class CategoryFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (countDownTimer != null){
+        if (countDownTimer != null) {
             countDownTimer.cancel();
         }
     }
