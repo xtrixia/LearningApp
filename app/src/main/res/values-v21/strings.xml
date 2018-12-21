@@ -19,4 +19,5 @@
     <string name="heading_dialog">Simpan Skor</string>
     <string name="back">Kembali</string>
     <string name="clear">Hapus Kanvas</string>
+    <string name="placeholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
 </resources>

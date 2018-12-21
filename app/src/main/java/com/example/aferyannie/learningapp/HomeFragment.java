@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             /** Button for numerals. */
             case R.id.btnStart:
-                Random randInt = new Random();
+                Random randInt = new Random(); // TODO: ganti redundant -> CategoryFragment -> ResultFragment.
                 int num = randInt.nextInt(10);
                 bundle.putInt("Angka", num);
                 CategoryFragment categoryAngka = new CategoryFragment();

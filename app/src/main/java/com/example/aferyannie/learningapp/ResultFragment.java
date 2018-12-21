@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ResultFragment extends Fragment{
+public class ResultFragment extends Fragment {
     private Bundle bundle;
 
     FirebaseAuth mAuth;
@@ -52,6 +53,11 @@ public class ResultFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_result, null, false);
 
+        double result = getArguments().getDouble("result");
+        final int jumlahTest = getArguments().getInt("jumlahTest") + 1;
+        Log.d("NIH JUMLAH", String.valueOf(jumlahTest));
+        Log.d("CEK UP", String.valueOf(result));
+
         /** Initialize Firebase Auth. */
         mAuth = FirebaseAuth.getInstance();
         /** Get Firebase CurrentUser. */
@@ -65,8 +71,7 @@ public class ResultFragment extends Fragment{
         chart.setDrawEntryLabels(false);
 
         ArrayList<PieEntry> entries = new ArrayList<>();
-        // TODO: Define score manually -> supposed to take from ML.
-        final double c = 7.6;
+        final double c = result * 10;
         double i = 10 - c;
         // Convert double into integer.
         // MPAndroidCharts unable to use double value, must be float or int.
@@ -88,26 +93,66 @@ public class ResultFragment extends Fragment{
         chart.setCenterTextSize(32);
 
         txtNyemangatin = view.findViewById(R.id.txtNyemangatin);
-        // TODO: set tulisan sesuai hasil akurasi
-        // x < 5 disuru latian lagi, 5 < x < 8 disuru ditingkatkan lagi, x > 8 disuru maintain dan rajin belajar
+        // Set message regarding the accuracy score.
+        if (percentageCorrect < 64) {
+            txtNyemangatin.setText("Gapapa, belajar dari kesalahan. Kamu pasti bisa kalau rajin latihan!");
+        } else if (percentageCorrect >= 65 && percentageCorrect <= 95) {
+            txtNyemangatin.setText("Kerja bagus untuk mencapai skor segini. Ditingkatkan lagi ya!");
+        } else {
+            txtNyemangatin.setText("Wah skor kamu sempurna! Dipertahankan ya, jangan sampai turun!");
+        }
 
         btnNext = view.findViewById(R.id.btnNext);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(user != null){
-                    bundle = new Bundle();
-                    bundle.putDouble("Skor", c);
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    NicknameDialog nicknameScore = new NicknameDialog();
-                    nicknameScore.setArguments(bundle);
-                    nicknameScore.show(fragmentManager, "NicknameDialog");
+                if (jumlahTest >= 5) {
+                    if (user != null) {
+                        bundle = new Bundle();
+                        bundle.putDouble("Skor", c);
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        NicknameDialog nicknameScore = new NicknameDialog();
+                        nicknameScore.setArguments(bundle);
+                        nicknameScore.show(fragmentManager, "NicknameDialog");
+                    } else {
+                        showFragment(new HomeFragment(), R.id.fragment_container);
+                    }
                 } else {
-                    showFragment(new HomeFragment(), R.id.fragment_container);
+                    bundle = new Bundle();
+                    bundle.putInt("jumlahTest", jumlahTest);
+                    Bundle bundle2 = getArguments();
+                    if (bundle2.containsKey("Angka")) {
+                        bundle.putInt("Angka", bundle2.getInt("Angka"));
+                        CategoryFragment categoryAngka = new CategoryFragment();
+                        nextFragment(categoryAngka);
+                    } else if (bundle2.containsKey("HurufKapital")) {
+                        String[] charsUpper = {
+                                "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+                                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+                        bundle.putStringArray("HurufKapital", charsUpper);
+                        CategoryFragment categoryHurufKapital = new CategoryFragment();
+                        nextFragment(categoryHurufKapital);
+                    } else {
+                        String[] charsLower = {
+                                "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+                                "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+                        bundle.putStringArray("HurufKecil", charsLower);
+                        CategoryFragment categoryHurufKecil = new CategoryFragment();
+                        nextFragment(categoryHurufKecil);
+                    }
                 }
             }
         });
         return view;
+    }
+
+    public void nextFragment(CategoryFragment category) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        category = new CategoryFragment();
+        category.setArguments(bundle);
+        fragmentTransaction.replace(R.id.fragment_container, category);
+        fragmentTransaction.commit();
     }
 
     public void showFragment(Fragment fragment, int fragmentResourceID) {
