@@ -18,7 +18,7 @@
         android:text="@string/accuracy_score"
         android:textAlignment="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textColor="@color/com_facebook_messenger_blue"
+        android:textColor="@color/com_facebook_button_background_color"
         android:textStyle="bold" />
 
     <TextView
@@ -31,7 +31,7 @@
         android:layout_marginTop="18dp"
         android:fontFamily="cursive"
         android:padding="10dp"
-        android:text="Kerja bagus untuk mencapai skor segini. Ditingkatkan lagi ya!"
+        android:text="@string/placeholder"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"

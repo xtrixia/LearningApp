@@ -71,10 +71,6 @@ public class NicknameDialog extends DialogFragment {
                 Name nickname = new Name(name, c, now);
                 databaseNames.child(id).setValue(nickname);
 
-                // Logging value to be passed.
-                Log.d(TAG, name);
-                Log.d(TAG, now.toString());
-
                 Log.d(TAG, "inputName: onSuccess");
                 FancyToast.makeText(getContext(), "Skor telah sukses disimpan. Jangan lupa cek papan skor ya!",
                         FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();

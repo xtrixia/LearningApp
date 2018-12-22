@@ -32,7 +32,7 @@ public class ScoreboardFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_scoreboard,null,false);
+        View view = inflater.inflate(R.layout.fragment_scoreboard, null, false);
 
         databaseNames = FirebaseDatabase.getInstance().getReference("scoreboard");
         listViewScores = view.findViewById(R.id.listViewScores);
@@ -66,7 +66,7 @@ public class ScoreboardFragment extends Fragment {
         listViewScores.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                showFragment(new DetailFragment(),R.id.fragment_container,nameList.get(i));
+                showFragment(new DetailFragment(), R.id.fragment_container, nameList.get(i));
                 Log.d(TAG, "listViewScores: onItemClick index " + i);
             }
         });
@@ -76,7 +76,7 @@ public class ScoreboardFragment extends Fragment {
         if (fragment != null) {
             FragmentManager fragmentManager = this.getFragmentManager();
             Bundle bundle = new Bundle();
-            bundle.putSerializable("data",data);
+            bundle.putSerializable("data", data);
             fragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentResourceID, fragment);
@@ -85,4 +85,5 @@ public class ScoreboardFragment extends Fragment {
             fragmentTransaction.commit();
         }
     }
+
 }

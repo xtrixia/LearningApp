@@ -34,10 +34,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         bundle = new Bundle();
+        bundle.putInt("jumlahTest", 0); // TODO: ini buat apa cuk?
         switch (view.getId()) {
             /** Button for numerals. */
             case R.id.btnStart:
-                Random randInt = new Random();
+                Random randInt = new Random(); // TODO: ganti redundant -> CategoryFragment -> ResultFragment.
                 int num = randInt.nextInt(10);
                 bundle.putInt("Angka", num);
                 CategoryFragment categoryAngka = new CategoryFragment();
@@ -46,8 +47,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             /** Button for alphabets_upper. */
             case R.id.btnStart1:
                 String[] charsUpper = {
-                "A","B","C","D","E","F","G","H","I","J","K","L","M",
-                "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+                        "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+                        "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
                 bundle.putStringArray("HurufKapital", charsUpper);
                 CategoryFragment categoryHurufKapital = new CategoryFragment();
                 nextFragment(categoryHurufKapital);
@@ -55,8 +56,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             /** Button for alphabets_lower. */
             case R.id.btnStart2:
                 String[] charsLower = {
-                "a","b","c","d","e","f","g","h","i","j","k","l","m",
-                "n","o","p","q","r","s","t","u","v","w","x","y","z"};
+                        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+                        "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
                 bundle.putStringArray("HurufKecil", charsLower);
                 CategoryFragment categoryHurufKecil = new CategoryFragment();
                 nextFragment(categoryHurufKecil);
@@ -64,7 +65,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void nextFragment(CategoryFragment category){
+    public void nextFragment(CategoryFragment category) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         category = new CategoryFragment();

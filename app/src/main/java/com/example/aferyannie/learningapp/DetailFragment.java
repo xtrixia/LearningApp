@@ -45,11 +45,11 @@ public class DetailFragment extends Fragment {
         txtScores = view.findViewById(R.id.txtScores);
         txtTimestamp = view.findViewById(R.id.txtTimestamp);
 
-        /** Set all value based on the clicked item. */
+        /** Set all value based on the clicked item.
+         *  Get name, score, created_at from Firebase. */
         txtNames.setText(data.getName());
         txtScores.setText(String.format(data.getScore().toString(), "%d"));
-
-        Long epoch = data.getCreated_at(); // Get created_at from Firebase.
+        Long epoch = data.getCreated_at();
         Date date = new Date(epoch); // Implement epoch to Date.
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); // Set format date.
         String formattedDate = sdf.format(date);
