@@ -61,6 +61,7 @@ public class NicknameDialog extends DialogFragment {
         String name = inputName.getEditText().getText().toString().trim();
         Bundle bundle = getArguments(); // Get arguments from bundle in ResultFragment.
         double c = bundle.getDouble("Skor"); // Get bundle with key "Skor".
+        String imageBase64 = bundle.getString("image");
         if (!TextUtils.isEmpty(name) && name.length() <= 10) {
                 inputName.setError(null);
 
@@ -68,7 +69,7 @@ public class NicknameDialog extends DialogFragment {
                 Long now = System.currentTimeMillis();
 
                 String id = databaseNames.push().getKey();
-                Name nickname = new Name(name, c, now);
+                Name nickname = new Name(name, c, now,imageBase64);
                 databaseNames.child(id).setValue(nickname);
 
                 Log.d(TAG, "inputName: onSuccess");

@@ -55,6 +55,7 @@ public class ResultFragment extends Fragment {
 
         double result = getArguments().getDouble("result");
         final int jumlahTest = getArguments().getInt("jumlahTest") + 1;
+        final String imageBase64 = getArguments().getString("image");
         Log.d("NIH JUMLAH", String.valueOf(jumlahTest));
         Log.d("CEK UP", String.valueOf(result));
 
@@ -110,6 +111,7 @@ public class ResultFragment extends Fragment {
                     if (user != null) {
                         bundle = new Bundle();
                         bundle.putDouble("Skor", c);
+                        bundle.putString("image",imageBase64);
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         NicknameDialog nicknameScore = new NicknameDialog();
                         nicknameScore.setArguments(bundle);

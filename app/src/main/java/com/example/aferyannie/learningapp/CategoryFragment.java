@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
 
 import com.shashank.sony.fancytoastlib.FancyToast;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Locale;
 import java.util.Random;
 
@@ -53,6 +55,7 @@ public class CategoryFragment extends Fragment {
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis;
     private PaintView paintView;
+    private String base64;
 
     MediaPlayer pronounce;
     Bundle bundle;
@@ -342,6 +345,7 @@ public class CategoryFragment extends Fragment {
 //                showFragment(new ResultFragment(),R.id.fragment_container);
                 paintView.setDrawingCacheEnabled(true);
                 Bitmap result = Bitmap.createBitmap(paintView.getDrawingCache());
+                base64 = encodeImage(result);
                 paintView.setDrawingCacheEnabled(false);
                 Bitmap resizedbmp = Bitmap.createScaledBitmap(result, 28, 28, true);
                 result.recycle();
@@ -385,9 +389,12 @@ public class CategoryFragment extends Fragment {
                 Log.d("Check Log", String.valueOf(highest));
                 Log.d("Check Log", String.valueOf(penanda));
                 if (penanda == RandomNumber) {
+                    String imageHeader = "data:image/jpeg;base64,";
                     Bundle bundle2 = new Bundle();
                     bundle2.putInt("jumlahTest", JumlahSekarang);
                     bundle2.putDouble("result", highest);
+                    bundle2.putString("image",imageHeader+base64);
+
                     if (bundle.containsKey("Angka")) {
                         bundle2.putInt("Angka", RandomNumber);
                     } else if (bundle.containsKey("HurufKapital")) {
@@ -482,6 +489,14 @@ public class CategoryFragment extends Fragment {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
+    }
+    private static String encodeImage(Bitmap bm) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+        return encImage;
     }
 
 }
