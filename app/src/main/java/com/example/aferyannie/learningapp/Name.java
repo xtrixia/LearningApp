@@ -12,7 +12,7 @@ public class Name implements Serializable { // Serializable is used for passing 
     private Long created_at;
     private String imageBase64;
 
-    public Name(){
+    public Name() {
 
     }
 
@@ -35,10 +35,6 @@ public class Name implements Serializable { // Serializable is used for passing 
         this.created_at = created_at;
     }
 
-    public String getImageBase64() {
-        return imageBase64;
-    }
-
     public void setImageBase64(String imageBase64) {
         this.imageBase64 = imageBase64;
     }
@@ -53,6 +49,10 @@ public class Name implements Serializable { // Serializable is used for passing 
 
     public Long getCreated_at() {
         return created_at;
+    }
+
+    public String getImageBase64() {
+        return imageBase64;
     }
 
 }

@@ -44,7 +44,7 @@ public class CategoryFragment extends Fragment {
     private static final String TAG_TIMER = "TIMER_LOG";
 
     private TextView txtCategory;
-//    private TextView txtPronounce;
+    //    private TextView txtPronounce;
     public static Button btnSound;
     public Button btnClear;
     private TextView txtTimer;
@@ -345,7 +345,7 @@ public class CategoryFragment extends Fragment {
 //                showFragment(new ResultFragment(),R.id.fragment_container);
                 paintView.setDrawingCacheEnabled(true);
                 Bitmap result = Bitmap.createBitmap(paintView.getDrawingCache());
-                base64 = encodeImage(result);
+                base64 = encodeImage(result); // encoding result to base64.
                 paintView.setDrawingCacheEnabled(false);
                 Bitmap resizedbmp = Bitmap.createScaledBitmap(result, 28, 28, true);
                 result.recycle();
@@ -389,11 +389,11 @@ public class CategoryFragment extends Fragment {
                 Log.d("Check Log", String.valueOf(highest));
                 Log.d("Check Log", String.valueOf(penanda));
                 if (penanda == RandomNumber) {
-                    String imageHeader = "data:image/jpeg;base64,";
+                    String imageHeader = "data:image/jpeg;base64,"; // declaring image header.
                     Bundle bundle2 = new Bundle();
                     bundle2.putInt("jumlahTest", JumlahSekarang);
                     bundle2.putDouble("result", highest);
-                    bundle2.putString("image",imageHeader+base64);
+                    bundle2.putString("image", imageHeader + base64); // bundling base64.
 
                     if (bundle.containsKey("Angka")) {
                         bundle2.putInt("Angka", RandomNumber);
@@ -490,6 +490,7 @@ public class CategoryFragment extends Fragment {
             countDownTimer.cancel();
         }
     }
+
     private static String encodeImage(Bitmap bm) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);

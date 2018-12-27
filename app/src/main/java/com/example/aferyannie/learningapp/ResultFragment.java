@@ -111,7 +111,7 @@ public class ResultFragment extends Fragment {
                     if (user != null) {
                         bundle = new Bundle();
                         bundle.putDouble("Skor", c);
-                        bundle.putString("image",imageBase64);
+                        bundle.putString("image", imageBase64);
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         NicknameDialog nicknameScore = new NicknameDialog();
                         nicknameScore.setArguments(bundle);

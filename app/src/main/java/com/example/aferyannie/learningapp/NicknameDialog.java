@@ -51,7 +51,7 @@ public class NicknameDialog extends DialogFragment {
                         FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
 
                 getDialog().dismiss();
-                showFragment(new HomeFragment(),R.id.fragment_container);
+                showFragment(new HomeFragment(), R.id.fragment_container);
             }
         });
         return view;
@@ -61,24 +61,24 @@ public class NicknameDialog extends DialogFragment {
         String name = inputName.getEditText().getText().toString().trim();
         Bundle bundle = getArguments(); // Get arguments from bundle in ResultFragment.
         double c = bundle.getDouble("Skor"); // Get bundle with key "Skor".
-        String imageBase64 = bundle.getString("image");
+        String imageBase64 = bundle.getString("image"); //getting bundle base64.
         if (!TextUtils.isEmpty(name) && name.length() <= 10) {
-                inputName.setError(null);
+            inputName.setError(null);
 
-                // Define current time using epoch timestamp.
-                Long now = System.currentTimeMillis();
+            // Define current time using epoch timestamp.
+            Long now = System.currentTimeMillis();
 
-                String id = databaseNames.push().getKey();
-                Name nickname = new Name(name, c, now,imageBase64);
-                databaseNames.child(id).setValue(nickname);
+            String id = databaseNames.push().getKey();
+            Name nickname = new Name(name, c, now, imageBase64);
+            databaseNames.child(id).setValue(nickname);
 
-                Log.d(TAG, "inputName: onSuccess");
-                FancyToast.makeText(getContext(), "Skor telah sukses disimpan. Jangan lupa cek papan skor ya!",
-                        FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+            Log.d(TAG, "inputName: onSuccess");
+            FancyToast.makeText(getContext(), "Skor telah sukses disimpan. Jangan lupa cek papan skor ya!",
+                    FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
 
-                getDialog().dismiss();
-                showFragment(new HomeFragment(), R.id.fragment_container);
-        } else if(name.length() > 10){
+            getDialog().dismiss();
+            showFragment(new HomeFragment(), R.id.fragment_container);
+        } else if (name.length() > 10) {
             inputName.setError("Nama mu terlalu panjang");
             Log.d(TAG, "inputName: onPending insert data");
             return;
