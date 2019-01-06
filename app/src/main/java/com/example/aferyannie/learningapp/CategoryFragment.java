@@ -26,30 +26,31 @@ import android.widget.TextView;
 
 import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 
 /**
  * Do not forget to set!
- * COUNTDOWN_IN_MILLIS = 10000
- * (10 seconds).
+ * COUNTDOWN = 10 seconds.
  */
 
 public class CategoryFragment extends Fragment {
-    private static final long COUNTDOWN_IN_MILLIS = 10000;
+    private static final long COUNTDOWN_IN_MILLIS = 11000;
     private static final String TAG_AUDIO = "AUDIO_LOG";
     private static final String TAG_TIMER = "TIMER_LOG";
 
     private TextView txtCategory;
-    //    private TextView txtPronounce;
     public static Button btnSound;
     public Button btnClear;
     private TextView txtTimer;
     private int RandomNumber;
-    private TensorFlowInferenceInterface tf;
+    private TensorFlowInferenceInterface tf; // Initialize Tensorflow & implement TensorflowInterface to the project.
 
     private ColorStateList colorDefaultCountdown;
     private CountDownTimer countDownTimer;
@@ -57,13 +58,23 @@ public class CategoryFragment extends Fragment {
     private PaintView paintView;
     private String base64;
 
+    private int JumlahSekarang;
+    private ArrayList<String> Score;
+    private ArrayList<String> Image;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+
     MediaPlayer pronounce;
-    Bundle bundle;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category, null, false);
+
+        Score = getArguments().getStringArrayList("Score");
+        Image = getArguments().getStringArrayList("Image");
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
 
         paintView = view.findViewById(R.id.PaintView);
         DisplayMetrics metrics = new DisplayMetrics();
@@ -76,13 +87,13 @@ public class CategoryFragment extends Fragment {
         }
 
         txtCategory = view.findViewById(R.id.txtCategory);
-//        txtPronounce = view.findViewById(R.id.txtPronounce);
 
         Bundle bundle = getArguments();
+        String Category = bundle.getString("Kategori");
         if (bundle != null) {
-            if (bundle.containsKey("Angka")) {
+            if (Category == "Angka") {
                 KategoriAngka();
-            } else if (bundle.containsKey("HurufKapital")) {
+            } else if (Category == "HurufKapital") {
                 KategoriHurufKapital();
             } else {
                 KategoriHurufKecil();
@@ -108,6 +119,7 @@ public class CategoryFragment extends Fragment {
                 SoundClick();
             }
         });
+        JumlahSekarang = bundle.getInt("jumlahTest") + 1;
         txtTimer = view.findViewById(R.id.txtTimer);
         colorDefaultCountdown = txtTimer.getTextColors();
 
@@ -133,7 +145,6 @@ public class CategoryFragment extends Fragment {
 
     public void PronounceHurufHandler(String string) {
         txtCategory.setText(string); // setText for category text view.
-//        txtPronounce.setVisibility(View.GONE); // make pronounce text view gone from layout.
         switch (string) {
             case "a":
             case "A":
@@ -243,77 +254,63 @@ public class CategoryFragment extends Fragment {
     }
 
     public void KategoriAngka() {
-        bundle = getArguments(); // get arguments from bundle in HomeFragment.
-//        int num = bundle.getInt("Angka"); // get bundle with key "Angka".
         Random random = new Random();
-        int num = random.nextInt(9);
+        int num = random.nextInt(10);
         RandomNumber = num;
-        tf = new TensorFlowInferenceInterface(getActivity().getAssets(), "DigitMNIST.pb"); // TODO: ini apa?
+        tf = new TensorFlowInferenceInterface(getActivity().getAssets(), "DigitMNIST.pb"); // load model.
         txtCategory.setText(Integer.toString(num)); // setText for category text view.
         switch (num) {
             case 0:
-//                txtPronounce.setText("Nol");
-                // initialize audio resource.
-                pronounce = MediaPlayer.create(getContext(), R.raw.nol);
+                pronounce = MediaPlayer.create(getContext(), R.raw.nol); // initialize audio resource.
                 break;
             case 1:
-//                txtPronounce.setText("Satu");
                 pronounce = MediaPlayer.create(getContext(), R.raw.satu);
                 break;
             case 2:
-//                txtPronounce.setText("Dua");
                 pronounce = MediaPlayer.create(getContext(), R.raw.dua);
                 break;
             case 3:
-//                txtPronounce.setText("Tiga");
                 pronounce = MediaPlayer.create(getContext(), R.raw.tiga);
                 break;
             case 4:
-//                txtPronounce.setText("Empat");
                 pronounce = MediaPlayer.create(getContext(), R.raw.empat);
                 break;
             case 5:
-//                txtPronounce.setText("Lima");
                 pronounce = MediaPlayer.create(getContext(), R.raw.lima);
                 break;
             case 6:
-//                txtPronounce.setText("Enam");
                 pronounce = MediaPlayer.create(getContext(), R.raw.enam);
                 break;
             case 7:
-//                txtPronounce.setText("Tujuh");
                 pronounce = MediaPlayer.create(getContext(), R.raw.tujuh);
                 break;
             case 8:
-//                txtPronounce.setText("Delapan");
                 pronounce = MediaPlayer.create(getContext(), R.raw.delapan);
                 break;
             case 9:
-//                txtPronounce.setText("Sembilan");
                 pronounce = MediaPlayer.create(getContext(), R.raw.sembilan);
                 break;
         }
     }
 
     public void KategoriHurufKecil() {
-        bundle = getArguments();
-        String[] charsLower = bundle.getStringArray("HurufKecil");
-//        String charsDisplay = charsLower[(int) (Math.random() * 10)];
+        String[] charsLower = {
+                "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+                "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
         Random random = new Random();
         RandomNumber = random.nextInt(25);
-        Log.d("CEK", String.valueOf(RandomNumber));
-        tf = new TensorFlowInferenceInterface(getActivity().getAssets(), "LowercaseModel.pb");
+        tf = new TensorFlowInferenceInterface(getActivity().getAssets(), "LowercaseModel.pb"); // load model.
         String charsDisplay = charsLower[RandomNumber];
         PronounceHurufHandler(charsDisplay);
     }
 
     public void KategoriHurufKapital() {
-        Bundle bundle = getArguments();
-        String[] charsUpper = bundle.getStringArray("HurufKapital");
-//        String charsDisplay = charsUpper[(int) (Math.random() * 10)];
+        String[] charsUpper = {
+                "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
         Random random = new Random();
         RandomNumber = random.nextInt(25);
-        tf = new TensorFlowInferenceInterface(getActivity().getAssets(), "UpperCaseModel.pb");
+        tf = new TensorFlowInferenceInterface(getActivity().getAssets(), "UpperCaseModel.pb"); // load model.
         String charsDisplay = charsUpper[RandomNumber];
         PronounceHurufHandler(charsDisplay);
     }
@@ -329,8 +326,7 @@ public class CategoryFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                Bundle bundle = getArguments();
-                int JumlahSekarang = bundle.getInt("jumlahTest");
+                Bundle bundle;
                 int[] intValues = new int[784];
                 float[] floatValues = new float[784];
 
@@ -342,7 +338,7 @@ public class CategoryFragment extends Fragment {
                     pronounce.stop();
                     Log.d(TAG_AUDIO, "pronounce:onDisable");
                 }
-//                showFragment(new ResultFragment(),R.id.fragment_container);
+
                 paintView.setDrawingCacheEnabled(true);
                 Bitmap result = Bitmap.createBitmap(paintView.getDrawingCache());
                 base64 = encodeImage(result); // encoding result to base64.
@@ -351,6 +347,8 @@ public class CategoryFragment extends Fragment {
                 result.recycle();
                 result = null;
                 Bitmap bm = Bitmap.createBitmap(resizedbmp.getWidth(), resizedbmp.getHeight(), Bitmap.Config.RGB_565);
+
+                /** Convert Bitmap into Grayscale. */
                 Canvas c = new Canvas(bm);
                 Paint paint = new Paint();
                 ColorMatrix cm = new ColorMatrix();
@@ -358,75 +356,89 @@ public class CategoryFragment extends Fragment {
                 ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
                 paint.setColorFilter(f);
                 c.drawBitmap(resizedbmp, 0, 0, paint);
+
                 resizedbmp.recycle();
                 resizedbmp = null;
-                Bitmap inverted = createInvertedBitmap(bm);
+                Bitmap inverted = createInvertedBitmap(bm); // Create color inverted bitmap.
                 bm.recycle();
                 bm = null;
                 inverted.getPixels(intValues, 0, inverted.getWidth(), 0, 0, inverted.getWidth(), inverted.getHeight());
                 for (int i = 0; i < intValues.length; ++i) {
                     final int val = intValues[i];
-                    floatValues[i] = (val & 0xFF) / 255.0f;
+                    floatValues[i] = (val & 0xFF) / 255.0f; // normalize the value of pixel. 0-255, 0-1
                 }
-                tf.feed("conv2d_1_input", floatValues, 1, 28, 28, 1);
-                String[] s = new String[1];
-                s[0] = "dense_2/Softmax";
-                tf.run(s);
-                float[] rslt = new float[62];
-                tf.fetch("dense_2/Softmax", rslt);
+                tf.feed("conv2d_1_input", floatValues, 1, 28, 28, 1); // feeding createInvertedBitmap into Tensorflow model.
+                String[] s = new String[1]; // array of output layer.
+                s[0] = "dense_2/Softmax"; // define the output layer.
+                tf.run(s); // run the model to recognize the handwritten.
+                float[] rslt = new float[62]; // array for the output from the model.
+                tf.fetch("dense_2/Softmax", rslt); // fetching the output to array.
                 double highest = 0.1;
-                int penanda = 0;
-                for (int i = 0; i < rslt.length; i++) {
+                int index = 0;
+                for (int i = 0; i < rslt.length; i++) { // logging the output.
                     Log.d("Check Log", String.valueOf(rslt[i]));
                     if (rslt[i] > highest) {
-                        highest = rslt[i];
-                        penanda = i;
+                        highest = rslt[i]; // get the highest output of the prediction.
+                        index = i; // get the index of array.
                     }
                 }
-//
                 Log.d("Check Log", "-----------------------");
                 Log.d("Check Log", "V : " + String.valueOf(rslt[21] * 100) + "%");
                 Log.d("Check Log", String.valueOf(highest));
-                Log.d("Check Log", String.valueOf(penanda));
-                if (penanda == RandomNumber) {
+                Log.d("Check Log", String.valueOf(index));
+                if (index == RandomNumber) {
                     String imageHeader = "data:image/jpeg;base64,"; // declaring image header.
+                    double tempScore = highest * 100;
+                    int score = (int) Math.round(tempScore);
+                    Score.add(String.valueOf(score));
+                    Image.add(imageHeader + base64);
                     Bundle bundle2 = new Bundle();
                     bundle2.putInt("jumlahTest", JumlahSekarang);
-                    bundle2.putDouble("result", highest);
-                    bundle2.putString("image", imageHeader + base64); // bundling base64.
 
-                    if (bundle.containsKey("Angka")) {
-                        bundle2.putInt("Angka", RandomNumber);
-                    } else if (bundle.containsKey("HurufKapital")) {
-                        String[] charsUpper = {
-                                "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-                                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-                        bundle2.putStringArray("HurufKapital", charsUpper);
-                    } else {
-                        String[] charsLower = {
-                                "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-                                "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
-                        bundle2.putStringArray("HurufKecil", charsLower);
-                    }
+                    int jumlahBenar = getArguments().getInt("jumlahBenar");
+                    jumlahBenar++;
+                    bundle2.putInt("jumlahBenar", jumlahBenar);
+                    bundle2.putDouble("result", highest);
+                    bundle2.putStringArrayList("Image", Image);
+                    bundle2.putStringArrayList("Score", Score);
+                    bundle2.putString("Kategori", getArguments().getString("Kategori"));
                     ResultFragment RsltFragment = new ResultFragment();
                     RsltFragment.setArguments(bundle2);
                     showFragment(RsltFragment, R.id.fragment_container);
+                } else if (JumlahSekarang > 10) {
+                    if (user != null) {
+                        bundle = new Bundle();
+                        bundle.putStringArrayList("Image", Image);
+                        bundle.putStringArrayList("Score", Score);
+                        int jumlahBenar = getArguments().getInt("jumlahBenar");
+                        bundle.putInt("jumlahBenar", jumlahBenar);
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        NicknameDialog nicknameScore = new NicknameDialog();
+                        nicknameScore.setArguments(bundle);
+                        nicknameScore.show(fragmentManager, "NicknameDialog");
+                    } else {
+                        showFragment(new HomeFragment(), R.id.fragment_container);
+                    }
                 } else {
+                    Score.add("Salah");
+                    String imageHeader = "data:image/jpeg;base64,";
+                    Image.add(imageHeader + base64);
+                    JumlahSekarang++;
                     bundle = getArguments();
+                    String Category = bundle.getString("Kategori");
                     if (bundle != null) {
-                        if (bundle.containsKey("Angka")) {
+                        if (Category == "Angka") {
                             KategoriAngka();
-                        } else if (bundle.containsKey("HurufKapital")) {
+                        } else if (Category == "HurufKapital") {
                             KategoriHurufKapital();
                         } else {
                             KategoriHurufKecil();
                         }
-                        paintView.clear();
-                        timeLeftInMillis = COUNTDOWN_IN_MILLIS;
-                        startCountdown();
                     }
+                    paintView.clear();
+                    timeLeftInMillis = COUNTDOWN_IN_MILLIS;
+                    startCountdown();
                 }
-//
             }
         }.start();
     }
@@ -441,7 +453,7 @@ public class CategoryFragment extends Fragment {
 
         if (timeLeftInMillis < 6000) {
             txtTimer.setTextColor(Color.RED);
-            if (timeLeftInMillis < 2000) {
+            if (timeLeftInMillis < 1000) {
                 FancyToast.makeText(getContext(), "Waktu Habis", FancyToast.LENGTH_SHORT, FancyToast.WARNING, false).show();
             }
         } else {

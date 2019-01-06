@@ -21,9 +21,9 @@ import java.util.ArrayList;
  */
 
 public class PaintView extends View {
-    public static int BRUSH_SIZE = 70;
-    public static final int DEFAULT_COLOR = Color.BLACK;
-    public static final int DEFAULT_BG_COLOR = Color.WHITE;
+    public static int BRUSH_SIZE = 70; // size of the brush.
+    public static final int DEFAULT_COLOR = Color.BLACK; // brush color.
+    public static final int DEFAULT_BG_COLOR = Color.WHITE; // canvas color.
     private static final float TOUCH_TOLERANCE = 4;
     private float mX, mY;
     private Path mPath;
@@ -76,17 +76,7 @@ public class PaintView extends View {
         blur = false;
     }
 
-    public void emboss() {
-        emboss = true;
-        blur = false;
-    }
-
-    public void blur() {
-        emboss = false;
-        blur = true;
-    }
-
-    public void clear() {
+    public void clear() { // to clear canvas.
         backgroundColor = DEFAULT_BG_COLOR;
         paths.clear();
         normal();
@@ -148,7 +138,7 @@ public class PaintView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 touchStart(x, y);
-                invalidate();
+                invalidate(); // if something changes, it needs to be reflected on screen (redraw the view).
                 break;
             case MotionEvent.ACTION_MOVE:
                 touchMove(x, y);

@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import java.util.Random;
+import java.util.ArrayList;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
     private Bundle bundle;
@@ -33,32 +33,31 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        ArrayList<String> Score = new ArrayList<>();
+        ArrayList<String> Image = new ArrayList<>();
+
         bundle = new Bundle();
-        bundle.putInt("jumlahTest", 0); // TODO: ini buat apa cuk?
+        bundle.putInt("jumlahTest", 0); // total attempt = 0.
+        bundle.putInt("jumlahBenar", 0); // total correct attempt = 0.
+        bundle.putStringArrayList("Score", Score); // set accuracy score to bundle arraylist.
+        bundle.putStringArrayList("Image", Image); // set image drawn to bundle arraylist.
+
         switch (view.getId()) {
             /** Button for numerals. */
             case R.id.btnStart:
-                Random randInt = new Random(); // TODO: ganti redundant -> CategoryFragment -> ResultFragment.
-                int num = randInt.nextInt(10);
-                bundle.putInt("Angka", num);
+                bundle.putString("Kategori", "Angka");
                 CategoryFragment categoryAngka = new CategoryFragment();
                 nextFragment(categoryAngka);
                 break;
             /** Button for alphabets_upper. */
             case R.id.btnStart1:
-                String[] charsUpper = {
-                        "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-                        "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-                bundle.putStringArray("HurufKapital", charsUpper);
+                bundle.putString("Kategori", "HurufKapital");
                 CategoryFragment categoryHurufKapital = new CategoryFragment();
                 nextFragment(categoryHurufKapital);
                 break;
             /** Button for alphabets_lower. */
             case R.id.btnStart2:
-                String[] charsLower = {
-                        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-                        "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
-                bundle.putStringArray("HurufKecil", charsLower);
+                bundle.putString("Kategori", "HurufKecil");
                 CategoryFragment categoryHurufKecil = new CategoryFragment();
                 nextFragment(categoryHurufKecil);
                 break;

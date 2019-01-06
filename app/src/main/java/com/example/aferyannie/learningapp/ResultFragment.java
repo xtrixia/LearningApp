@@ -54,10 +54,12 @@ public class ResultFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_result, null, false);
 
         double result = getArguments().getDouble("result");
-        final int jumlahTest = getArguments().getInt("jumlahTest") + 1;
-        final String imageBase64 = getArguments().getString("image");
-        Log.d("NIH JUMLAH", String.valueOf(jumlahTest));
-        Log.d("CEK UP", String.valueOf(result));
+        final int jumlahTest = getArguments().getInt("jumlahTest");
+        final int jumlahBenar = getArguments().getInt("jumlahBenar");
+        final ArrayList<String> Image = getArguments().getStringArrayList("Image");
+        final ArrayList<String> Score = getArguments().getStringArrayList("Score");
+        Log.d("Attempt", String.valueOf(jumlahTest));
+        Log.d("Accuracy Score", String.valueOf(result));
 
         /** Initialize Firebase Auth. */
         mAuth = FirebaseAuth.getInstance();
@@ -107,11 +109,13 @@ public class ResultFragment extends Fragment {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (jumlahTest >= 5) {
+                if (jumlahTest > 9) {
                     if (user != null) {
                         bundle = new Bundle();
+                        bundle.putStringArrayList("Image", Image);
+                        bundle.putStringArrayList("Score", Score);
+                        bundle.putInt("jumlahBenar", jumlahBenar);
                         bundle.putDouble("Skor", c);
-                        bundle.putString("image", imageBase64);
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         NicknameDialog nicknameScore = new NicknameDialog();
                         nicknameScore.setArguments(bundle);
@@ -121,27 +125,13 @@ public class ResultFragment extends Fragment {
                     }
                 } else {
                     bundle = new Bundle();
+                    bundle.putStringArrayList("Image", Image);
+                    bundle.putStringArrayList("Score", Score);
                     bundle.putInt("jumlahTest", jumlahTest);
-                    Bundle bundle2 = getArguments();
-                    if (bundle2.containsKey("Angka")) {
-                        bundle.putInt("Angka", bundle2.getInt("Angka"));
-                        CategoryFragment categoryAngka = new CategoryFragment();
-                        nextFragment(categoryAngka);
-                    } else if (bundle2.containsKey("HurufKapital")) {
-                        String[] charsUpper = {
-                                "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-                                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-                        bundle.putStringArray("HurufKapital", charsUpper);
-                        CategoryFragment categoryHurufKapital = new CategoryFragment();
-                        nextFragment(categoryHurufKapital);
-                    } else {
-                        String[] charsLower = {
-                                "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-                                "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
-                        bundle.putStringArray("HurufKecil", charsLower);
-                        CategoryFragment categoryHurufKecil = new CategoryFragment();
-                        nextFragment(categoryHurufKecil);
-                    }
+                    bundle.putInt("jumlahBenar", jumlahBenar);
+                    bundle.putString("Kategori", getArguments().getString("Kategori"));
+                    CategoryFragment categoryFragment = new CategoryFragment();
+                    nextFragment(categoryFragment);
                 }
             }
         });

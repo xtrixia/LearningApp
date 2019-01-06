@@ -17,7 +17,7 @@
     <string name="facebook_logout">Keluar dari Facebook</string>
     <string name="ok">OK</string>
     <string name="heading_dialog">Simpan Skor</string>
-    <string name="back">Kembali</string>
+    <string name="back">Kembali ke Papan Skor</string>
     <string name="clear">Hapus Kanvas</string>
     <string name="placeholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
 </resources>

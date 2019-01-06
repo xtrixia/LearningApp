@@ -69,7 +69,8 @@
         android:layout_marginStart="150dp"
         android:background="@drawable/confusing_shape"
         android:fontFamily="casual"
-        android:padding="18dp"
+        android:padding="16dp"
+        android:layout_marginTop="18dp"
         android:text="@string/back"
         android:textColor="@color/white"
         android:textStyle="bold" />

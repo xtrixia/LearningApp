@@ -19,11 +19,14 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.shashank.sony.fancytoastlib.FancyToast;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
+    private long mBackPressed;
     private static final String TAG_AUDIO = "AUDIO_LOG";
     private DrawerLayout drawer;
     protected static MediaPlayer main_menu;
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu() -> redraw the menu.
             }
+
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -68,13 +72,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         // Set home screen.
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
         }
     }
 
-    public void loadUserInformation(){
+    public void loadUserInformation() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         CircleImageView imageView = this.findViewById(R.id.displaypicture);
@@ -82,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView email = this.findViewById(R.id.email);
         NavigationView navigationView = this.findViewById(R.id.nav_view);
 
-        if(currentUser != null) {
+        if (currentUser != null) {
             // Set NavigationBar scoreboard visible.
             navigationView.getMenu().getItem(2).setVisible(true);
             email.setVisibility(View.VISIBLE);
@@ -100,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             /** NavigationBar HomeScreen. */
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -113,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             /** NavigationBar Scoreboard. */
             case R.id.nav_scoreboard:
-                showFragment(new ScoreboardFragment(),R.id.fragment_container);
+                showFragment(new ScoreboardFragment(), R.id.fragment_container);
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -122,11 +126,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
             super.onBackPressed();
+            return;
+        } else {
+            String fragment = currentFragment.toString();
+            String fragmentName = fragment.substring(0, fragment.indexOf("{"));
+            /** Using switch to handle backpressed from specific fragment.
+             * TODO: cek lagi apa perlu add backstack di fragment masing2?
+             * */
+            switch (fragmentName) {
+                case "ScoreListFragment":
+                    fragmentTransaction.replace(R.id.fragment_container, new ScoreboardFragment());
+                    fragmentTransaction.addToBackStack("scoreboard");
+                    fragmentTransaction.commit();
+                    break;
+                case "DetailFragment":
+                    break;
+                case "CategoryFragment":
+                    fragmentTransaction.replace(R.id.fragment_container, new HomeFragment());
+                    fragmentTransaction.addToBackStack("home");
+                    fragmentTransaction.commit();
+                    break;
+                default:
+                    FancyToast.makeText(getBaseContext(), "Pencet sekali lagi untuk keluar",
+                            FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
+                    break;
+            }
         }
+        mBackPressed = System.currentTimeMillis();
     }
 
     public void showFragment(Fragment fragment, int fragmentResourceID) {
@@ -143,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(main_menu.isPlaying()){
+        if (main_menu.isPlaying()) {
             main_menu.stop();
             main_menu.release();
             Log.d(TAG_AUDIO, "main_menu:onDestroy");
@@ -154,13 +187,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
         main_menu.start();
-        Log.d(TAG_AUDIO, "main_menu:onResume via Home Screen");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if(main_menu.isPlaying()){
+        if (main_menu.isPlaying()) {
             main_menu.pause();
             Log.d(TAG_AUDIO, "main_menu:onPause via Home Screen");
         }

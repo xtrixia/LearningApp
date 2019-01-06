@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
+import java.util.ArrayList;
+
 public class NicknameDialog extends DialogFragment {
     private static final String TAG = NicknameDialog.class.getSimpleName();
 
@@ -59,20 +61,25 @@ public class NicknameDialog extends DialogFragment {
 
     private void saveNames() {
         String name = inputName.getEditText().getText().toString().trim();
+        ArrayList<String> Score = getArguments().getStringArrayList("Score");
+        ArrayList<String> Image = getArguments().getStringArrayList("Image");
         Bundle bundle = getArguments(); // Get arguments from bundle in ResultFragment.
         double c = bundle.getDouble("Skor"); // Get bundle with key "Skor".
-        String imageBase64 = bundle.getString("image"); //getting bundle base64.
+        String jumlahBenar = String.valueOf(bundle.getInt("jumlahBenar"));
+        jumlahBenar = "Total benar " + jumlahBenar + " dari 10";
         if (!TextUtils.isEmpty(name) && name.length() <= 10) {
             inputName.setError(null);
-
-            // Define current time using epoch timestamp.
-            Long now = System.currentTimeMillis();
-
-            String id = databaseNames.push().getKey();
-            Name nickname = new Name(name, c, now, imageBase64);
-            databaseNames.child(id).setValue(nickname);
-
             Log.d(TAG, "inputName: onSuccess");
+
+            Long now = System.currentTimeMillis(); // Define current time using epoch timestamp.
+            String id = databaseNames.push().getKey();
+            Name nickname;
+
+            for (int i = 0; i < Score.size(); i++) {
+                nickname = new Name(Score.get(i), now, Image.get(i));
+                databaseNames.child(id).child(name).child(jumlahBenar).child(String.valueOf(i)).setValue(nickname);
+            }
+
             FancyToast.makeText(getContext(), "Skor telah sukses disimpan. Jangan lupa cek papan skor ya!",
                     FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
 

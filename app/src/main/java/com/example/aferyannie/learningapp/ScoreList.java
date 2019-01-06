@@ -1,5 +1,9 @@
 package com.example.aferyannie.learningapp;
 
+/**
+ * Created by aferyannie on 31/12/18.
+ */
+
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,32 +15,26 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by aferyannie on 04/10/18.
- */
-
-public class NameList extends ArrayAdapter<Name>{
+public class ScoreList extends ArrayAdapter {
     private Activity context;
-    private List<Name> nameList;
+    private List<Score> scoreList;
 
-    public NameList(Activity context, List<Name> nameList){
-        super(context, R.layout.list_layout, nameList);
+    public ScoreList(Activity context, List<Score> passedList) {
+        super(context, R.layout.list_layout, passedList);
         this.context = context;
-        this.nameList = nameList;
+        this.scoreList = passedList;
     }
 
-    @NonNull
-    @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        View listViewItem = inflater.inflate(R.layout.list_layout,null, true);
+        View listViewItem = inflater.inflate(R.layout.list_layout, null, true);
 
         TextView txtNames = listViewItem.findViewById(R.id.txtNames);
         TextView txtScores = listViewItem.findViewById(R.id.txtScores);
 
-        Name name = nameList.get(position);
-        txtNames.setText(name.getName());
-        txtScores.setText(name.getScore().toString());
+        Score score = scoreList.get(position);
+        txtNames.setText(score.getName());
+        txtScores.setText(score.getScore());
 
         return listViewItem;
     }

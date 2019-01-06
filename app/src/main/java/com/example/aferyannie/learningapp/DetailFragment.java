@@ -23,8 +23,6 @@ import java.util.Date;
 public class DetailFragment extends Fragment {
     private static final String TAG = DetailFragment.class.getSimpleName();
 
-    private String base64;
-
     Button btnBack;
     ImageView img;
     TextView txtNames, txtTimestamp, txtScores;
@@ -35,15 +33,6 @@ public class DetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_detail, null, false);
 
         Log.d(TAG, "FirebaseDatabase: onRetrieve detail data");
-
-        btnBack = view.findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showFragment(new ScoreboardFragment(), R.id.fragment_container);
-            }
-        });
-
         Name data = (Name) getArguments().getSerializable("data");
 
         img = view.findViewById(R.id.img);
@@ -59,13 +48,21 @@ public class DetailFragment extends Fragment {
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         img.setImageBitmap(decodedByte);
 
-        txtNames.setText(data.getName());
+        txtNames.setText(getArguments().getString("nama"));
         txtScores.setText(String.format(data.getScore().toString(), "%d"));
         Long epoch = data.getCreated_at();
         Date date = new Date(epoch); // Implement epoch to Date.
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); // Set format date.
         String formattedDate = sdf.format(date);
         txtTimestamp.setText(formattedDate);
+
+        btnBack = view.findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFragment(new ScoreboardFragment(), R.id.fragment_container);
+            }
+        });
 
         return view;
     }

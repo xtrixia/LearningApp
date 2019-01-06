@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="70dp"
         android:fontFamily="casual"
         android:text="KATEGORI"
         android:textAlignment="center"
@@ -45,8 +45,8 @@
 
     <com.example.aferyannie.learningapp.PaintView
         android:id="@+id/PaintView"
-        android:layout_width="280dp"
-        android:layout_height="280dp"
+        android:layout_width="320dp"
+        android:layout_height="320dp"
         android:layout_below="@+id/btnSound"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
@@ -64,5 +64,57 @@
         android:textAlignment="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textColor="@android:color/black" />
+
+    <Button
+        android:id="@+id/bottom_side"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/PaintView"
+        android:layout_alignEnd="@+id/PaintView"
+        android:layout_alignStart="@+id/PaintView"
+        android:background="@color/lightpurple"
+        android:clickable="false"
+        android:shadowColor="@android:color/transparent"
+        android:soundEffectsEnabled="false" />
+
+    <Button
+        android:id="@+id/up_side"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/PaintView"
+        android:layout_alignStart="@+id/PaintView"
+        android:layout_alignTop="@+id/PaintView"
+        android:background="@color/lightpurple"
+        android:clickable="false"
+        android:shadowColor="@android:color/transparent"
+        android:soundEffectsEnabled="false" />
+
+    <Button
+        android:id="@+id/left_side"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/PaintView"
+        android:layout_alignStart="@+id/PaintView"
+        android:layout_alignTop="@+id/PaintView"
+        android:background="@color/lightpurple"
+        android:clickable="false"
+        android:shadowColor="@android:color/transparent"
+        android:soundEffectsEnabled="false" />
+
+    <Button
+        android:id="@+id/right_side"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/PaintView"
+        android:layout_alignEnd="@+id/PaintView"
+        android:layout_alignTop="@+id/PaintView"
+        android:background="@color/lightpurple"
+        android:clickable="false"
+        android:shadowColor="@android:color/transparent"
+        android:soundEffectsEnabled="false" />
 
 </RelativeLayout>
