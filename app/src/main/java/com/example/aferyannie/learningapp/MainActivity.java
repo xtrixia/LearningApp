@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -142,17 +143,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
              * */
             switch (fragmentName) {
                 case "ScoreListFragment":
-                    fragmentTransaction.replace(R.id.fragment_container, new ScoreboardFragment());
-                    fragmentTransaction.addToBackStack("scoreboard");
-                    fragmentTransaction.commit();
+//                    fragmentTransaction.replace(R.id.fragment_container, new ScoreboardFragment());
+//                    fragmentManager.popBackStack(fragmentName, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+//                    fragmentTransaction.commit();
+                    fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//                    fragmentTransaction.addToBackStack(null);
+//                    fragmentManager.popBackStackImmediate(fragmentName, 0);
                     break;
-                case "DetailFragment":
-                    break;
-                case "CategoryFragment":
-                    fragmentTransaction.replace(R.id.fragment_container, new HomeFragment());
-                    fragmentTransaction.addToBackStack("home");
-                    fragmentTransaction.commit();
-                    break;
+//                case "DetailFragment":
+//                    break;
+//                case "CategoryFragment":
+//                    fragmentTransaction.replace(R.id.fragment_container, new HomeFragment());
+//                    fragmentTransaction.addToBackStack("home");
+//                    fragmentTransaction.commit();
+//                    break;
                 default:
                     FancyToast.makeText(getBaseContext(), "Pencet sekali lagi untuk keluar",
                             FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();

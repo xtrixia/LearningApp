@@ -107,8 +107,10 @@ public class ScoreListFragment extends Fragment {
             fragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentResourceID, fragment);
-            fragmentTransaction.detach(fragment);
-            fragmentTransaction.attach(fragment);
+//            fragmentTransaction.detach(fragment);
+//            fragmentTransaction.attach(fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.setReorderingAllowed(true);
             fragmentTransaction.commit();
         }
     }
