@@ -28,4 +28,7 @@
     <string name="back">Kembali ke Papan Skor</string>
     <string name="clear">Hapus Kanvas</string>
     <string name="placeholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="appreciation">SERTIFIKASI APRESIASI</string>
+    <string name="kepada">diberikan kepada</string>
+    <string name="karena">telah mendapatkan nilai</string>
 </resources>

@@ -65,7 +65,9 @@ public class NicknameDialog extends DialogFragment {
         ArrayList<String> Image = getArguments().getStringArrayList("Image");
         Bundle bundle = getArguments(); // Get arguments from bundle in ResultFragment.
         double c = bundle.getDouble("Skor"); // Get bundle with key "Skor".
+        Bundle bundle2 = new Bundle();
         String jumlahBenar = String.valueOf(bundle.getInt("jumlahBenar"));
+        bundle2.putString("Nilai", jumlahBenar);
         jumlahBenar = "Total benar " + jumlahBenar + " dari 10";
         if (!TextUtils.isEmpty(name) && name.length() <= 10) {
             inputName.setError(null);
@@ -80,11 +82,12 @@ public class NicknameDialog extends DialogFragment {
                 databaseNames.child(id).child(name).child(jumlahBenar).child(String.valueOf(i)).setValue(nickname);
             }
 
+            bundle2.putString("Nama", name);
             FancyToast.makeText(getContext(), "Skor telah sukses disimpan. Jangan lupa cek papan skor ya!",
                     FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
 
             getDialog().dismiss();
-            showFragment(new HomeFragment(), R.id.fragment_container);
+            nextFragment(new AppreciationFragment(), R.id.fragment_container, bundle2);
         } else if (name.length() > 10) {
             inputName.setError("Nama mu terlalu panjang");
             Log.d(TAG, "inputName: onPending insert data");
@@ -97,6 +100,18 @@ public class NicknameDialog extends DialogFragment {
 
     public void showFragment(Fragment fragment, int fragmentResourceID) {
         if (fragment != null) {
+            FragmentManager fragmentManager = this.getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(fragmentResourceID, fragment);
+            fragmentTransaction.detach(fragment);
+            fragmentTransaction.attach(fragment);
+            fragmentTransaction.commit();
+        }
+    }
+
+    public void nextFragment(Fragment fragment, int fragmentResourceID, Bundle bundle) {
+        if (fragment != null) {
+            fragment.setArguments(bundle);
             FragmentManager fragmentManager = this.getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentResourceID, fragment);

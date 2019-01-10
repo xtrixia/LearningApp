@@ -10,7 +10,7 @@
 
     <color name="bg_login">#26ae90</color>
     <color name="bg_register">#2e3237</color>
-    <color name="bg_main">#428bca</color>
+    <color name="bg_main">#f5d60a</color>
 
     <color name="input_login">#222222</color>
     <color name="input_login_hint">#999999</color>
