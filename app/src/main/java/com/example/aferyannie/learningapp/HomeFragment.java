@@ -1,6 +1,7 @@
 package com.example.aferyannie.learningapp;
 
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,7 +19,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, null, false);
+        NavigationView navigationView;
+        navigationView =(NavigationView) getActivity().findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_home);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         Button btnStart = view.findViewById(R.id.btnStart);
         Button btnStart1 = view.findViewById(R.id.btnStart1);
@@ -69,6 +73,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         category = new CategoryFragment();
         category.setArguments(bundle);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.fragment_container, category);
         fragmentTransaction.commit();
     }

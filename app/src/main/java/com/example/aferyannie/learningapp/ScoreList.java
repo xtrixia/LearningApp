@@ -13,17 +13,20 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ScoreList extends ArrayAdapter {
     private Activity context;
-    private List<Score> scoreList;
+    private List<Score> scoreList = new ArrayList<>();
 
     public ScoreList(Activity context, List<Score> passedList) {
-        super(context, R.layout.list_layout, passedList);
+            super(context, R.layout.list_layout, passedList);
         this.context = context;
         this.scoreList = passedList;
     }
+
+
 
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();

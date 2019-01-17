@@ -482,8 +482,9 @@ public class CategoryFragment extends Fragment {
             FragmentManager fragmentManager = this.getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentResourceID, fragment);
-            fragmentTransaction.detach(fragment);
-            fragmentTransaction.attach(fragment);
+//            fragmentTransaction.detach(fragment);
+//            fragmentTransaction.attach(fragment);
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
     }

@@ -47,7 +47,7 @@ public class ScoreListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_scoreboard, null, false);
+        View view = inflater.inflate(R.layout.fragment_scoreboard, container, false);
 
         DetailData = new ArrayList<>();
         databaseNames = FirebaseDatabase.getInstance().getReference("scoreboard");
@@ -65,37 +65,39 @@ public class ScoreListFragment extends Fragment {
         final String TargetId = TargetData.getId();
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "listViewScores: onFetch via ScoreList");
-        databaseNames.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                DataList.clear();
-                for (DataSnapshot scoreSnapshot : dataSnapshot.child(TargetId).child(TargetName).child(TargetChild).getChildren()) {
-                    Name data = scoreSnapshot.getValue(Name.class);
-                    Score = data.getScore();
-                    Label = scoreSnapshot.getKey();
-                    int LabelInt = Integer.parseInt(Label) + 1;
-                    Label = "Soal " + String.valueOf(LabelInt);
-                    Score score = new Score(Score, Label, " ");
-                    DataList.add(score);
-                    DetailData.add(data);
+        if(getActivity()!=null) {
+            databaseNames.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    DataList.clear();
+                    for (DataSnapshot scoreSnapshot : dataSnapshot.child(TargetId).child(TargetName).child(TargetChild).getChildren()) {
+                        Name data = scoreSnapshot.getValue(Name.class);
+                        Score = data.getScore();
+                        Label = scoreSnapshot.getKey();
+                        int LabelInt = Integer.parseInt(Label) + 1;
+                        Label = "Soal " + String.valueOf(LabelInt);
+                        Score score = new Score(Score, Label, " ");
+                        DataList.add(score);
+                        DetailData.add(data);
+                    }
+                    ScoreList adapter = new ScoreList(getActivity(), DataList);
+                    listViewScores.setAdapter(adapter);
                 }
-                ScoreList adapter = new ScoreList(getActivity(), DataList);
-                listViewScores.setAdapter(adapter);
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
-        /** Create onClick listener for each item. */
-        listViewScores.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                showFragment(new DetailFragment(), R.id.fragment_container, DetailData.get(i), TargetName);
-                Log.d(TAG, "listViewScores: onItemClick index " + i);
-            }
-        });
+                }
+            });
+            /** Create onClick listener for each item. */
+            listViewScores.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    showFragment(new DetailFragment(), R.id.fragment_container, DetailData.get(i), TargetName);
+                    Log.d(TAG, "listViewScores: onItemClick index " + i);
+                }
+            });
+        }
     }
 
     public void showFragment(Fragment fragment, int fragmentResourceID, Name data, String nama) {
@@ -107,11 +109,13 @@ public class ScoreListFragment extends Fragment {
             fragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentResourceID, fragment);
-            fragmentTransaction.detach(fragment);
-            fragmentTransaction.attach(fragment);
-//            fragmentTransaction.addToBackStack(null);
+//            fragmentTransaction.detach(fragment);
+//            fragmentTransaction.attach(fragment);
+            fragmentTransaction.addToBackStack(null);
 //            fragmentTransaction.setReorderingAllowed(true);
             fragmentTransaction.commit();
         }
     }
+
+
 }
