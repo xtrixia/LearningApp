@@ -1,6 +1,8 @@
 package com.example.aferyannie.learningapp;
 
 import android.support.annotation.Nullable;
+import android.support.design.internal.NavigationMenu;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -31,12 +33,15 @@ public class ScoreboardFragment extends Fragment {
     private static final String TAG = ScoreboardFragment.class.getSimpleName();
     DatabaseReference databaseNames;
 
-    /** Define listView scoreboard. */
+    /**
+     * Define listView scoreboard.
+     */
     ListView listViewScores; // define listview from scoreboard.
-    List<Score> nameList; // define list from Score class.
+    List<Score> nameList = new ArrayList<>(); // define list from Score class.
     String Name = "";
     String Score = "";
     String id = "";
+    private ScoreList adapter;
 
     @Nullable
     @Override
@@ -54,33 +59,38 @@ public class ScoreboardFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "listViewScores: onFetch via Scoreboard");
-        databaseNames.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                nameList = new ArrayList<>();
-                for (DataSnapshot scoreSnapshot : dataSnapshot.getChildren()) {
-                    Iterable<DataSnapshot> NameData = scoreSnapshot.getChildren();
-                    for (DataSnapshot name : NameData) {
-                        Name = name.getKey();
-                        Iterable<DataSnapshot> ScoreData = name.getChildren();
-                        for (DataSnapshot score : ScoreData) {
-                            Score = score.getKey();
+        NavigationView navigationView;
+        if (getActivity() != null) {
+            navigationView =(NavigationView) getActivity().findViewById(R.id.nav_view);
+            navigationView.setCheckedItem(R.id.nav_scoreboard);
+
+            databaseNames.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot scoreSnapshot : dataSnapshot.getChildren()) {
+                        Iterable<DataSnapshot> NameData = scoreSnapshot.getChildren();
+                        for (DataSnapshot name : NameData) {
+                            Name = name.getKey();
+                            Iterable<DataSnapshot> ScoreData = name.getChildren();
+                            for (DataSnapshot score : ScoreData) {
+                                Score = score.getKey();
+                            }
                         }
+                        id = scoreSnapshot.getKey();
+                        Score score = new Score(Score, Name, id);
+                        nameList.add(score);
                     }
-                    id = scoreSnapshot.getKey();
-                    Score score = new Score(Score, Name, id);
-                    nameList.add(score);
+                    adapter = new ScoreList(getActivity(), nameList);
+                    listViewScores.setAdapter(adapter);
+
                 }
-                ScoreList adapter = new ScoreList(getActivity(), nameList);
-                listViewScores.setAdapter(adapter);
 
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+                }
+            });
+        }
         /** Create onClick listener for each item in the listView. */
         listViewScores.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -99,8 +109,7 @@ public class ScoreboardFragment extends Fragment {
             fragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentResourceID, fragment);
-            fragmentTransaction.detach(fragment);
-            fragmentTransaction.attach(fragment);
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
     }

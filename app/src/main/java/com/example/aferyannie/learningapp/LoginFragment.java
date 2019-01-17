@@ -50,6 +50,9 @@ public class LoginFragment extends Fragment {
 
         /** Initialize Facebook Login Button. */
         mCallbackManager = CallbackManager.Factory.create();
+        NavigationView navigationView;
+        navigationView =(NavigationView) getActivity().findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_login_logout);
 
         loginButton = view.findViewById(R.id.btnLogin);
         loginButton.setOnClickListener(new View.OnClickListener() {
