@@ -484,7 +484,7 @@ public class CategoryFragment extends Fragment {
             fragmentTransaction.replace(fragmentResourceID, fragment);
 //            fragmentTransaction.detach(fragment);
 //            fragmentTransaction.attach(fragment);
-            fragmentTransaction.addToBackStack(null);
+//            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
     }
