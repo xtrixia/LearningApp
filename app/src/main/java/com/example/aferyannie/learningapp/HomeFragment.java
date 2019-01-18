@@ -20,7 +20,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         NavigationView navigationView;
-        navigationView =(NavigationView) getActivity().findViewById(R.id.nav_view);
+        navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
         navigationView.setCheckedItem(R.id.nav_home);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 

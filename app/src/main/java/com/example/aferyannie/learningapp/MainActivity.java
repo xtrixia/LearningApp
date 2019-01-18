@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new HomeFragment()).commit();
-//                showFragment(new HomeFragment(),R.id.fragment_container);
                 break;
             /** NavigationBar LoginLogout. */
             case R.id.nav_login_logout:
@@ -132,90 +131,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-//<<<<<<<HEAD
-//        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-//        FragmentManager fragmentManager = this.getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
-//            super.onBackPressed();
-//            return;
-//        } else {
-//            String fragment = currentFragment.toString();
-//            String fragmentName = fragment.substring(0, fragment.indexOf("{"));
-//            /** Using switch to handle backpressed from specific fragment.
-//             * TODO: cek lagi apa perlu add backstack di fragment masing2?
-//             * */
-//            switch (fragmentName) {
-//                case "ScoreListFragment":
-//                    fragmentTransaction.replace(R.id.fragment_container, new ScoreboardFragment());
-//                    fragmentManager.popBackStack(fragmentName, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-////                    fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//                    fragmentTransaction.addToBackStack("scoreboard");
-//                    fragmentManager.popBackStackImmediate(fragmentName, 0);
-//                    fragmentTransaction.commit();
-//                    break;
-////                case "DetailFragment":
-////                    break;
-//                case "CategoryFragment":
-//                    fragmentTransaction.replace(R.id.fragment_container, new HomeFragment());
-//                    fragmentTransaction.addToBackStack("home");
-//                    fragmentManager.popBackStackImmediate(fragmentName, 0);
-//                    fragmentTransaction.commit();
-//                    break;
-//                default:
-//                    FancyToast.makeText(getBaseContext(), "Pencet sekali lagi untuk keluar",
-//                            FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
-//                    break;
-//            }
-//        }
-//        mBackPressed = System.currentTimeMillis();
-//=======
-        super.onBackPressed();
-//        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-//        FragmentManager fragmentManager = this.getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
-//            super.onBackPressed();
-//            return;
-//        } else {
-//            String fragment = currentFragment.toString();
-//            String fragmentName = fragment.substring(0, fragment.indexOf("{"));
-//            /** Using switch to handle backpressed from specific fragment.
-//             * TODO: cek lagi apa perlu add backstack di fragment masing2?
-//             * */
-//            switch (fragmentName) {
-//                case "ScoreListFragment":
-////                    fragmentTransaction.replace(R.id.fragment_container, new ScoreboardFragment());
-////                    fragmentManager.popBackStack(fragmentName, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//
-////                    fragmentTransaction.commit();
-////                    fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-////                    fragmentTransaction.addToBackStack(null);
-////                    fragmentManager.popBackStackImmediate(fragmentName, 0);
-//                    break;
-////                case "DetailFragment":
-////                    break;
-////                case "CategoryFragment":
-////                    fragmentTransaction.replace(R.id.fragment_container, new HomeFragment());
-////                    fragmentTransaction.addToBackStack("home");
-////                    fragmentTransaction.commit();
-////                    break;
-//                default:
-//                    FancyToast.makeText(getBaseContext(), "Pencet sekali lagi untuk keluar",
-//                            FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
-//                    break;
-//            }
-//        }
-//        mBackPressed = System.currentTimeMillis();
-//        Toast.makeText(this,String.valueOf(getSupportFragmentManager().getFragments().get(
-//                getSupportFragmentManager().getFragments().size()-1
-//        )),Toast.LENGTH_LONG).show();
-//>>>>>>>c2a9448b819c9bcd3a4060686f63dfdc5ca8ae6c
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            String fragment = currentFragment.toString();
+            String fragmentName = fragment.substring(0, fragment.indexOf("{"));
+            Log.i("currentFragment", fragmentName);
+            switch (fragmentName) {
+                case "HomeFragment":
+                case "LoginFragment":
+                case "LogoutFragment":
+                case "ScoreboardFragment":
+                    if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
+                        Log.i("waktu", String.valueOf(System.currentTimeMillis()));
+                        Log.i("back", String.valueOf(mBackPressed));
+                        Log.i("timeinternal", String.valueOf(TIME_INTERVAL));
+                        Log.i("total", String.valueOf(mBackPressed + TIME_INTERVAL));
+                        super.onBackPressed();
+                        return;
+                    } else {
+                        FancyToast.makeText(getBaseContext(), "Pencet sekali lagi untuk keluar",
+                                FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
+                    }
+                    break;
+                default:
+                    super.onBackPressed();
+                    break;
+            }
+            mBackPressed = System.currentTimeMillis();
+        }
     }
 
     public void showFragment(Fragment fragment, String backStack, int fragmentResourceID) {

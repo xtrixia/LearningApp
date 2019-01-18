@@ -61,7 +61,7 @@ public class ScoreboardFragment extends Fragment {
         Log.d(TAG, "listViewScores: onFetch via Scoreboard");
         NavigationView navigationView;
         if (getActivity() != null) {
-            navigationView =(NavigationView) getActivity().findViewById(R.id.nav_view);
+            navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
             navigationView.setCheckedItem(R.id.nav_scoreboard);
 
             databaseNames.addValueEventListener(new ValueEventListener() {
