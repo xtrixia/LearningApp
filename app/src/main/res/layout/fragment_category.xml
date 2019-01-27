@@ -117,4 +117,14 @@
         android:shadowColor="@android:color/transparent"
         android:soundEffectsEnabled="false" />
 
+    <TextView
+        android:id="@+id/txtAttempt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/PaintView"
+        android:layout_alignEnd="@+id/PaintView"
+        android:text="Soal 0 / 10"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="@color/com_facebook_button_background_color" />
+
 </RelativeLayout>

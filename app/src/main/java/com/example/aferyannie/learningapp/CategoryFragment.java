@@ -46,9 +46,10 @@ public class CategoryFragment extends Fragment {
     private static final String TAG_TIMER = "TIMER_LOG";
 
     private TextView txtCategory;
+    private TextView txtTimer;
+    private TextView txtAttempt;
     public static Button btnSound;
     public Button btnClear;
-    private TextView txtTimer;
     private int RandomNumber;
     private TensorFlowInferenceInterface tf; // Initialize Tensorflow & implement TensorflowInterface to the project.
 
@@ -120,6 +121,8 @@ public class CategoryFragment extends Fragment {
             }
         });
         JumlahSekarang = bundle.getInt("jumlahTest") + 1;
+        txtAttempt = view.findViewById(R.id.txtAttempt);
+        txtAttempt.setText("Soal " + String.valueOf(JumlahSekarang) + " / 10");
         txtTimer = view.findViewById(R.id.txtTimer);
         colorDefaultCountdown = txtTimer.getTextColors();
 
@@ -405,7 +408,7 @@ public class CategoryFragment extends Fragment {
                     ResultFragment RsltFragment = new ResultFragment();
                     RsltFragment.setArguments(bundle2);
                     showFragment(RsltFragment, R.id.fragment_container);
-                } else if (JumlahSekarang > 10) {
+                } else if (JumlahSekarang > 9) {
                     if (user != null) {
                         bundle = new Bundle();
                         bundle.putStringArrayList("Image", Image);
@@ -424,6 +427,7 @@ public class CategoryFragment extends Fragment {
                     String imageHeader = "data:image/jpeg;base64,";
                     Image.add(imageHeader + base64);
                     JumlahSekarang++;
+                    txtAttempt.setText("Soal " + String.valueOf(JumlahSekarang) + " / 10");
                     bundle = getArguments();
                     String Category = bundle.getString("Kategori");
                     if (bundle != null) {
